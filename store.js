@@ -19,7 +19,7 @@ const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 export const store = createStore(
   persistedReducer,
-  compose(applyMiddleware(thunk), Reactotron.createEnhancer())
+  applyMiddleware(thunk)
 )
 
 export let persistor = persistStore(store)
