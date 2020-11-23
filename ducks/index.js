@@ -2,16 +2,16 @@ import { combineReducers } from 'redux';
 
 
 const appReducer = combineReducers({
-    // Include reducers here
+  // Include reducers here
 })
 
 export const rootReducer = (state, action) => {
-    if (action.type === 'auth/logOut') {
-        // Delete redux persisted state from async storage
-        AsyncStorage.removeItem('persist:root')
+  if (action.type === 'auth/logOut') {
+    // Delete redux persisted state from async storage
+    AsyncStorage.removeItem('persist:root')
 
-        state = undefined
-    }
+    state = undefined
+  }
 
-    return appReducer(state, action)
+  return appReducer(state, action)
 }
