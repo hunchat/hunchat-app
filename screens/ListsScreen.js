@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
 import { Header } from '../components/Header';
+import { Lists } from '../components/Lists';
 
 
 class ListsScreen extends React.Component {
@@ -14,7 +15,7 @@ class ListsScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Header title={"Lista Listas"} navigation={this.props.navigation}/>
-        <Text>Lists Screen</Text>
+        <Lists navigation={this.props.navigation} />
       </View>
     )
   }
