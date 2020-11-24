@@ -4,6 +4,8 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 import AddVideoScreen from '../screens/AddVideoScreen';
+import ExploreScreen from '../screens/ExploreScreen';
+import ListsScreen from '../screens/ListsScreen';
 
 
 const Tab = createBottomTabNavigator();
@@ -11,7 +13,7 @@ const Tab = createBottomTabNavigator();
 function BottomTabs() {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="Lists"
       tabBarOptions={ {showLabel: false} }
     >
       <Tab.Screen
@@ -34,11 +36,12 @@ function BottomTabs() {
             tabBarButton: props => (
               <TouchableOpacity {...props} style={styles.exploreTabBarButton} />
             ),
-            tabBarIcon: ({ color }) => (
-                <Icon name="search" color={color} size={30} />
+            tabBarIcon: ({ focused }) => (
+                focused ? <Icon name="search" color="black" size={35} />
+                  : <Icon name="search" color="grey" size={35} />
             )
         }}
-        component={AddVideoScreen}
+        component={ExploreScreen}
       />
       <Tab.Screen
         name="Lists"
@@ -47,11 +50,12 @@ function BottomTabs() {
             tabBarButton: props => (
               <TouchableOpacity {...props} style={styles.listsTabBarButton} />
             ),
-            tabBarIcon: ({ color }) => (
-                <Icon name="list" color={color} size={30} />
+            tabBarIcon: ({ focused }) => (
+                focused ? <Icon name="list" color="black" size={35} />
+                  : <Icon name="list" color="grey" size={35} />
             )
         }}
-        component={AddVideoScreen}
+        component={ListsScreen}
       />
     </Tab.Navigator>
   )
