@@ -30,7 +30,7 @@ const styles = {
     justifyContent: 'flex-end',
   },
   name: {
-    fontSize: 30,
+    fontSize: 24,
   }
 }
 
