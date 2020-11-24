@@ -2,6 +2,10 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { withNavigation } from 'react-navigation';
 
+import { Header } from '../components/Header';
+import { SearchBar } from '../components/Search';
+import { VideosList } from '../components/Video';
+
 
 class ExploreScreen extends React.Component {
   constructor(props) {
@@ -11,7 +15,9 @@ class ExploreScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Explore Screen</Text>
+        <Header title={"Lista Geral"} navigation={this.props.navigation}/>
+        <SearchBar />
+        <VideosList />
       </View>
     )
   }
@@ -20,6 +26,7 @@ class ExploreScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
   }
 })
 
