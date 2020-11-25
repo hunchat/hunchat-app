@@ -2,6 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 
+import AddVideoStack from './navigators/AddVideoStackNavigator';
 import AppStack from './navigators/AppStackNavigator';
 import BottomTabs from './navigators/BottomTabs';
 import ExploreStack from './navigators/ExploreStackNavigator';
@@ -15,6 +16,7 @@ function App() {
       <NavigationContainer ref={navigationRef}>
         <AppStack.Navigator screenOptions={{ headerShown: false, gestureEnabled: true }}>
           <AppStack.Screen name='BottomTabs' component={BottomTabs} />
+          <AppStack.Screen name='AddVideoStack' component={AddVideoStack} />
           <AppStack.Screen name='ExploreStack' component={ExploreStack} />
           <AppStack.Screen name='FeedStack' component={FeedStack} />
           <AppStack.Screen name='ListStack' component={ListStack} />
