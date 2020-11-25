@@ -30,12 +30,12 @@ const styles = StyleSheet.create({
 })
 
 const makeMapStateToProps = () => {
-    const mapStateToProps = (state, ownProps) => {
-        return {
-            name: ownProps.route.params.list.name,
-        }
+  const mapStateToProps = (state, ownProps) => {
+    return {
+      name: ownProps.route.params.list.name,
     }
-    return mapStateToProps
+  }
+  return mapStateToProps
 }
 
 
