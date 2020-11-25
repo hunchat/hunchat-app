@@ -17,7 +17,7 @@ class ExploreScreen extends React.Component {
       <View style={styles.container}>
         <Header title={"Lista Geral"} navigation={this.props.navigation}/>
         <SearchBar />
-        <VideosList />
+        <VideosList navigation={this.props.navigation}/>
       </View>
     )
   }
