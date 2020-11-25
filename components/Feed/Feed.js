@@ -1,10 +1,30 @@
-import { View, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+
+import { Video } from '../Video';
 
 
-function Feed() {
+const video = {
+  id: '1',
+  description: 'This is a very short description of this video I just posted',
+  author: {
+    username: '@JaneFisher',
+    imageUrl: ''
+  },
+  externalLink: 'example.com',
+  views: '306',
+  likes: '189',
+  shares: '22',
+  answer: '1',
+}
+
+
+function Feed({
+  navigation,
+}) {
   return (
     <View style={styles.container}>
-      <Text>Feed Screen</Text>
+      <Video {...video} navigation={navigation}/>
     </View>
   )
 }
@@ -14,3 +34,5 @@ const styles = StyleSheet.create({
     flex: 1,
   }
 })
+
+export default Feed;
