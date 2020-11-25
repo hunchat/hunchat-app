@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+} from 'react-native';
 
 
 const spacing = 15;
@@ -11,10 +17,25 @@ function ListPreview({
   name,
   navigation,
 }) {
+  const onPress = () => {
+    navigation.push(
+      "ListStack",
+      {
+        screen: "List",
+        params: {
+          list: {
+            id: id,
+            name: name
+          }
+        }
+      }
+    )
+  };
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <Text style={styles.name}>{name}</Text>
-    </View>
+    </TouchableOpacity>
   )
 }
 
