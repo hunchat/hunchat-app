@@ -19,7 +19,7 @@ function Header({
       </View>
       <View style={styles.navigation}>
         <Icon name="person-outline" color="black" size={40} />
-        <Icon name="email" color="black" size={40} />
+        <Icon name="email-outline" type="material-community" color="black" size={40} />
       </View>
     </View>
   )
