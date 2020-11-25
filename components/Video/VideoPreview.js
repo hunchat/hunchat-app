@@ -1,5 +1,12 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Dimensions
+} from 'react-native';
 
 
 const spacing = 15;
@@ -14,8 +21,12 @@ function VideoPreview({
   author,
   navigation,
 }) {
+  const onPress = () => {
+    navigation.push("ExploreStack", { screen: "Feed"})
+  }
+
   return (
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.author}>
         <Image source={Object({uri: author.imageUrl})} style={styles.authorImage} />
         <Text style={styles.authorUsername}>
@@ -27,7 +38,7 @@ function VideoPreview({
       <Text style={styles.description} numberOfLines={3} ellipsizeMode="tail">
         {description}
       </Text>
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -56,12 +67,10 @@ const styles = {
   authorUsername: {
     marginHorizontal: 5,
     textAlignVertical: 'bottom',
-    numberOfLines: 1,
     color: 'white',
   },
   description: {
     fontSize: 14,
-    numberOfLines: 3,
   }
 }
 
