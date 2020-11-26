@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import usersReducer from './usersSlice';
 import videosReducer from './videosSlice';
