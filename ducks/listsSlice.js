@@ -3,6 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
 
 
+export const getLists = state => state.lists.byId;
+export const getListId = (state, props) => props.listId;
+
+
 const listsSlice = createSlice({
   name: 'lists',
   initialState: {
