@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { createSelector } from 'reselect';
+
+
+export const getVideos = state => state.videos.byId;
+export const getVideoId = (state, props) => props.videoId;
+
 
 const videosSlice = createSlice({
   name: 'videos',
