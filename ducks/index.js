@@ -1,8 +1,12 @@
 import { combineReducers } from 'redux';
 
+import usersReducer from './usersSlice';
+import videosReducer from './videosSlice';
+
 
 const appReducer = combineReducers({
-  // Include reducers here
+  users: usersReducer,
+  videos: videosReducer,
 })
 
 export const rootReducer = (state, action) => {
