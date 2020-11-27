@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
     flex: 46,
     backgroundColor: 'black',
     height: '100%',
+    justifyContent: 'center',
   },
   tab: {
     flex: 28,
