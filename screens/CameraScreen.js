@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import {
   View,
   Text,
@@ -12,6 +13,8 @@ import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import { Icon } from 'react-native-elements';
 
+import { setVideoUri } from '../ducks/newPostSlice';
+
 
 class CameraScreen extends React.Component {
   constructor(props) {
@@ -19,12 +22,17 @@ class CameraScreen extends React.Component {
     this.state = {
       hasCameraPermission: null,
       hasCameraRollPermission: null,
+      ref: null,
       type: Camera.Constants.Type.back,
       video: null,
     }
 
+    this.cameraRef = React.createRef();
+
     this.requestCameraPermission = this.requestCameraPermission.bind(this);
     this.requestCameraRollPermission = this.requestCameraRollPermission.bind(this);
+    this.startRecording = this.startRecording.bind(this);
+    this.stopRecording = this.stopRecording.bind(this);
     this.reverseCamera = this.reverseCamera.bind(this);
     this.pickImage = this.pickImage.bind(this);
   }
@@ -36,6 +44,16 @@ class CameraScreen extends React.Component {
   async requestCameraPermission() {
     const { status } = await Camera.requestPermissionsAsync();
     this.setState({ hasCameraPermission: status === 'granted' });
+  }
+
+  async startRecording() {
+    let video = await this.cameraRef.current.recordAsync();
+    this.props.setVideoUri(video.uri);
+  }
+
+  async stopRecording() {
+    this.cameraRef.current.stopRecording();
+    this.props.navigation.navigate("AddVideoStack", { screen: "VideoEdit"});
   }
 
   reverseCamera() {
@@ -76,7 +94,7 @@ class CameraScreen extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Camera style={styles.camera} type={this.state.type}>
+        <Camera style={styles.camera} ref={this.cameraRef} type={this.state.type}>
           <View style={styles.picture}>
           </View>
         </Camera>
@@ -85,8 +103,8 @@ class CameraScreen extends React.Component {
             <Icon name="image-multiple" type="material-community" color="black" size={35} />
           </TouchableOpacity>
           <TouchableWithoutFeedback
-            onPressIn={() => Camera.recordAsync()}
-            onPressOut={() => Camera.stopRecording()}
+            onPressIn={this.startRecording}
+            onPressOut={this.stopRecording}
           >
             <View style={styles.captureButton}/>
           </TouchableWithoutFeedback>
@@ -130,4 +148,12 @@ const styles = StyleSheet.create({
   },
 })
 
-export default withNavigation(CameraScreen);
+
+const mapDispatchToProps = {
+    setVideoUri,
+}
+
+export default withNavigation(connect(
+  null,
+  mapDispatchToProps
+)(CameraScreen));
