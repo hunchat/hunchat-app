@@ -7,6 +7,7 @@ import {
   Image,
   Dimensions,
   Linking,
+  StatusBar,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
@@ -76,9 +77,13 @@ function Video({
   )
 }
 
+const { height, width } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    height: height - StatusBar.currentHeight,
+    width: width,
     backgroundColor: '#d3d3d3',
     flexDirection: 'column',
     justifyContent: 'flex-end',
