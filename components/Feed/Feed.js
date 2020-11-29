@@ -30,6 +30,8 @@ function Feed({
         style={styles.viewPager}
         size={size}
         horizontal={false}
+        snapToInterval={size}
+        snapToAlignment='end'
       />
     </View>
   )
@@ -77,7 +79,7 @@ const data = [
   },
 ]
 
-const size = Dimensions.get('window').height - StatusBar.currentHeight;
+const size = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
