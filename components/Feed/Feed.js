@@ -7,7 +7,7 @@ import {
   StatusBar
  } from 'react-native';
 
-import { Video } from '../Video';
+import { VideoPost } from '../Video';
 import ViewPager from '../ViewPager';
 
 
@@ -15,7 +15,7 @@ function Feed({
   navigation,
 }) {
   const renderItem = ({ item }) => {
-    return <Video key={item.id} {...item} navigation={navigation}/>
+    return <VideoPost key={item.id} {...item} navigation={navigation}/>
   };
 
   const keyExtractor = item => item.id;

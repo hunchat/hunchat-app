@@ -7,15 +7,18 @@ import {
   Image,
   Dimensions,
   Linking,
-  StatusBar,
 } from 'react-native';
+import { SharedElement } from 'react-navigation-shared-element';
 import { Icon } from 'react-native-elements';
+import { Video } from 'expo-av';
 
 
 const authorUsernameMaxCharacters = 13;
 
+const thumbnailImage = require('../../assets/thumbnail-example.jpg');
 
-function Video({
+
+function VideoPost({
   id,
   description,
   author,
@@ -29,6 +32,10 @@ function Video({
 
   const handleExternalLinkPress = () => {
     Linking.openURL(externalLink);
+  }
+
+  const handlePressVideoAnswer = () => {
+    navigation.push("VideoStack", { screen: "Video", answer: {id: 1} })
   }
 
   return (
@@ -46,9 +53,13 @@ function Video({
           <Text style={styles.description} numberOfLines={3} ellipsizeMode="tail">
             {description}
           </Text>
-          <Text style={styles.externalLink}>Visit linked resources</Text>
+          <TouchableOpacity onPress={handleExternalLinkPress}>
+            <Text style={styles.externalLink}>Visit linked resources</Text>
+          </TouchableOpacity>
         </View>
-        <View style={styles.answer}></View>
+        <TouchableOpacity style={styles.answer} onPress={handlePressVideoAnswer}>
+          <Image source={thumbnailImage} style={styles.answerThumbnail} />
+        </TouchableOpacity>
       </View>
       <View style={styles.reactions}>
         <TouchableOpacity style={styles.addVideoTabBarButton}>
@@ -77,12 +88,20 @@ function Video({
   )
 }
 
+Video.sharedElements = (navigation, otherNavigation, showing) => {
+  const answer = navigation.getParam('answer');
+  return [{
+    id: `answer.1.photo`,
+    animation: 'fade',
+  }];
+};
+
 const { height, width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height: height - StatusBar.currentHeight,
+    height: height,
     width: width,
     backgroundColor: '#d3d3d3',
     flexDirection: 'column',
@@ -131,7 +150,14 @@ const styles = StyleSheet.create({
     marginRight: 15,
     borderRadius: 10,
   },
-  reactions : {
+  answerThumbnail: {
+    flex: 1,
+    width: '100%',
+    resizeMode: "cover",
+    justifyContent: "center",
+    borderRadius: 10,
+  },
+  reactions: {
     backgroundColor: '#e9e9e9',
     height: 70,
     flexDirection: 'row',
@@ -171,4 +197,4 @@ const styles = StyleSheet.create({
 
 
 
-export default Video;
+export default VideoPost;
