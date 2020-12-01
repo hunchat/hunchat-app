@@ -6,38 +6,42 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
+import { connect } from 'react-redux';
+
+import { makeGetListName } from '../../ducks/listsSlice';
 
 
 const spacing = 15;
 const width = (Dimensions.get('window').width - 4 * 15) / 2;
 
 
-function ListPreview({
-  id,
-  name,
-  navigation,
-}) {
-  const onPress = () => {
-    navigation.push(
+class ListPreview extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  onPress = () => {
+    this.props.navigation.push(
       "ListStack",
       {
         screen: "List",
         params: {
           list: {
-            id: id,
-            name: name
+            id: this.props.id,
           }
         }
       }
     )
   };
 
-  return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
-      <Text style={styles.name}>{name}</Text>
-    </TouchableOpacity>
-  )
-}
+  render() {
+    return (
+      <TouchableOpacity key={this.props.id} style={styles.container} onPress={this.onPress}>
+        <Text style={styles.name}>{this.props.name}</Text>
+      </TouchableOpacity>
+    )
+  }
+};
 
 const styles = {
   container: {
@@ -53,6 +57,17 @@ const styles = {
   name: {
     fontSize: 24,
   }
-}
+};
 
-export default ListPreview;
+
+const makeMapStateToProps = (state) => {
+  const getListName = makeGetListName();
+  return function mapStateToProps(state, ownProps) {
+    return {
+      name: getListName(state, { listId: ownProps.id }),
+    }
+  }
+};
+
+
+export default connect(makeMapStateToProps)(ListPreview);
