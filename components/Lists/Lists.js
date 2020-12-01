@@ -1,62 +1,37 @@
 import React from 'react';
 import { View, StyleSheet, FlatList } from 'react-native';
+import { connect } from 'react-redux';
 
 import ListPreview from './ListPreview';
 
-const lists = [
-  {
-    id: '1',
-    name: 'Todas as Listas'
-  },
-  {
-    id: '2',
-    name: 'Lista Design'
-  },
-  {
-    id: '3',
-    name: 'Lista Amigos'
-  },
-  {
-    id: '4',
-    name: 'Lista Culinária'
-  },
-  {
-    id: '5',
-    name: 'Lista Gaming'
-  },
-  {
-    id: '6',
-    name: 'Lista Desporto'
-  },
-  {
-    id: '7',
-    name: 'Lista Livros'
-  },
-]
+import { getAllListsIds } from '../../ducks/listsSlice';
 
 
-function Lists({
-  navigation,
-}) {
+class Lists extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
-  const keyExtractor = (item) => item.id;
+  keyExtractor = (item) => item;
 
-  const renderItem = ({ item }) => (
-    <ListPreview {...item} navigation={navigation}/>
+  renderItem = ({ item }) => (
+    <ListPreview id={item} navigation={this.props.navigation}/>
   );
 
-  return (
-    <FlatList
-      data={lists}
-      renderItem={renderItem}
-      keyExtractor={keyExtractor}
-      style={styles.container}
-      contentContainerStyle={styles.list}
-      numColumns={2}
-      columnWrapperStyle={styles.column}
-    />
-  )
-}
+  render() {
+    return (
+      <FlatList
+        data={this.props.listsIds}
+        renderItem={this.renderItem}
+        keyExtractor={this.keyExtractor}
+        style={styles.container}
+        contentContainerStyle={styles.list}
+        numColumns={2}
+        columnWrapperStyle={styles.column}
+      />
+    )
+  }
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -70,6 +45,14 @@ const styles = StyleSheet.create({
   column: {
     flexShrink: 1,
   },
-})
+});
 
-export default Lists;
+
+const mapStateToProps = (state) => {
+  return {
+    listsIds: getAllListsIds(state),
+  }
+};
+
+
+export default connect(mapStateToProps)(Lists);
