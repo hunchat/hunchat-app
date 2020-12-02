@@ -3,55 +3,111 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
+  Pressable,
   Image,
-  Dimensions
+  Dimensions,
 } from 'react-native';
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { connect } from 'react-redux';
+import { SharedElement } from 'react-navigation-shared-element';
+import { Video } from 'expo-av';
+
+import { makeGetVideo } from '../../ducks/videosSlice';
 
 
-const spacing = 15;
-const width = (Dimensions.get('window').width - 4 * 15) / 2;
+const margin = 15;
+const borderRadius = 15;
+const width = (Dimensions.get('window').width - 4 * margin) / 2;
 
 const authorUsernameMaxCharacters = 13;
 
 
-function VideoPreview({
+function VideoThumbnail({
   id,
+  url,
   description,
   author,
-  navigation,
 }) {
+  const navigation = useNavigation();
+  const [opacity, setOpacity] = React.useState(1);
+  useFocusEffect(() => {
+    if (navigation.isFocused()) {
+      setOpacity(1);
+    }
+  });
+
   const onPress = () => {
-    navigation.push("ExploreStack", { screen: "Feed"})
-  }
+    setOpacity(0);
+    navigation.push(
+      "VideoStack",
+      { screen: "Video", params : { video: { id: id } } }
+    );
+  };
 
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
-      <View style={styles.author}>
-        <Image source={Object({uri: author.imageUrl})} style={styles.authorImage} />
-        <Text style={styles.authorUsername}>
-          { ((author.username).length > authorUsernameMaxCharacters) ?
-              (((author.username).substring(0, authorUsernameMaxCharacters-3)) + '...') :
-              author.username}
-        </Text>
+    <Pressable
+      style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1})}
+      onPress={onPress}
+    >
+      <View style={[styles.container, { opacity: opacity }]}>
+        <SharedElement id={id} style={{ flex: 1 }}>
+          <Video
+            source={{ uri: url }}
+            rate={1.0}
+            volume={1.0}
+            isMuted={true}
+            resizeMode="cover"
+            style={styles.video}
+          />
+        </SharedElement>
+        {/*<View style={styles.author}>
+          <Image source={Object({uri: author.imageUrl})} style={styles.authorImage} />
+          <Text style={styles.authorUsername}>
+            @{ ((author.username).length > authorUsernameMaxCharacters) ?
+                (((author.username).substring(0, authorUsernameMaxCharacters-3)) + '...') :
+                author.username}
+          </Text>
+        </View>
+        <Text style={styles.description} numberOfLines={3} ellipsizeMode="tail">
+          {description}
+        </Text>*/}
       </View>
-      <Text style={styles.description} numberOfLines={3} ellipsizeMode="tail">
-        {description}
-      </Text>
-    </TouchableOpacity>
+    </Pressable>
   )
-}
+};
+
+class VideoPreview extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return (
+      <VideoThumbnail
+        id={this.props.id}
+        url={this.props.url}
+        description={this.props.description}
+        author={this.props.author}
+      />
+    )
+  }
+};
 
 const styles = {
   container: {
-    backgroundColor: '#d3d3d3',
-    height: 250,
-    width: width,
-    margin: spacing,
-    padding: 15,
-    borderRadius: 15,
+    height: width * 1.77,
+    width,
+    margin,
+    borderRadius,
     flexDirection: 'column',
     justifyContent: 'flex-end',
+  },
+  video: {
+    ...StyleSheet.absoluteFillObject,
+    height: undefined,
+    position: 'absolute',
+    resizeMode: 'cover',
+    borderRadius,
   },
   author: {
     flexDirection: 'row',
@@ -72,6 +128,16 @@ const styles = {
   description: {
     fontSize: 14,
   }
-}
+};
 
-export default VideoPreview;
+
+const makeMapStateToProps = (state) => {
+  const getVideo = makeGetVideo();
+  return function mapStateToProps(state, ownProps) {
+    let video = getVideo(state, { videoId: ownProps.id });
+    return {...video};
+  }
+};
+
+
+export default connect(makeMapStateToProps)(VideoPreview);
