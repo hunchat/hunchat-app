@@ -9,17 +9,31 @@ import {
   Linking,
 } from 'react-native';
 import { SharedElement } from 'react-navigation-shared-element';
+import { PanGestureHandler } from 'react-native-gesture-handler';
+import Animated, {
+  Extrapolate,
+  interpolate,
+  useAnimatedGestureHandler,
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withTiming,
+} from 'react-native-reanimated';
+import { useVector, snapPoint } from "react-native-redash";
 import { Icon } from 'react-native-elements';
 import { Video } from 'expo-av';
+import * as VideoThumbnails from 'expo-video-thumbnails';
 
 
 const authorUsernameMaxCharacters = 13;
 
-const thumbnailImage = require('../../assets/thumbnail-example.jpg');
+const { height, width } = Dimensions.get('window');
+const AnimatedVideo = Animated.createAnimatedComponent(Video);
 
 
 function VideoPost({
   id,
+  url,
   description,
   author,
   externalLink,
@@ -35,77 +49,134 @@ function VideoPost({
   }
 
   const handlePressVideoAnswer = () => {
-    navigation.push("VideoStack", { screen: "Video", answer: {id: 1} })
+    navigation.push(
+      "VideoStack",
+      {
+        screen: "Video",
+        params : {
+          video: {
+            id: answer.id,
+          },
+        }
+      })
   }
 
-  return (
-    <View style={styles.container}>
-      <View style={styles.row}>
-        <View style={styles.info}>
-          <View style={styles.author}>
-            <Image source={Object({uri: author.imageUrl})} style={styles.authorImage} />
-            <Text style={styles.authorUsername}>
-              { ((author.username).length > authorUsernameMaxCharacters) ?
-                  (((author.username).substring(0, authorUsernameMaxCharacters-3)) + '...') :
-                  author.username}
-            </Text>
-          </View>
-          <Text style={styles.description} numberOfLines={3} ellipsizeMode="tail">
-            {description}
-          </Text>
-          <TouchableOpacity onPress={handleExternalLinkPress}>
-            <Text style={styles.externalLink}>Visit linked resources</Text>
-          </TouchableOpacity>
-        </View>
-        <TouchableOpacity style={styles.answer} onPress={handlePressVideoAnswer}>
-          <Image source={thumbnailImage} style={styles.answerThumbnail} />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.reactions}>
-        <TouchableOpacity style={styles.addVideoTabBarButton}>
-          <Icon name="videocam" color="white" size={53} />
-        </TouchableOpacity>
-        <View style={styles.viewsTabBarButton}>
-          <TouchableOpacity>
-            <Icon name="ondemand-video" color="grey" size={35} />
-          </TouchableOpacity>
-          <Text style={styles.views}>{views}</Text>
-        </View>
-        <View style={styles.likesTabBarButton}>
-          <TouchableOpacity>
-            <Icon name="heart" type="material-community" color="grey" size={35} />
-          </TouchableOpacity>
-          <Text style={styles.likes}>{likes}</Text>
-        </View>
-        <View style={styles.sharesTabBarButton}>
-          <TouchableOpacity>
-            <Icon name="share" type="material-community" color="grey" size={35} />
-          </TouchableOpacity>
-          <Text style={styles.shares}>{shares}</Text>
-        </View>
-      </View>
-    </View>
-  )
-}
+  const isGestureActive = useSharedValue(false);
+  const translateX = useSharedValue(0);
+  const translateY = useSharedValue(0);
 
-Video.sharedElements = (navigation, otherNavigation, showing) => {
-  const answer = navigation.getParam('answer');
-  return [{
-    id: `answer.1.photo`,
-    animation: 'fade',
-  }];
+  const onGestureEvent = useAnimatedGestureHandler({
+    onStart: () => {
+      isGestureActive.value = true;
+    },
+    onActive: ({ translationX, translationY }) => {
+      translateX.value = translationX;
+      translateY.value = translationY;
+    },
+    onEnd: ({ velocityX, velocityY }) => {
+      const snapBack =
+        snapPoint(translateY.value, velocityY, [0, height]) === height;
+
+      if (snapBack) {
+        navigation.goBack();
+      } else {
+        translateX.value = withSpring(0, { velocity: velocityX });
+        translateY.value = withSpring(0, { velocity: velocityY });
+      }
+      isGestureActive.value = false;
+    },
+  });
+  const borderStyle = useAnimatedStyle(() => ({
+    borderRadius: withTiming(isGestureActive.value ? 24: 0),
+  }))
+
+  const containerStyle = useAnimatedStyle(() => {
+    const scale = interpolate(
+      translateY.value,
+      [0, height],
+      [1, 0.5],
+      Extrapolate.CLAMP
+    );
+    return {
+      flex: 1,
+      flexDirection: 'column',
+      justifyContent: 'flex-end',
+      transform: [
+        { translateX: translateX.value * scale },
+        { translateY: translateY.value * scale },
+        { scale },
+      ],
+    }
+  })
+
+  return (
+    <PanGestureHandler onGestureEvent={onGestureEvent}>
+      <Animated.View style={containerStyle}>
+        <SharedElement id={id} style={{ flex: 1 }}>
+          <AnimatedVideo
+            source={{ uri: url }}
+            rate={1.0}
+            volume={1.0}
+            isMuted={false}
+            resizeMode="cover"
+            shouldPlay
+            isLooping
+            style={[styles.video, borderStyle]}
+          />
+        </SharedElement>
+        {/*<View style={styles.row}>
+          <View style={styles.info}>
+            <View style={styles.author}>
+              <Image source={Object({uri: author.imageUrl})} style={styles.authorImage} />
+              <Text style={styles.authorUsername}>
+                { ((author.username).length > authorUsernameMaxCharacters) ?
+                    (((author.username).substring(0, authorUsernameMaxCharacters-3)) + '...') :
+                    author.username}
+              </Text>
+            </View>
+            <Text style={styles.description} numberOfLines={3} ellipsizeMode="tail">
+              {description}
+            </Text>
+            <TouchableOpacity onPress={handleExternalLinkPress}>
+              <Text style={styles.externalLink}>Visit linked resources</Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity style={styles.answer} onPress={handlePressVideoAnswer}>
+            <Video source={{ uri: "https://instagram.flis5-1.fna.fbcdn.net/v/t50.2886-16/128422991_423213609066129_6831456051227847080_n.mp4?_nc_ht=instagram.flis5-1.fna.fbcdn.net&_nc_cat=109&_nc_ohc=EGKCGPJF10UAX-4fYyG&oe=5FC73F22&oh=cd22acb05b17164ab1575dcaceddf1a4"}} style={styles.answerThumbnail} />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.reactions}>
+          <TouchableOpacity style={styles.addVideoTabBarButton}>
+            <Icon name="videocam" color="white" size={53} />
+          </TouchableOpacity>
+          <View style={styles.viewsTabBarButton}>
+            <TouchableOpacity>
+              <Icon name="ondemand-video" color="grey" size={35} />
+            </TouchableOpacity>
+            <Text style={styles.views}>{views}</Text>
+          </View>
+          <View style={styles.likesTabBarButton}>
+            <TouchableOpacity>
+              <Icon name="heart" type="material-community" color="grey" size={35} />
+            </TouchableOpacity>
+            <Text style={styles.likes}>{likes}</Text>
+          </View>
+          <View style={styles.sharesTabBarButton}>
+            <TouchableOpacity>
+              <Icon name="share" type="material-community" color="grey" size={35} />
+            </TouchableOpacity>
+            <Text style={styles.shares}>{shares}</Text>
+          </View>
+        </View>*/}
+      </Animated.View>
+    </PanGestureHandler>
+  )
 };
 
-const { height, width } = Dimensions.get('window');
-
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    height: height,
-    width: width,
-    backgroundColor: '#d3d3d3',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
+  video: {
+    ...StyleSheet.absoluteFill,
+    position: 'absolute',
   },
   row: {
     flexDirection: 'row',
