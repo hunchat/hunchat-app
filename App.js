@@ -8,6 +8,7 @@ import BottomTabs from './navigators/BottomTabs';
 import ExploreStack from './navigators/ExploreStackNavigator';
 import FeedStack from './navigators/FeedStackNavigator';
 import ListStack from './navigators/ListStackNavigator';
+import VideoStack from './navigators/VideoStackNavigator';
 import { navigationRef } from './navigators/RootNavigation';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <AppStack.Screen name='ExploreStack' component={ExploreStack} />
           <AppStack.Screen name='FeedStack' component={FeedStack} />
           <AppStack.Screen name='ListStack' component={ListStack} />
+          <AppStack.Screen name='VideoStack' component={VideoStack} />
         </AppStack.Navigator>
       </NavigationContainer>
     </SafeAreaView>
