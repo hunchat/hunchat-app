@@ -58,7 +58,7 @@ const videosSlice = createSlice({
     byId: {
       '1': {
         id: '1',
-        url: 'https://instagram.flis5-1.fna.fbcdn.net/v/t50.2886-16/128422991_423213609066129_6831456051227847080_n.mp4?_nc_ht=instagram.flis5-1.fna.fbcdn.net&_nc_cat=109&_nc_ohc=EGKCGPJF10UAX-4fYyG&oe=5FC73F22&oh=cd22acb05b17164ab1575dcaceddf1a4',
+        url: 'https://instagram.flis5-1.fna.fbcdn.net/v/t51.2885-15/e35/128944305_425513315493717_210962657978162941_n.jpg?_nc_ht=instagram.flis5-1.fna.fbcdn.net&_nc_cat=1&_nc_ohc=BeN2sbW5O90AX-WQ5s8&tp=1&oh=d784e2752ce7886189bca5c2a0ca09f8&oe=5FCB2B63',
         description: 'This is a very short description of this video I just posted',
         author: 'aa',
         externalLink: 'example.com',
@@ -69,7 +69,7 @@ const videosSlice = createSlice({
       },
       '2': {
         id: '2',
-        url: 'https://instagram.flis5-1.fna.fbcdn.net/v/t50.2886-16/126888578_378596023561203_3448226840820167123_n.mp4?_nc_ht=instagram.flis5-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=UKyFzd2USFEAX8gUXWH&oe=5FC86C91&oh=0cd0a03647a5977d9c190c6a150213a0',
+        url: 'https://instagram.flis5-1.fna.fbcdn.net/v/t51.2885-15/e35/128944305_425513315493717_210962657978162941_n.jpg?_nc_ht=instagram.flis5-1.fna.fbcdn.net&_nc_cat=1&_nc_ohc=BeN2sbW5O90AX-WQ5s8&tp=1&oh=d784e2752ce7886189bca5c2a0ca09f8&oe=5FCB2B63',
         description: 'Secret beach “La Playa del Amor” in Islas Marietas, Mexico',
         author: 'bb',
         externalLink: 'example.com',
@@ -80,7 +80,7 @@ const videosSlice = createSlice({
       },
       '3': {
         id: '3',
-        url: 'https://instagram.flis5-1.fna.fbcdn.net/v/t50.2886-16/125869848_185885116450220_5010921192452842805_n.mp4?_nc_ht=instagram.flis5-1.fna.fbcdn.net&_nc_cat=108&_nc_ohc=Vd4n_C7i62kAX-3rgtq&oe=5FC8BC91&oh=a4657441aa561aed653ef945872e27c0',
+        url: 'https://instagram.flis5-1.fna.fbcdn.net/v/t50.2886-16/127939334_198393301814256_8921741831673252662_n.mp4?_nc_ht=instagram.flis5-1.fna.fbcdn.net&_nc_cat=100&_nc_ohc=LLbJ2DE5IRMAX8HAX9g&oe=5FC8F656&oh=d429e7aa3827e84459ac4f6a78f9a5a3',
         description: 'This was CLEAN',
         author: 'cc',
         externalLink: 'example.com',

@@ -11,7 +11,8 @@ import { connect } from 'react-redux';
 import { makeGetListName } from '../../ducks/listsSlice';
 
 
-const spacing = 15;
+const margin = 15;
+const borderRadius = 15;
 const width = (Dimensions.get('window').width - 4 * 15) / 2;
 
 
@@ -22,14 +23,10 @@ class ListPreview extends React.Component {
 
   onPress = () => {
     this.props.navigation.push(
-      "ListStack",
+      "VideoStack",
       {
         screen: "List",
-        params: {
-          list: {
-            id: this.props.id,
-          }
-        }
+        params: { list: { id: this.props.id } }
       }
     )
   };
@@ -46,11 +43,11 @@ class ListPreview extends React.Component {
 const styles = {
   container: {
     backgroundColor: '#d3d3d3',
-    height: 250,
-    width: width,
-    margin: spacing,
+    height: width * 1.77,
+    width,
+    margin ,
     padding: 15,
-    borderRadius: 15,
+    borderRadius,
     flexDirection: 'column',
     justifyContent: 'flex-end',
   },

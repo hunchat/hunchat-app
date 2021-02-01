@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 
@@ -16,20 +16,14 @@ class ListScreen extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={{ flex: 1 }}>
         <Header title={this.props.name} navigation={this.props.navigation}/>
-        <VideosList videosIds={this.props.videos} navigation={this.props.navigation}/>
+        <VideosList videosIds={this.props.videos} />
       </View>
     )
   }
 };
 
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  }
-});
 
 const makeMapStateToProps = (state) => {
   const getList = makeGetList();
@@ -40,7 +34,7 @@ const makeMapStateToProps = (state) => {
       videos: list.videos,
     }
   }
-}
+};
 
 
 export default withNavigation(connect(

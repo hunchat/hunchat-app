@@ -1,7 +1,6 @@
 import React from 'react';
 import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
 
-import FeedScreen from '../screens/FeedScreen';
 import ListScreen from '../screens/ListScreen';
 import VideoScreen from '../screens/VideoScreen';
 

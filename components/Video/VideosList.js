@@ -6,13 +6,12 @@ import VideoPreview from './VideoPreview';
 
 function VideosList({
   videosIds,
-  navigation,
 }) {
 
   const keyExtractor = (item) => item;
 
   const renderItem = ({ item }) => (
-    <VideoPreview id={item} navigation={navigation}/>
+    <VideoPreview id={item}/>
   );
 
   return (
