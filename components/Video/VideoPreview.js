@@ -54,7 +54,7 @@ function VideoThumbnail({
           <Image
             resizeMode="cover"
             style={styles.video}
-            source={{uri: 'https://instagram.flis5-1.fna.fbcdn.net/v/t51.2885-15/e35/p1080x1080/127877000_204528327851521_3923653324622951276_n.jpg?_nc_ht=instagram.flis5-1.fna.fbcdn.net&_nc_cat=101&_nc_ohc=uOopWH1QrsUAX8E6EYW&tp=1&oh=ad6310c0a8729e6ed7208002c777062d&oe=5FF0C806'}}
+            source={{uri: 'https://instagram.flis5-1.fna.fbcdn.net/v/t51.2885-15/e35/126262187_1326293687703367_4717367315447571707_n.jpg?_nc_ht=instagram.flis5-1.fna.fbcdn.net&_nc_cat=107&_nc_ohc=U_d2_YjLZfAAX-m8_K3&tp=1&oh=7e388f244c8156f9ba059ff2dd73f737&oe=6042F76D'}}
           />
           {/*<Video
             source={{ uri: url }}
