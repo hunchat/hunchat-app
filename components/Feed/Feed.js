@@ -37,7 +37,7 @@ function Feed({
 const data = [
   {
     id: '1',
-    url: 'https://instagram.flis5-1.fna.fbcdn.net/v/t50.2886-16/128422991_423213609066129_6831456051227847080_n.mp4?_nc_ht=instagram.flis5-1.fna.fbcdn.net&_nc_cat=109&_nc_ohc=EGKCGPJF10UAX-4fYyG&oe=5FC73F22&oh=cd22acb05b17164ab1575dcaceddf1a4',
+    url: 'https://instagram.flis5-1.fna.fbcdn.net/v/t51.2885-15/e35/126262187_1326293687703367_4717367315447571707_n.jpg?_nc_ht=instagram.flis5-1.fna.fbcdn.net&_nc_cat=107&_nc_ohc=U_d2_YjLZfAAX-m8_K3&tp=1&oh=7e388f244c8156f9ba059ff2dd73f737&oe=6042F76D',
     description: 'This is a very short description of this video I just posted',
     author: {
       username: 'JaneFisher',
