@@ -1,14 +1,13 @@
-import React from 'react';
-import { Provider } from 'react-redux';
+import React from "react";
+import { Provider } from "react-redux";
 
-import { registerRootComponent } from 'expo';
+import { registerRootComponent } from "expo";
 
-import { PersistGate } from 'redux-persist/integration/react';
+import { PersistGate } from "redux-persist/integration/react";
 
-import { store, persistor } from './store';
+import { store, persistor } from "./store";
 
-import App from './App';
-
+import App from "./App";
 
 class Root extends React.Component {
   render() {
@@ -18,11 +17,9 @@ class Root extends React.Component {
           <App />
         </PersistGate>
       </Provider>
-    )
-
+    );
   }
 }
-
 
 // Set as root component
 registerRootComponent(Root);
