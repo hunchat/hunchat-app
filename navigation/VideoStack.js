@@ -1,9 +1,8 @@
-import React from 'react';
-import { createSharedElementStackNavigator } from 'react-navigation-shared-element';
+import React from "react";
+import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 
-import ListScreen from '../screens/ListScreen';
-import VideoScreen from '../screens/VideoScreen';
-
+import ListScreen from "../screens/ListScreen";
+import VideoScreen from "../screens/VideoScreen";
 
 const Stack = createSharedElementStackNavigator();
 
@@ -22,7 +21,7 @@ const VideoStack = () => (
       name="Video"
       component={VideoScreen}
       sharedElements={(route) => {
-        return [route.params.video.id]
+        return [route.params.video.id];
       }}
     />
   </Stack.Navigator>
