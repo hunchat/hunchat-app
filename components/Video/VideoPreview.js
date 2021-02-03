@@ -1,35 +1,35 @@
-import React from 'react';
+import React, { useState, useMemo } from "react";
 import {
   View,
   Text,
   StyleSheet,
   Pressable,
   Image,
+  ImageBackground,
   Dimensions,
-} from 'react-native';
+} from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { connect } from 'react-redux';
-import { SharedElement } from 'react-navigation-shared-element';
-import { Video } from 'expo-av';
+import { connect } from "react-redux";
+import { SharedElement } from "react-navigation-shared-element";
+import { LinearGradient } from 'expo-linear-gradient';
 
-import { makeGetVideo } from '../../ducks/videosSlice';
+import { makeGetVideo } from "../../ducks/videosSlice";
 
-
-const margin = 15;
-const borderRadius = 15;
-const width = (Dimensions.get('window').width - 4 * margin) / 2;
+const VIDEO_PREVIEW_MARGIN = 5;
+const VIDEO_PREVIEW_BORDER_RADIUS = 15;
+const VIDEO_PREVIEW_WIDTH = (Dimensions.get("window").width - 4 * VIDEO_PREVIEW_MARGIN) / 2;
 
 const authorUsernameMaxCharacters = 13;
 
-
-function VideoThumbnail({
+const VideoPreview = ({
   id,
   url,
-  description,
   author,
-}) {
+  description,
+}) => {
   const navigation = useNavigation();
-  const [opacity, setOpacity] = React.useState(1);
+  const [opacity, setOpacity] = useState(1);
+
   useFocusEffect(() => {
     if (navigation.isFocused()) {
       setOpacity(1);
@@ -38,113 +38,103 @@ function VideoThumbnail({
 
   const onPress = () => {
     setOpacity(0);
-    navigation.push(
-      "VideoStack",
-      { screen: "Video", params : { video: { id: id } } }
-    );
+    navigation.push("VideoStack", {
+      screen: "Video",
+      params: { video: { id: id } },
+    });
   };
 
   return (
     <Pressable
-      style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1})}
+      style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
       onPress={onPress}
     >
-      <View style={[styles.container, { opacity: opacity }]}>
-        <SharedElement id={id} style={{ flex: 1 }}>
-          <Image
-            resizeMode="cover"
-            style={styles.video}
-            source={{uri: 'https://instagram.flis5-1.fna.fbcdn.net/v/t51.2885-15/e35/126262187_1326293687703367_4717367315447571707_n.jpg?_nc_ht=instagram.flis5-1.fna.fbcdn.net&_nc_cat=107&_nc_ohc=U_d2_YjLZfAAX-m8_K3&tp=1&oh=7e388f244c8156f9ba059ff2dd73f737&oe=6042F76D'}}
-          />
-          {/*<Video
-            source={{ uri: url }}
-            rate={1.0}
-            volume={1.0}
-            isMuted={true}
-            resizeMode="cover"
-            style={styles.video}
-          />*/}
-        </SharedElement>
+      <ImageBackground
+        style={[styles.container, { opacity: opacity }]}
+        imageStyle={styles.cover}
+        source={{uri : "https://p16-sign-sg.tiktokcdn.com/obj/tos-maliva-p-0068/f3bf0c063b8a41f291ea5135443f3178?x-expires=1612386000&x-signature=Smift5NfX%2F8B1ZUF58jsAHk7bGM%3D"}}
+        >
+        <LinearGradient
+          colors={['rgba(0,0,0,0.5)', 'transparent']}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 0, y: 0.65}}
+          locations={[0.8, 1]}
+          style={styles.gradient}
+        />
         <View style={styles.author}>
-          <Image source={Object({uri: author.imageUrl})} style={styles.authorImage} />
+          <Image
+            source={Object({ uri: "https://instagram.flis5-1.fna.fbcdn.net/v/t51.2885-19/s150x150/37811221_218343765548379_8242830384702685184_n.jpg?_nc_ht=instagram.flis5-1.fna.fbcdn.net&_nc_ohc=YMlw92AGb6wAX8y3plx&tp=1&oh=2d55648e9563b01e0c3a341863574067&oe=60430B10" })}
+            style={styles.authorImage}
+          />
           <Text style={styles.authorUsername}>
-            @{ ((author.username).length > authorUsernameMaxCharacters) ?
-                (((author.username).substring(0, authorUsernameMaxCharacters-3)) + '...') :
-                author.username}
+            @
+            {author.username.length > authorUsernameMaxCharacters
+              ? author.username.substring(0, authorUsernameMaxCharacters - 3) +
+                "..."
+              : author.username}
           </Text>
         </View>
         <Text style={styles.description} numberOfLines={3} ellipsizeMode="tail">
           {description}
         </Text>
-      </View>
+      </ImageBackground>
     </Pressable>
-  )
-};
-
-class VideoPreview extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    return (
-      <VideoThumbnail
-        id={this.props.id}
-        url={this.props.url}
-        description={this.props.description}
-        author={this.props.author}
-      />
-    )
-  }
+  );
 };
 
 const styles = {
   container: {
-    height: width * 1.77,
-    width,
-    margin,
+    height: VIDEO_PREVIEW_WIDTH * 1.77,
+    width: VIDEO_PREVIEW_WIDTH,
+    margin: VIDEO_PREVIEW_MARGIN,
+    borderRadius: VIDEO_PREVIEW_BORDER_RADIUS,
     padding: 7,
-    borderRadius,
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    backgroundColor: 'green',
+    flexDirection: "column",
+    justifyContent: "flex-end",
   },
-  video: {
-    ...StyleSheet.absoluteFillObject,
-    height: undefined,
-    position: 'absolute',
-    resizeMode: 'cover',
-    borderRadius,
+  cover: {
+    borderRadius: VIDEO_PREVIEW_BORDER_RADIUS,
+  },
+  blur: {
+
   },
   author: {
-    flexDirection: 'row',
+    flexDirection: "row",
+    alignItems: "center",
     marginVertical: 3,
   },
+  gradient: {
+    ...StyleSheet.absoluteFill,
+  },
   authorImage: {
-    backgroundColor: 'white',
-    height: 40,
-    width: 40,
+    backgroundColor: "white",
+    height: 30,
+    width: 30,
     borderRadius: 40,
-    borderWidth: 3,
+    borderWidth: 1,
+    borderColor: "white",
+    marginRight: "auto",
   },
   authorUsername: {
     marginHorizontal: 5,
-    textAlignVertical: 'bottom',
-    color: 'white',
+    textAlign: "center",
+    textAlignVertical: "bottom",
+    color: "white",
+    fontWeight: "600",
+    marginRight: "auto",
   },
   description: {
     fontSize: 14,
-  }
+    color: "white",
+  },
 };
-
 
 const makeMapStateToProps = (state) => {
   const getVideo = makeGetVideo();
   return function mapStateToProps(state, ownProps) {
     let video = getVideo(state, { videoId: ownProps.id });
-    return {...video};
-  }
+    return { ...video };
+  };
 };
-
 
 export default connect(makeMapStateToProps)(VideoPreview);
