@@ -1,8 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
-
+import { createSlice } from "@reduxjs/toolkit";
 
 const newPostSlice = createSlice({
-  name: 'newPost',
+  name: "newPost",
   initialState: {
     uri: null,
   },
@@ -11,8 +10,7 @@ const newPostSlice = createSlice({
       state.uri = action.payload;
     },
   },
-})
-
+});
 
 export const { setVideoUri } = newPostSlice.actions;
 
