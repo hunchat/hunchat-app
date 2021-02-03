@@ -1,6 +1,3 @@
-import BottomTabBar from './BottomTabBar';
+import BottomTabBar from "./BottomTabBar";
 
-
-export {
-  BottomTabBar
-}
+export { BottomTabBar };

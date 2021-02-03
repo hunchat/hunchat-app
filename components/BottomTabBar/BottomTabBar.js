@@ -1,33 +1,34 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from 'react-native';
-import { Icon } from 'react-native-elements';
-import {
-  heightPercentageToDP as hp
-} from 'react-native-responsive-screen';
-
-
+import React from "react";
+import { View, Text, StyleSheet, Pressable } from "react-native";
+import { Icon } from "react-native-elements";
+import { Ionicons } from '@expo/vector-icons';
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 function renderIcon({ route, focused }) {
   let icon;
 
-  if (route.name === 'Explore') {
-    icon = focused
-      ? <Icon name="search" color="black" size={35} />
-      : <Icon name="search" color="grey" size={35} />
-  } else if (route.name === 'Lists') {
-    icon = focused
-      ? <Icon name="list" color="black" size={35} />
-      : <Icon name="list" color="grey" size={35} />
+  if (route.name === "Explore") {
+    icon = focused ? (
+      <Icon name="search" color="orange" size={35} />
+    ) : (
+      <Icon name="search" color="white" size={35} />
+    );
+  } else if (route.name === "Lists") {
+    icon = focused ? (
+      <Icon name="list" color="orange" size={35} />
+    ) : (
+      <Icon name="list" color="white" size={35} />
+    );
+  } else if (route.name === "Notifications") {
+    icon = focused ? (
+      <Ionicons name="ios-heart-outline" size={32} color="orange" />
+    ) : (
+      <Ionicons name="ios-heart-outline" size={32} color="white" />
+    );
   }
 
   return icon;
 }
-
 
 function BottomTabBar({ state, descriptors, navigation }) {
   const focusedOptions = descriptors[state.routes[state.index].key].options;
@@ -38,12 +39,6 @@ function BottomTabBar({ state, descriptors, navigation }) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        onPress={() => navigation.navigate("AddVideoStack", { screen: "Camera" })}
-        style={styles.addVideoTabBarButton}
-      >
-        <Icon name="videocam" color="white" size={53} />
-      </TouchableOpacity>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
 
@@ -58,12 +53,12 @@ function BottomTabBar({ state, descriptors, navigation }) {
 
         const icon =
           options.tabBarIcon !== undefined
-          ? options.tabBarIcon
-          : renderIcon({ route: route, focused: isFocused });
+            ? options.tabBarIcon
+            : renderIcon({ route: route, focused: isFocused });
 
         const onPress = () => {
           const event = navigation.emit({
-            type: 'tabPress',
+            type: "tabPress",
             target: route.key,
             canPreventDefault: true,
           });
@@ -75,13 +70,13 @@ function BottomTabBar({ state, descriptors, navigation }) {
 
         const onLongPress = () => {
           navigation.emit({
-            type: 'tabLongPress',
+            type: "tabLongPress",
             target: route.key,
           });
         };
 
         return (
-          <TouchableOpacity
+          <Pressable
             accessibilityRole="button"
             accessibilityState={isFocused ? { selected: true } : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
@@ -91,7 +86,7 @@ function BottomTabBar({ state, descriptors, navigation }) {
             style={styles.tab}
           >
             {icon}
-          </TouchableOpacity>
+          </Pressable>
         );
       })}
     </View>
@@ -100,23 +95,16 @@ function BottomTabBar({ state, descriptors, navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    alignContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#e9e9e9',
-    height: hp('10%'),
-  },
-  addVideoTabBarButton: {
-    flex: 46,
-    backgroundColor: 'black',
-    height: '100%',
-    justifyContent: 'center',
+    flexDirection: "row",
+    alignContent: "center",
+    alignItems: "center",
+    backgroundColor: "black",
+    height: hp("10%"),
   },
   tab: {
-    flex: 28,
-    alignItems: 'center',
+    flex: 33,
+    alignItems: "center",
   },
-})
-
+});
 
 export default BottomTabBar;
