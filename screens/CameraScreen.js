@@ -1,5 +1,5 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 import {
   View,
   Text,
@@ -7,14 +7,18 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Dimensions,
-} from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { Camera } from 'expo-camera';
-import * as ImagePicker from 'expo-image-picker';
-import { Icon } from 'react-native-elements';
+  StatusBar,
+  Animated,
+} from "react-native";
+import { withNavigation } from "react-navigation";
+import { Camera } from "expo-camera";
+import { Icon } from "react-native-elements";
 
-import { setVideoUri } from '../ducks/newPostSlice';
+import { CameraHeader, CameraBottomBar } from "../components/Camera";
+import { setVideoUri } from "../ducks/newPostSlice";
+import { Colors } from "../styles";
 
+const { height } = Dimensions.get("window");
 
 class CameraScreen extends React.Component {
   constructor(props) {
@@ -23,18 +27,24 @@ class CameraScreen extends React.Component {
       hasCameraPermission: null,
       hasCameraRollPermission: null,
       ref: null,
+      flashMode: Camera.Constants.FlashMode.off,
       type: Camera.Constants.Type.back,
       video: null,
-    }
+
+      duration: 0, // recording duration in ms.
+      start: 0,
+      isOn: false
+    };
 
     this.cameraRef = React.createRef();
 
     this.requestCameraPermission = this.requestCameraPermission.bind(this);
-    this.requestCameraRollPermission = this.requestCameraRollPermission.bind(this);
     this.startRecording = this.startRecording.bind(this);
     this.stopRecording = this.stopRecording.bind(this);
     this.reverseCamera = this.reverseCamera.bind(this);
-    this.pickImage = this.pickImage.bind(this);
+    this.onHandleFlashMode = this.onHandleFlashMode.bind(this);
+    this.startTimer = this.startTimer.bind(this)
+    this.stopTimer = this.stopTimer.bind(this)
   }
 
   componentDidMount() {
@@ -43,17 +53,27 @@ class CameraScreen extends React.Component {
 
   async requestCameraPermission() {
     const { status } = await Camera.requestPermissionsAsync();
-    this.setState({ hasCameraPermission: status === 'granted' });
+    this.setState({ hasCameraPermission: status === "granted" });
+  }
+
+  onHandleFlashMode() {
+    this.setState((state) => ({
+      flashMode:
+        state.flashMode === Camera.Constants.FlashMode.off
+          ? Camera.Constants.FlashMode.torch
+          : Camera.Constants.FlashMode.off,
+    }));
   }
 
   async startRecording() {
+    this.startTimer();
     let video = await this.cameraRef.current.recordAsync();
     this.props.setVideoUri(video.uri);
   }
 
   async stopRecording() {
     this.cameraRef.current.stopRecording();
-    this.props.navigation.navigate("AddVideoStack", { screen: "VideoEdit"});
+    this.props.navigation.navigate("AddVideoStack", { screen: "VideoEdit" });
   }
 
   reverseCamera() {
@@ -61,26 +81,24 @@ class CameraScreen extends React.Component {
       type:
         state.type === Camera.Constants.Type.back
           ? Camera.Constants.Type.front
-          : Camera.Constants.Type.back
-    }))
+          : Camera.Constants.Type.back,
+    }));
   }
 
-  async requestCameraRollPermission() {
-    const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
-    this.setState({ hasCameraRollPermission: status === 'granted' });
+  startTimer() {
+    this.setState({
+      duration: this.state.duration,
+      start: Date.now() - this.state.duration,
+      isOn: true
+    })
+    this.timer = setInterval(() => this.setState({
+      duration: Date.now() - this.state.start
+    }), 1000);
   }
 
-  async pickImage() {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.cancelled) {
-      setState({video: result.uri});
-    }
+  stopTimer() {
+    this.setState({ isOn: false })
+    clearInterval(this.timer)
   }
 
   render() {
@@ -92,28 +110,43 @@ class CameraScreen extends React.Component {
       return <Text>No access to camera</Text>;
     }
 
+    // const timeBarBottom = this.state.duration.interpolate({
+    //   inputRange: [0, 60000],
+    //   outputRange: [height, 0],
+    //   extrapolate: "clamp"
+    // });
+
     return (
       <View style={styles.container}>
-        <Camera style={styles.camera} ref={this.cameraRef} type={this.state.type}>
-          <View style={styles.picture}>
-          </View>
-        </Camera>
-        <View style={styles.bottomBar}>
-          <TouchableOpacity onPress={this.pickImage} styles={styles.gallery}>
-            <Icon name="image-multiple" type="material-community" color="black" size={35} />
-          </TouchableOpacity>
-          <TouchableWithoutFeedback
-            onPressIn={this.startRecording}
-            onPressOut={this.stopRecording}
-          >
-            <View style={styles.captureButton}/>
-          </TouchableWithoutFeedback>
-          <TouchableOpacity onPress={this.reverseCamera} styles={styles.reverse}>
-            <Icon name="crop" type="material" color="black" size={35} />
-          </TouchableOpacity>
+        <Animated.View
+          style={[
+            styles.timeBar,
+            {
+              // bottom: timeBarBottom,
+              bottom: 80,
+            }
+          ]}
+        />
+        <View style={styles.duration}>
+          <Text style={{ color: "white" }}>2</Text>
         </View>
+        <CameraHeader />
+        <Camera
+          style={styles.camera}
+          ref={this.cameraRef}
+          flashMode={this.state.flashMode}
+          type={this.state.type}
+        >
+          <View style={styles.picture}></View>
+        </Camera>
+        <CameraBottomBar
+          onHandleFlashMode={this.onHandleFlashMode}
+          startRecording={this.startRecording}
+          stopRecording={this.stopRecording}
+          reverseCamera={this.reverseCamera}
+        />
       </View>
-    )
+    );
   }
 }
 
@@ -121,39 +154,40 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  timeBar: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: 6,
+    elevation: 5,
+    zIndex: 110,
+    backgroundColor: Colors.primary,
+  },
+  duration: {
+    position: "absolute",
+    left: 15,
+    bottom: "50%",
+    elevation: 5,
+    zIndex: 110,
+    height: 36,
+    width: 36,
+    borderRadius: 10,
+    backgroundColor: "rgba(0,0,0,0.3)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   camera: {
     flex: 1,
   },
   picture: {
     flex: 1,
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
+    backgroundColor: "transparent",
+    flexDirection: "row",
   },
-  bottomBar: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    height: Dimensions.get('window').height * 0.1,
-    backgroundColor: '#e9e9e9',
-    paddingHorizontal: 10,
-  },
-  captureButton: {
-    bottom: 25,
-    width: 60,
-    height: 60,
-    backgroundColor: 'white',
-    borderWidth: 4,
-    borderRadius: 60,
-    borderColor: "black",
-  },
-})
-
+});
 
 const mapDispatchToProps = {
-    setVideoUri,
-}
+  setVideoUri,
+};
 
-export default withNavigation(connect(
-  null,
-  mapDispatchToProps
-)(CameraScreen));
+export default withNavigation(connect(null, mapDispatchToProps)(CameraScreen));
