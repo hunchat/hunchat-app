@@ -1,6 +1,7 @@
 import AddVideoStack from "./AddVideoStack";
 import { horizontalAnimation, verticalAnimation } from "./animations";
 import AppStack from "./AppStack";
+import AuthStack from "./AuthStack";
 import BottomTabs from "./BottomTabs";
 import ExploreStack from "./ExploreStack";
 import FeedStack from "./FeedStack";
@@ -14,6 +15,7 @@ export {
   horizontalAnimation,
   verticalAnimation,
   AppStack,
+  AuthStack,
   BottomTabs,
   ExploreStack,
   FeedStack,
