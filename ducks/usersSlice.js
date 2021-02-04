@@ -67,6 +67,7 @@ const usersSlice = createSlice({
           "https://instagram.flis5-1.fna.fbcdn.net/v/t51.2885-19/s150x150/96750331_627666348094013_8303191644627271680_n.jpg?_nc_ht=instagram.flis5-1.fna.fbcdn.net&_nc_ohc=hwIbmUcqxpEAX_ehAnZ&tp=1&oh=caf13be29f8b0f3a4f5c7f4b9eb53f60&oe=5FEE5A9F",
       },
     },
+    currentUserId: null,
   },
   reducers: {
     addUser: (state, action) => {
