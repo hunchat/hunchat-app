@@ -8,8 +8,8 @@
     "entryPoint": "./index.js",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "resizeMode": "cover",
+      "backgroundColor": "#06050B"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
