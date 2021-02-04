@@ -17,6 +17,7 @@
     "@react-navigation/stack": "^5.12.8",
     "@reduxjs/toolkit": "^1.4.0",
     "expo": "~39.0.2",
+    "expo-apple-authentication": "~2.2.1",
     "expo-av": "~8.6.0",
     "expo-blur": "~8.2.0",
     "expo-camera": "~9.0.0",
