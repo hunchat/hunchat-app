@@ -1,12 +1,14 @@
 import { combineReducers } from "redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+import authReducer from "./authSlice";
 import listsReducer from "./listsSlice";
 import newPostReducer from "./newPostSlice";
 import usersReducer from "./usersSlice";
 import videosReducer from "./videosSlice";
 
 const appReducer = combineReducers({
+  auth: authReducer,
   lists: listsReducer,
   newPost: newPostReducer,
   users: usersReducer,
