@@ -38,6 +38,7 @@
     "react-native-screens": "~2.10.1",
     "react-native-shared-element": "^0.7.0",
     "react-native-vector-icons": "^7.1.0",
+    "react-native-video-processing": "^2.0.0",
     "react-native-web": "~0.13.12",
     "react-navigation": "^4.4.3",
     "react-navigation-shared-element": "^3.0.0",
