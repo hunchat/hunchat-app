@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   goBack: {
-    height: 32,
-    width: 43,
+    height: 36,
+    width: 36,
     borderRadius: 10,
     backgroundColor: "rgba(0,0,0,0.3)",
     justifyContent: "center",
