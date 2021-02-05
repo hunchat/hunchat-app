@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     height: HEADER_HEIGHT,
     paddingVertical: 6,
-    paddingHorizontal: 20,
+    paddingHorizontal: 5,
     backgroundColor: "black",
     elevation: 4,
     zIndex: 100,
