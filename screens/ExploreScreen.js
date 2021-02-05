@@ -4,15 +4,20 @@ import { withNavigation } from "react-navigation";
 
 import { Header } from "../components/Header";
 import { AddVideoButton } from "../components/AddVideo";
-import { ExploreListsSelector, EXPLORE_LISTS_SELECTOR_HEIGHT } from "../components/Explore";
+import {
+  ExploreListsSelector,
+  EXPLORE_LISTS_SELECTOR_HEIGHT,
+  ExploreSearchBar,
+  SEARCH_BAR_HEIGHT,
+} from "../components/Explore";
 import { VideosList } from "../components/Video";
 
 function ExploreScreen({ navigation }) {
   const scrollY = new Animated.Value(0);
-  const diffClamp = Animated.diffClamp(scrollY, 0, EXPLORE_LISTS_SELECTOR_HEIGHT);
+  const diffClamp = Animated.diffClamp(scrollY, 0, EXPLORE_LISTS_SELECTOR_HEIGHT+SEARCH_BAR_HEIGHT);
   const translateY = diffClamp.interpolate({
-    inputRange: [0, EXPLORE_LISTS_SELECTOR_HEIGHT],
-    outputRange: [0, -EXPLORE_LISTS_SELECTOR_HEIGHT],
+    inputRange: [0, EXPLORE_LISTS_SELECTOR_HEIGHT+SEARCH_BAR_HEIGHT],
+    outputRange: [0, -(EXPLORE_LISTS_SELECTOR_HEIGHT+SEARCH_BAR_HEIGHT)],
     extrapolate: "clamp"
   });
 
@@ -33,6 +38,7 @@ function ExploreScreen({ navigation }) {
           zIndex: 80,
         }}
       >
+        <ExploreSearchBar />
         <ExploreListsSelector selectedList="All topics"/>
       </Animated.View>
       <Animated.View style={{ flex: 20000 }}>
@@ -53,7 +59,7 @@ function ExploreScreen({ navigation }) {
               }
             }
           )}
-          marginTop={EXPLORE_LISTS_SELECTOR_HEIGHT}
+          marginTop={EXPLORE_LISTS_SELECTOR_HEIGHT+SEARCH_BAR_HEIGHT}
         />
       </Animated.View>
       <AddVideoButton />
