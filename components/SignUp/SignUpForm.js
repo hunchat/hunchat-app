@@ -17,6 +17,9 @@ const { width } = Dimensions.get("window");
 
 const SignInForm = ({}) => {
   const navigation = useNavigation();
+  const handlePressSignIn = () => {
+    navigation.navigate("SignIn");
+  };
 
   return (
     <View style={styles.container}>
@@ -62,10 +65,12 @@ const SignInForm = ({}) => {
           <Text style={styles.submitText}>Sign up</Text>
         </LinearGradient>
       </Pressable>
-      <Pressable style={{ flexDirection: "row", justifyContent: "center" }}>
+      <View style={{ flexDirection: "row", justifyContent: "center" }}>
         <Text style={{ color: "lightgrey" }}>Already have an account?</Text>
-        <Text style={{ marginLeft: 3, color: Colors.primary }}>Sign in</Text>
-      </Pressable>
+        <Pressable style={{ marginLeft: 3 }} onPress={handlePressSignIn}>
+          <Text style={{ color: Colors.primary }}>Sign in</Text>
+        </Pressable>
+      </View>
     </View>
   )
 };
