@@ -1,3 +1,3 @@
-import ViewPager from './ViewPager';
+import ViewPager from "./ViewPager";
 
 export default ViewPager;

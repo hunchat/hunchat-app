@@ -1,7 +1,6 @@
-import React from 'react';
-import { Animated, FlatList, View } from 'react-native';
-import PropTypes from 'prop-types'; // 15.6.0
-
+import React from "react";
+import { Animated, FlatList, View } from "react-native";
+import PropTypes from "prop-types"; // 15.6.0
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 class ViewPager extends React.Component {
@@ -12,10 +11,10 @@ class ViewPager extends React.Component {
   };
 
   static defaultProps = {
-    decelerationRate: 'fast',
+    decelerationRate: "fast",
     keyExtractor: (item, index) => index,
     onScroll: () => {},
-    snapToAlignment: 'start',
+    snapToAlignment: "start",
     onEndReachedThreshold: 50,
     horizontal: true,
     useNativeDriver: true,
@@ -23,7 +22,7 @@ class ViewPager extends React.Component {
   };
 
   get totalGutter() {
-    return this.props.gutter * this.data.length - 1
+    return this.props.gutter * this.data.length - 1;
   }
 
   currentIndex = 0;
@@ -41,19 +40,19 @@ class ViewPager extends React.Component {
   get separatorStyle() {
     const { horizontal, gutter } = this.props;
     if (!gutter || gutter === 0) {
-      return {display: 'none'}
+      return { display: "none" };
     }
     if (horizontal) {
       return {
         minWidth: gutter,
         maxWidth: gutter,
-        backgroundColor: 'transparent'
+        backgroundColor: "transparent",
       };
     } else {
       return {
         minHeight: gutter,
         maxHeight: gutter,
-        backgroundColor: 'transparent'
+        backgroundColor: "transparent",
       };
     }
   }
@@ -75,7 +74,7 @@ class ViewPager extends React.Component {
   constructor(props) {
     super(props);
     const { scroll, horizontal, size, useNativeDriver } = props;
-    scroll.addListener(event => this.props.onScroll(event));
+    scroll.addListener((event) => this.props.onScroll(event));
 
     this.state = {
       width: horizontal ? size : 0,
@@ -93,7 +92,7 @@ class ViewPager extends React.Component {
 
   scrollToIndex = ({ index, animated }) => {
     if (this.node) {
-      console.log('scrollto', index, animated, Object.keys(this.node));
+      console.log("scrollto", index, animated, Object.keys(this.node));
       const { data } = this.props;
       const maxItems = data.length - 1;
       this.node.scrollToIndex({
@@ -103,13 +102,13 @@ class ViewPager extends React.Component {
     }
   };
 
-  next = animated => this.scrollToIndex({ index: this.index + 1, animated });
+  next = (animated) => this.scrollToIndex({ index: this.index + 1, animated });
 
-  previous = animated =>
+  previous = (animated) =>
     this.scrollToIndex({ index: this.index - 1, animated });
 
   setupOnScroll = (useNativeDriver, horizontal) => {
-    const key = horizontal ? 'x' : 'y';
+    const key = horizontal ? "x" : "y";
     return Animated.event(
       [
         {
@@ -162,18 +161,22 @@ class ViewPager extends React.Component {
     }
   }
 
-  onLayout = event => {
+  onLayout = (event) => {
     const { onLayout, horizontal } = this.props;
-    const { nativeEvent: { layout: { width, height } } } = event;
+    const {
+      nativeEvent: {
+        layout: { width, height },
+      },
+    } = event;
 
     if (horizontal) {
       if (width != this.state.width) {
-        console.log('horizontal', width);
+        console.log("horizontal", width);
         this.setState({ width, height });
       }
     } else {
       if (height != this.state.height) {
-        console.log('vertical', height);
+        console.log("vertical", height);
         this.setState({ width, height });
       }
     }
@@ -215,11 +218,11 @@ class ViewPager extends React.Component {
       <AnimatedFlatList
         onLayout={this.onLayout}
         onScroll={this.state.onScroll}
-        ref={ref => {
+        ref={(ref) => {
           this.list = ref;
           onRef && onRef(ref);
         }}
-        ItemSeparatorComponent={() => (<View style={this.separatorStyle}/>)}
+        ItemSeparatorComponent={() => <View style={this.separatorStyle} />}
         onMomentumScrollEnd={this.onMomentumScrollEnd}
         keyExtractor={keyExtractor || this.keyExtractor}
         data={data}
