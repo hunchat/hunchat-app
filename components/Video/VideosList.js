@@ -1,40 +1,37 @@
-import React from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import React from "react";
+import { View, StyleSheet, Animated } from "react-native";
 
-import VideoPreview from './VideoPreview';
+import VideoPreview from "./VideoPreview";
 
-
-function VideosList({
-  videosIds,
-}) {
-
+function VideosList({ videosIds, handleScroll, marginTop }) {
   const keyExtractor = (item) => item;
 
-  const renderItem = ({ item }) => (
-    <VideoPreview id={item}/>
-  );
+  const renderItem = ({ item }) => <VideoPreview id={item} />;
 
   return (
-    <FlatList
+    <Animated.FlatList
+      scrollEventThrottle={1}
       data={videosIds}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
       style={styles.container}
-      contentContainerStyle={styles.list}
+      contentContainerStyle={[styles.list, { marginTop }]}
       numColumns={2}
       columnWrapperStyle={styles.column}
+      onScroll={handleScroll}
+      bounces={false}
     />
-  )
-};
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'white',
+    flexDirection: "column",
+    backgroundColor: "black",
   },
   list: {
-    justifyContent: 'space-around',
+    justifyContent: "space-around",
   },
   column: {
     flexShrink: 1,

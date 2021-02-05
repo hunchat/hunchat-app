@@ -52,7 +52,8 @@ const VideoPreview = ({
       <ImageBackground
         style={[styles.container, { opacity: opacity }]}
         imageStyle={styles.cover}
-        source={{uri : "https://p16-sign-sg.tiktokcdn.com/obj/tos-maliva-p-0068/f3bf0c063b8a41f291ea5135443f3178?x-expires=1612386000&x-signature=Smift5NfX%2F8B1ZUF58jsAHk7bGM%3D"}}
+        // source={{uri : url}}
+        source={require('../../assets/examples/image-1.png')}
         >
         <LinearGradient
           colors={['rgba(0,0,0,0.5)', 'transparent']}
