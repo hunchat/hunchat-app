@@ -4,17 +4,13 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
   Dimensions,
-  StatusBar,
-  Animated,
 } from "react-native";
 import { withNavigation } from "react-navigation";
 import { Camera } from "expo-camera";
 import { Icon } from "react-native-elements";
 
-import { CameraHeader, CameraBottomBar } from "../components/Camera";
+import { CameraHeader, CameraBottomBar, CameraTimeBar } from "../components/Camera";
 import { setVideoUri } from "../ducks/newPostSlice";
 import { Colors } from "../styles";
 
@@ -45,6 +41,7 @@ class CameraScreen extends React.Component {
     this.onHandleFlashMode = this.onHandleFlashMode.bind(this);
     this.startTimer = this.startTimer.bind(this)
     this.stopTimer = this.stopTimer.bind(this)
+    this.resetTimer = this.resetTimer.bind(this)
   }
 
   componentDidMount() {
@@ -67,13 +64,18 @@ class CameraScreen extends React.Component {
 
   async startRecording() {
     this.startTimer();
-    let video = await this.cameraRef.current.recordAsync();
+    let video = await this.cameraRef.current.recordAsync({
+      quality: "2160p",
+      mute: false,
+    });
     this.props.setVideoUri(video.uri);
   }
 
   async stopRecording() {
     this.cameraRef.current.stopRecording();
+    this.stopTimer()
     this.props.navigation.navigate("AddVideoStack", { screen: "VideoEdit" });
+    this.resetTimer()
   }
 
   reverseCamera() {
@@ -93,12 +95,16 @@ class CameraScreen extends React.Component {
     })
     this.timer = setInterval(() => this.setState({
       duration: Date.now() - this.state.start
-    }), 1000);
+    }), 100);
   }
 
   stopTimer() {
     this.setState({ isOn: false })
     clearInterval(this.timer)
+  }
+
+  resetTimer() {
+    this.setState({ duration: 0, start: 0 })
   }
 
   render() {
@@ -110,26 +116,10 @@ class CameraScreen extends React.Component {
       return <Text>No access to camera</Text>;
     }
 
-    // const timeBarBottom = this.state.duration.interpolate({
-    //   inputRange: [0, 60000],
-    //   outputRange: [height, 0],
-    //   extrapolate: "clamp"
-    // });
 
     return (
       <View style={styles.container}>
-        <Animated.View
-          style={[
-            styles.timeBar,
-            {
-              // bottom: timeBarBottom,
-              bottom: 80,
-            }
-          ]}
-        />
-        <View style={styles.duration}>
-          <Text style={{ color: "white" }}>2</Text>
-        </View>
+        <CameraTimeBar duration={this.state.duration} />
         <CameraHeader />
         <Camera
           style={styles.camera}
@@ -153,28 +143,6 @@ class CameraScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  timeBar: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: 6,
-    elevation: 5,
-    zIndex: 110,
-    backgroundColor: Colors.primary,
-  },
-  duration: {
-    position: "absolute",
-    left: 15,
-    bottom: "50%",
-    elevation: 5,
-    zIndex: 110,
-    height: 36,
-    width: 36,
-    borderRadius: 10,
-    backgroundColor: "rgba(0,0,0,0.3)",
-    justifyContent: "center",
-    alignItems: "center",
   },
   camera: {
     flex: 1,
