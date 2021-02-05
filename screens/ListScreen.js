@@ -1,13 +1,12 @@
-import React from 'react';
-import { View } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { connect } from 'react-redux';
+import React from "react";
+import { View } from "react-native";
+import { withNavigation } from "react-navigation";
+import { connect } from "react-redux";
 
-import { Header } from '../components/Header';
-import { VideosList } from '../components/Video';
+import { Header } from "../components/Header";
+import { VideosList } from "../components/Video";
 
-import { makeGetList } from '../ducks/listsSlice';
-
+import { makeGetList } from "../ducks/listsSlice";
 
 class ListScreen extends React.Component {
   constructor(props) {
@@ -17,13 +16,12 @@ class ListScreen extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <Header title={this.props.name} navigation={this.props.navigation}/>
+        <Header title={this.props.name} navigation={this.props.navigation} />
         <VideosList videosIds={this.props.videos} />
       </View>
-    )
+    );
   }
-};
-
+}
 
 const makeMapStateToProps = (state) => {
   const getList = makeGetList();
@@ -32,11 +30,8 @@ const makeMapStateToProps = (state) => {
     return {
       name: list.name,
       videos: list.videos,
-    }
-  }
+    };
+  };
 };
 
-
-export default withNavigation(connect(
-  makeMapStateToProps,
-)(ListScreen));
+export default withNavigation(connect(makeMapStateToProps)(ListScreen));
