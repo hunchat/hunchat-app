@@ -1,9 +1,8 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import { withNavigation } from 'react-navigation';
+import React from "react";
+import { View, StyleSheet } from "react-native";
+import { withNavigation } from "react-navigation";
 
-import { Feed } from '../components/Feed';
-
+import { Feed } from "../components/Feed";
 
 class FeedScreen extends React.Component {
   constructor(props) {
@@ -15,14 +14,14 @@ class FeedScreen extends React.Component {
       <View style={styles.container}>
         <Feed navigation={this.props.navigation} />
       </View>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  }
-})
+  },
+});
 
 export default withNavigation(FeedScreen);
