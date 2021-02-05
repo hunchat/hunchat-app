@@ -1,11 +1,10 @@
-import React from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
-import { connect } from 'react-redux';
+import React from "react";
+import { View, StyleSheet, FlatList } from "react-native";
+import { connect } from "react-redux";
 
-import ListPreview from './ListPreview';
+import ListPreview from "./ListPreview";
 
-import { getAllListsIds } from '../../ducks/listsSlice';
-
+import { getAllListsIds } from "../../ducks/listsSlice";
 
 class Lists extends React.Component {
   constructor(props) {
@@ -15,7 +14,7 @@ class Lists extends React.Component {
   keyExtractor = (item) => item;
 
   renderItem = ({ item }) => (
-    <ListPreview id={item} navigation={this.props.navigation}/>
+    <ListPreview id={item} navigation={this.props.navigation} />
   );
 
   render() {
@@ -29,30 +28,28 @@ class Lists extends React.Component {
         numColumns={2}
         columnWrapperStyle={styles.column}
       />
-    )
+    );
   }
-};
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    backgroundColor: 'white',
+    flexDirection: "column",
+    backgroundColor: "white",
   },
   list: {
-    justifyContent: 'space-around',
+    justifyContent: "space-around",
   },
   column: {
     flexShrink: 1,
   },
 });
 
-
 const mapStateToProps = (state) => {
   return {
     listsIds: getAllListsIds(state),
-  }
+  };
 };
-
 
 export default connect(mapStateToProps)(Lists);

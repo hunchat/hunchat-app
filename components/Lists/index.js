@@ -1,8 +1,4 @@
-import ListPreview from './ListPreview';
-import Lists from './Lists';
+import ListPreview from "./ListPreview";
+import Lists from "./Lists";
 
-
-export {
-  ListPreview,
-  Lists,
-}
+export { ListPreview, Lists };
