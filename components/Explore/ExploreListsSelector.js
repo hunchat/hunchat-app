@@ -9,6 +9,8 @@ import {
   Text,
 } from "react-native";
 
+import { SEARCH_BAR_HEIGHT } from "./ExploreSearchBar";
+
 const width = Dimensions.get("window");
 
 const LIST_TAG_HEIGHT = 30;
@@ -36,15 +38,27 @@ const lists = [
     id: "567",
     name: "Baking",
   },
+  {
+    id: "678",
+    name: "Architecture",
+  },
+  {
+    id: "789",
+    name: "Science",
+  },
+  {
+    id: "890",
+    name: "Politics",
+  },
 ];
 
 const ListTag = ({ name }) => {
 
   return (
     <Pressable
-      style={listTagStyles.container}
+      style={[listTagStyles.container, { backgroundColor: name === "All topics" ? "white" : "black" }]}
     >
-      <Text style={{ color: "white"}}>
+      <Text style={{ color: name === "All topics" ? "black" : "white"}}>
         {name}
       </Text>
     </Pressable>
@@ -56,9 +70,6 @@ const listTagStyles = StyleSheet.create({
     height: LIST_TAG_HEIGHT,
     marginHorizontal: 3,
     borderRadius: 10,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "white",
-    backgroundColor: "black",
     paddingVertical: 3,
     paddingHorizontal: 7,
     justifyContent: "center"
@@ -95,11 +106,12 @@ const ExploreListsSelector = ({
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    top: 0,
+    top: SEARCH_BAR_HEIGHT,
     left: 0,
     right: 0,
     backgroundColor: "black",
     paddingVertical: EXPLORE_LISTS_SELECTOR_PADDING_VERTICAL,
+    paddingHorizontal: 5,
   }
 });
 
