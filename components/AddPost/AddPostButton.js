@@ -18,7 +18,7 @@ const AddVideoButton = () => {
 
   const handlePress = () => {
     navigation.navigate(
-      "AddVideoStack",
+      "AddPostStack",
       {
         screen: "Camera"
       }

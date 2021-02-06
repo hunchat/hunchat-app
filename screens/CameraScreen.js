@@ -74,7 +74,7 @@ class CameraScreen extends React.Component {
   async stopRecording() {
     this.cameraRef.current.stopRecording();
     this.stopTimer()
-    this.props.navigation.navigate("AddVideoStack", { screen: "VideoEdit" });
+    this.props.navigation.navigate("AddPostStack", { screen: "VideoEdit" });
     this.resetTimer()
   }
 

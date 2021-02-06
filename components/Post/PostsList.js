@@ -1,17 +1,17 @@
 import React from "react";
 import { View, StyleSheet, Animated } from "react-native";
 
-import VideoPreview from "./VideoPreview";
+import PostPreview from "./PostPreview";
 
-function VideosList({ videosIds, handleScroll, marginTop }) {
+function PostsList({ postsIds, handleScroll, marginTop }) {
   const keyExtractor = (item) => item;
 
-  const renderItem = ({ item }) => <VideoPreview id={item} />;
+  const renderItem = ({ item }) => <PostPreview id={item} />;
 
   return (
     <Animated.FlatList
       scrollEventThrottle={1}
-      data={videosIds}
+      data={postsIds}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
       style={styles.container}
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default VideosList;
+export default PostsList;

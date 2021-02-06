@@ -5,24 +5,24 @@ import { Colors } from "../../styles";
 
 const { height } = Dimensions.get("window");
 
-const VideoPostProgressBar = ({ duration, time }) => {
-  let animatedTime = useRef(new Animated.Value(0));
+const PostProgressBar = ({ duration, position }) => {
+  let animatedPosition = useRef(new Animated.Value(0));
 
   useEffect(() => {
-    Animated.timing(animatedTime.current, {
-      toValue: time,
+    Animated.timing(animatedPosition.current, {
+      toValue: position,
       duration: 100,
       useNativeDriver: false,
     }).start();
-  },[time]);
+  },[position]);
 
   const modulo = Animated.modulo(
-    animatedTime.current,
+    animatedPosition.current,
     duration,
     { useNativeDriver: false }
   ); // seconds in minute
 
-  const bottom = modulo.interpolate({
+  const top = modulo.interpolate({
     inputRange: [0, duration],
     outputRange: [height, 0],
     extrapolate: "clamp",
@@ -33,7 +33,7 @@ const VideoPostProgressBar = ({ duration, time }) => {
     <Animated.View
       style={[
         styles.container,
-        { bottom }
+        { top }
       ]}
     />
   );
@@ -42,13 +42,13 @@ const VideoPostProgressBar = ({ duration, time }) => {
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    top: 0,
+    bottom: 0,
     left: 0,
-    width: 6,
+    width: 4,
     elevation: 5,
     zIndex: 110,
     backgroundColor: Colors.primary,
   },
 });
 
-export default VideoPostProgressBar;
+export default PostProgressBar;

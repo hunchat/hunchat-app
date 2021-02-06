@@ -1,7 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import AddVideoStack from "./AddVideoStack";
+import AddPostStack from "./AddPostStack";
 import { horizontalAnimation, verticalAnimation } from "./animations";
 import AuthStack from "./AuthStack";
 import BottomTabs from "./BottomTabs";
@@ -9,7 +9,7 @@ import ExploreStack from "./ExploreStack";
 import FeedStack from "./FeedStack";
 import HeaderStack from "./HeaderStack";
 import ListStack from "./ListStack";
-import VideoStack from "./VideoStack";
+import PostStack from "./PostStack";
 import { store } from "../store";
 
 
@@ -25,17 +25,17 @@ const AppStack = () => {
     <Stack.Navigator
       screenOptions={{ headerShown: false, gestureEnabled: true }}
     >
-      {authRefreshToken == null ||
-      currentUserId == null ? (
+      {authRefreshToken !== null ||
+      currentUserId !== null ? (
         <Stack.Screen name="AuthStack" component={AuthStack} />
       ) : (
         <>
         <Stack.Screen name="BottomTabs" component={BottomTabs} />
-        <Stack.Screen name="AddVideoStack" component={AddVideoStack} options={verticalAnimation}/>
+        <Stack.Screen name="AddPostStack" component={AddPostStack} options={verticalAnimation}/>
         <Stack.Screen name="ExploreStack" component={ExploreStack} />
         <Stack.Screen name="FeedStack" component={FeedStack} />
         <Stack.Screen name="ListStack" component={ListStack} />
-        <Stack.Screen name="VideoStack" component={VideoStack} />
+        <Stack.Screen name="PostStack" component={PostStack} />
         </>
       )}
     </Stack.Navigator>

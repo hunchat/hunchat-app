@@ -2,11 +2,11 @@ import React from "react";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 
 import ListScreen from "../screens/ListScreen";
-import VideoScreen from "../screens/VideoScreen";
+import PostScreen from "../screens/PostScreen";
 
 const Stack = createSharedElementStackNavigator();
 
-const VideoStack = () => (
+const PostStack = () => (
   <Stack.Navigator
     screenOptions={{
       gestureEnabled: false,
@@ -18,13 +18,13 @@ const VideoStack = () => (
   >
     <Stack.Screen name="List" component={ListScreen} />
     <Stack.Screen
-      name="Video"
-      component={VideoScreen}
+      name="Post"
+      component={PostScreen}
       sharedElements={(route) => {
-        return [route.params.video.id];
+        return [route.params.post.id];
       }}
     />
   </Stack.Navigator>
 );
 
-export default VideoStack;
+export default PostStack;

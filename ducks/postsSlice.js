@@ -3,18 +3,18 @@ import { createSelector } from "reselect";
 
 import { getUsers } from "./usersSlice";
 
-export const getVideos = (state) => state.videos.byId;
-export const getVideoId = (state, props) => props.videoId;
+export const getPosts = (state) => state.posts.byId;
+export const getPostId = (state, props) => props.postId;
 
-export const makeGetVideoAuthorId = () => {
-  return createSelector([getVideos, getVideoId], (videos, id) => {
-    return videos[id].author;
+export const makeGetPostAuthorId = () => {
+  return createSelector([getPosts, getPostId], (posts, id) => {
+    return posts[id].author;
   });
 };
 
-export const makeGetVideoAuthor = () => {
-  const getVideoAuthorId = makeGetVideoAuthorId();
-  return createSelector([getUsers, getVideoAuthorId], (users, id) => {
+export const makeGetPostAuthor = () => {
+  const getPostAuthorId = makeGetPostAuthorId();
+  return createSelector([getUsers, getPostAuthorId], (users, id) => {
     return {
       id: id,
       username: users[id].username,
@@ -23,28 +23,28 @@ export const makeGetVideoAuthor = () => {
   });
 };
 
-export const makeGetVideo = () => {
-  const getVideoAuthor = makeGetVideoAuthor();
+export const makeGetPost = () => {
+  const getPostAuthor = makeGetPostAuthor();
   return createSelector(
-    [getVideos, getVideoId, getVideoAuthor],
-    (videos, id, author) => {
+    [getPosts, getPostId, getPostAuthor],
+    (posts, id, author) => {
       return {
         id: id,
-        url: videos[id].url,
-        description: videos[id].description,
+        url: posts[id].url,
+        description: posts[id].description,
         author: author,
-        externalLink: videos[id].externalLink,
-        views: videos[id].views,
-        likes: videos[id].likes,
-        shares: videos[id].shares,
-        answer: videos[id].answer,
+        externalLink: posts[id].externalLink,
+        views: posts[id].views,
+        likes: posts[id].likes,
+        shares: posts[id].shares,
+        answer: posts[id].answer,
       };
     }
   );
 };
 
-const videosSlice = createSlice({
-  name: "videos",
+const postsSlice = createSlice({
+  name: "posts",
   initialState: {
     byId: {
       1: {
@@ -52,7 +52,7 @@ const videosSlice = createSlice({
         url:
           "https://instagram.flis5-1.fna.fbcdn.net/v/t51.2885-15/e35/128944305_425513315493717_210962657978162941_n.jpg?_nc_ht=instagram.flis5-1.fna.fbcdn.net&_nc_cat=1&_nc_ohc=BeN2sbW5O90AX-WQ5s8&tp=1&oh=d784e2752ce7886189bca5c2a0ca09f8&oe=5FCB2B63",
         description:
-          "This is a very short description of this video I just posted",
+          "This is a very short description of this post I just posted",
         author: "aa",
         externalLink: "example.com",
         views: "306",
@@ -149,20 +149,20 @@ const videosSlice = createSlice({
     },
   },
   reducers: {
-    addVideo: (state, action) => {
-      if (!state.byId.hasOwnProperty(action.payload.video.id)) {
-        // If video entry is non-existent, add entry
-        state.byId[action.payload.video.id] = {};
+    addPost: (state, action) => {
+      if (!state.byId.hasOwnProperty(action.payload.post.id)) {
+        // If post entry is non-existent, add entry
+        state.byId[action.payload.post.id] = {};
       }
-      // Populate/Update video entry
-      state.byId[action.payload.video.id] = {
-        ...state.byId[action.payload.video.id],
-        ...action.payload.video,
+      // Populate/Update post entry
+      state.byId[action.payload.post.id] = {
+        ...state.byId[action.payload.post.id],
+        ...action.payload.post,
       };
     },
   },
 });
 
-export const { addVideo } = videosSlice.actions;
+export const { addPost } = postsSlice.actions;
 
-export default videosSlice.reducer;
+export default postsSlice.reducer;

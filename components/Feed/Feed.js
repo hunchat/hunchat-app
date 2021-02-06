@@ -1,12 +1,12 @@
 import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 
-import { VideoPost } from "../Video";
+import { Post } from "../Post";
 import ViewPager from "../ViewPager";
 
 function Feed({ navigation }) {
   const renderItem = ({ item }) => {
-    return <VideoPost key={item.id} {...item} navigation={navigation} />;
+    return <Post key={item.id} {...item} navigation={navigation} />;
   };
 
   const keyExtractor = (item) => item.id;

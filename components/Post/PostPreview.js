@@ -13,15 +13,15 @@ import { connect } from "react-redux";
 import { SharedElement } from "react-navigation-shared-element";
 import { LinearGradient } from 'expo-linear-gradient';
 
-import { makeGetVideo } from "../../ducks/videosSlice";
+import { makeGetPost } from "../../ducks/postsSlice";
 
-const VIDEO_PREVIEW_MARGIN = 5;
-const VIDEO_PREVIEW_BORDER_RADIUS = 15;
-const VIDEO_PREVIEW_WIDTH = (Dimensions.get("window").width - 4 * VIDEO_PREVIEW_MARGIN) / 2;
+export const POST_PREVIEW_MARGIN = 5;
+export const POST_PREVIEW_BORDER_RADIUS = 15;
+export const POST_PREVIEW_WIDTH = (Dimensions.get("window").width - 4 * POST_PREVIEW_MARGIN) / 2;
 
 const authorUsernameMaxCharacters = 13;
 
-const VideoPreview = ({
+const PostPreview = ({
   id,
   url,
   author,
@@ -38,9 +38,9 @@ const VideoPreview = ({
 
   const onPress = () => {
     setOpacity(0);
-    navigation.push("VideoStack", {
-      screen: "Video",
-      params: { video: { id: id } },
+    navigation.push("PostStack", {
+      screen: "Post",
+      params: { post: { id: id } },
     });
   };
 
@@ -85,16 +85,16 @@ const VideoPreview = ({
 
 const styles = {
   container: {
-    height: VIDEO_PREVIEW_WIDTH * 1.77,
-    width: VIDEO_PREVIEW_WIDTH,
-    margin: VIDEO_PREVIEW_MARGIN,
-    borderRadius: VIDEO_PREVIEW_BORDER_RADIUS,
+    height: POST_PREVIEW_WIDTH * 1.77,
+    width: POST_PREVIEW_WIDTH,
+    margin: POST_PREVIEW_MARGIN,
+    borderRadius: POST_PREVIEW_BORDER_RADIUS,
     padding: 7,
     flexDirection: "column",
     justifyContent: "flex-end",
   },
   cover: {
-    borderRadius: VIDEO_PREVIEW_BORDER_RADIUS,
+    borderRadius: POST_PREVIEW_BORDER_RADIUS,
   },
   blur: {
 
@@ -131,11 +131,11 @@ const styles = {
 };
 
 const makeMapStateToProps = (state) => {
-  const getVideo = makeGetVideo();
+  const getPost = makeGetPost();
   return function mapStateToProps(state, ownProps) {
-    let video = getVideo(state, { videoId: ownProps.id });
-    return { ...video };
+    let post = getPost(state, { postId: ownProps.id });
+    return { ...post };
   };
 };
 
-export default connect(makeMapStateToProps)(VideoPreview);
+export default connect(makeMapStateToProps)(PostPreview);

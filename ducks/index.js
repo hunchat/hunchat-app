@@ -5,14 +5,14 @@ import authReducer from "./authSlice";
 import listsReducer from "./listsSlice";
 import newPostReducer from "./newPostSlice";
 import usersReducer from "./usersSlice";
-import videosReducer from "./videosSlice";
+import postsReducer from "./postsSlice";
 
 const appReducer = combineReducers({
   auth: authReducer,
   lists: listsReducer,
   newPost: newPostReducer,
+  posts: postsReducer,
   users: usersReducer,
-  videos: videosReducer,
 });
 
 export const rootReducer = (state, action) => {

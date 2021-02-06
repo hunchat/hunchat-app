@@ -3,14 +3,14 @@ import { View, Text, StyleSheet, Animated } from "react-native";
 import { withNavigation } from "react-navigation";
 
 import { Header } from "../components/Header";
-import { AddVideoButton } from "../components/AddVideo";
+import { AddPostButton } from "../components/AddPost";
 import {
   ExploreListsSelector,
   EXPLORE_LISTS_SELECTOR_HEIGHT,
   ExploreSearchBar,
   SEARCH_BAR_HEIGHT,
 } from "../components/Explore";
-import { VideosList } from "../components/Video";
+import { PostsList } from "../components/Post";
 
 function ExploreScreen({ navigation }) {
   const scrollY = new Animated.Value(0);
@@ -42,8 +42,8 @@ function ExploreScreen({ navigation }) {
         <ExploreListsSelector selectedList="All topics"/>
       </Animated.View>
       <Animated.View style={{ flex: 20000 }}>
-        <VideosList
-          videosIds={["1", "2", "3", "4", "5"]}
+        <PostsList
+          postsIds={["1", "2", "3", "4", "5"]}
           handleScroll={Animated.event(
             [{
               nativeEvent: {
@@ -62,7 +62,7 @@ function ExploreScreen({ navigation }) {
           marginTop={EXPLORE_LISTS_SELECTOR_HEIGHT+SEARCH_BAR_HEIGHT}
         />
       </Animated.View>
-      <AddVideoButton />
+      <AddPostButton />
     </View>
   );
 }

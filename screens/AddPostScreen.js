@@ -12,7 +12,7 @@ import {
 import { Video } from "expo-av";
 import { Icon } from "react-native-elements";
 
-class AddVideoScreen extends React.Component {
+class AddPostScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -151,4 +151,4 @@ const mapStateToProps = (state) => ({
   uri: state.newPost.uri,
 });
 
-export default withNavigation(connect(mapStateToProps)(AddVideoScreen));
+export default withNavigation(connect(mapStateToProps)(AddPostScreen));

@@ -1,4 +1,4 @@
-import AddVideoStack from "./AddVideoStack";
+import AddPostStack from "./AddPostStack";
 import { horizontalAnimation, verticalAnimation } from "./animations";
 import AppStack from "./AppStack";
 import AuthStack from "./AuthStack";
@@ -8,10 +8,10 @@ import FeedStack from "./FeedStack";
 import HeaderStack from "./HeaderStack";
 import ListStack from "./ListStack";
 import { navigationRef, navigate } from "./RootNavigation";
-import VideoStack from "./VideoStack";
+import PostStack from "./PostStack";
 
 export {
-  AddVideoStack,
+  AddPostStack,
   horizontalAnimation,
   verticalAnimation,
   AppStack,
@@ -23,5 +23,5 @@ export {
   ListStack,
   navigationRef,
   navigate,
-  VideoStack
+  PostStack
 };
