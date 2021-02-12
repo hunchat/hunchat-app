@@ -1,3 +1,4 @@
+import CreateAccountForm from "./CreateAccountForm";
 import SignUpForm from "./SignUpForm";
 
-export { SignUpForm };
+export { CreateAccountForm, SignUpForm };
