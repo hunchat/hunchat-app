@@ -3,6 +3,7 @@ import { withNavigation } from "react-navigation";
 import {
   View,
   Image,
+  Text,
   StyleSheet,
   Dimensions,
   Platform,
@@ -24,24 +25,33 @@ class SignInScreen extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-        style={styles.container}
-      >
-        <ScrollView style={{ flex: 1 }}>
-          <Pressable
-            onPress={Keyboard.dismiss}
-            style={[styles.container, { alignItems: "center"}]}
+      <View style={styles.container}>
+        <ScrollView>
+          <KeyboardAvoidingView
+            behavior={Platform.OS == "ios" ? "position" : "padding"}
+            style={{ flex: 1 }}
           >
-            <Image
-              source={require('../assets/logo.png')}
-              style={styles.logo}
-            />
-            <SignInForm
-            />
-          </Pressable>
+            <Pressable
+              onPress={Keyboard.dismiss}
+              style={[styles.container, { alignItems: "center" }]}
+            >
+              <Image source={require("../assets/logo.png")} style={styles.logo} />
+              <SignInForm />
+            </Pressable>
+
+            {/* Start forgot password */}
+            <Pressable
+              style={{
+                marginTop: 60,
+              }}
+            >
+              <Text style={styles.forgotPassword}>Forgot your password?</Text>
+            </Pressable>
+            {/* End forgot password */}
+
+          </KeyboardAvoidingView>
         </ScrollView>
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }
@@ -54,7 +64,12 @@ const styles = StyleSheet.create({
   logo: {
     width: 0.6 * width,
     resizeMode: "contain",
-  }
+  },
+  forgotPassword: {
+    textAlign: "center",
+    textDecorationLine: "underline",
+    color: "lightgrey"
+  },
 });
 
 export default withNavigation(SignInScreen);
