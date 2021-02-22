@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import * as SecureStore from "expo-secure-store";
 import jwt_decode from "jwt-decode";
 
-import { retrieveUserThunk } from "./usersSlice";
+import { retrieveUserThunk, setCurrentUserId } from "./usersSlice";
 
 export function tokenObtainThunk({ username, password }) {
   return function (dispatch, getState) {
@@ -47,6 +47,8 @@ export function tokenObtainThunk({ username, password }) {
 
           // Get user info
           dispatch(retrieveUserThunk(decodedToken.user_hashid));
+          // Set current user id
+          dispatch(setCurrentUserId(decodedToken.user_hashid));
         }
       })
       .catch((error) => {
@@ -57,7 +59,7 @@ export function tokenObtainThunk({ username, password }) {
 };
 
 export function emailAvailableThunk({ email }) {
-  return function (dispatch) {
+  return function (dispatch, getState) {
     dispatch(setCreateAccountFormEmailAvailableStatus("pending"));
 
     const AuthenticationService = require("../services/api/authentication/AuthenticationService");
@@ -66,10 +68,10 @@ export function emailAvailableThunk({ email }) {
     authenticationService
       .emailAvailable({ email: email })
       .then((response) => {
-        if (response.status == 200) {
+        if (response.status == 202) {
           dispatch(setCreateAccountFormEmailAvailableStatus("fulfilled"));
-          let signinFormError = getState().auth.signinFormError;
-          if (signinFormError) {
+          const { createAccountFormEmailAvailableError } = getState().auth;
+          if (createAccountFormEmailAvailableError) {
             dispatch(setCreateAccountFormEmailAvailableError(null));
           }
         }
@@ -81,6 +83,31 @@ export function emailAvailableThunk({ email }) {
   };
 };
 
+export function usernameAvailableThunk({ username }) {
+  return function (dispatch, getState) {
+    dispatch(setSignUpFormUsernameAvailableStatus("pending"));
+
+    const AuthenticationService = require("../services/api/authentication/AuthenticationService");
+    const authenticationService = new AuthenticationService();
+
+    authenticationService
+      .usernameAvailable({ username: username })
+      .then((response) => {
+        if (response.status == 202) {
+          dispatch(setSignUpFormUsernameAvailableStatus("fulfilled"));
+          const { signUpFormUsernameAvailableError } = getState().auth;
+          if (signUpFormUsernameAvailableError) {
+            dispatch(setSignUpFormUsernameAvailableError(null));
+          }
+        }
+      })
+      .catch((error) => {
+        dispatch(setSignUpFormUsernameAvailableStatus("rejected"));
+        dispatch(setSignUpFormUsernameAvailableError(error.response.data.username));
+      });
+  };
+};
+
 export function userCreateThunk({
   username,
   password,
@@ -88,7 +115,72 @@ export function userCreateThunk({
   isNewsletterSubscribed,
 }) {
   return function (dispatch, getState) {
-    
+    dispatch(setSignUpFormSubmittingStatus("pending"));
+
+    const AuthenticationService = require("../services/api/authentication/AuthenticationService");
+    const authenticationService = new AuthenticationService();
+
+    const UsersService = require("../services/api/authentication/UsersService");
+    const usersService = new UsersService();
+
+    const { email, name } = getState().auth.accountInfo;
+
+    usersService
+      .create({
+        email: email,
+        name: name,
+        username: username,
+        password: password,
+        are_terms_accepted: areTermsAccepted,
+        is_newsletter_subscribed: isNewsletterSubscribed,
+      })
+      .then((response) => {
+        if (response.status === 201) {
+
+          let signUpFormError = getState().auth;
+          if (signUpFormError) {
+            // Reset signup form error message
+            dispatch(setSignUpFormError(null));
+          }
+
+          authenticationService
+            .tokenObtain({ username: username, password: password })
+            .then((response_) => {
+              const decodedToken = jwt_decode(response_.data.refresh);
+
+              const authData = {
+                accessToken: response_.data.access,
+                refreshToken: response_.data.refresh,
+              };
+
+              // Dispatch auth tokens to store
+              dispatch(
+                setTokenPair({
+                  accessToken: authData.accessToken,
+                  refreshToken: authData.refreshToken,
+                })
+              );
+
+              // Save auth tokens in device secure storage
+              SecureStore.setItemAsync(
+                "authentication_data",
+                JSON.stringify(authData)
+              );
+
+              // Get user info
+              dispatch(retrieveUserThunk(decodedToken.user_hashid));
+              // Set current user id
+              dispatch(setCurrentUserId(decodedToken.user_hashid));
+
+              dispatch(setSignUpFormSubmittingStatus("fulfilled"));
+            });
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          dispatch(setSignUpFormSubmittingStatus("rejected"));
+        }
+      });
   };
 };
 
@@ -110,6 +202,8 @@ const authSlice = createSlice({
     createAccountFormEmailAvailableError: null,
     signUpFormSubmittingStatus: "inactive", // 'inactive' || 'pending' || 'fulfilled' || 'rejected'
     signUpFormError: null,
+    signUpFormUsernameAvailableStatus: "inactive", // 'inactive' || 'pending' || 'fulfilled' || 'rejected'
+    signUpFormUsernameAvailableError: null,
   },
   reducers: {
     setTokenPair: (state, action) => {
@@ -138,6 +232,12 @@ const authSlice = createSlice({
     setSignUpFormError: (state, action) => {
       state.signUpFormError = action.payload;
     },
+    setSignUpFormUsernameAvailableStatus: (state, action) => {
+      state.signUpFormUsernameAvailableStatus = action.payload;
+    },
+    setSignUpFormUsernameAvailableError: (state, action) => {
+      state.signUpFormUsernameAvailableError = action.payload;
+    },
   },
 });
 
@@ -150,6 +250,8 @@ export const {
   setCreateAccountFormEmailAvailableError,
   setSignUpFormSubmittingStatus,
   setSignUpFormError,
+  setSignUpFormUsernameAvailableStatus,
+  setSignUpFormUsernameAvailableError,
 } = authSlice.actions;
 
 export default authSlice.reducer;
