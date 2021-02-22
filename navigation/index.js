@@ -4,11 +4,12 @@ import AppStack from "./AppStack";
 import AuthStack from "./AuthStack";
 import BottomTabs from "./BottomTabs";
 import ExploreStack from "./ExploreStack";
-import FeedStack from "./FeedStack";
 import HeaderStack from "./HeaderStack";
 import ListStack from "./ListStack";
+import OnboardingStack from "./OnboardingStack";
 import { navigationRef, navigate } from "./RootNavigation";
 import PostStack from "./PostStack";
+import ProfileStack from "./ProfileStack";
 
 export {
   AddPostStack,
@@ -18,10 +19,11 @@ export {
   AuthStack,
   BottomTabs,
   ExploreStack,
-  FeedStack,
   HeaderStack,
   ListStack,
+  OnboardingStack,
   navigationRef,
   navigate,
-  PostStack
+  PostStack,
+  ProfileStack,
 };

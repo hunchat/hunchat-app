@@ -13,13 +13,16 @@ const BottomTabNavigator = createBottomTabNavigator();
 function BottomTabs() {
   return (
     <BottomTabNavigator.Navigator
-      initialRouteName="Lists"
+      initialRouteName="Explore"
       tabBarOptions={{ showLabel: false }}
       tabBar={(props) => <BottomTabBar {...props} />}
     >
       <BottomTabNavigator.Screen name="Lists" component={ListsScreen} />
       <BottomTabNavigator.Screen name="Explore" component={ExploreScreen} />
-      <BottomTabNavigator.Screen name="Notifications" component={NotificationsScreen} />
+      <BottomTabNavigator.Screen
+        name="Notifications"
+        component={NotificationsScreen}
+      />
     </BottomTabNavigator.Navigator>
   );
 }

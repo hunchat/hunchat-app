@@ -13,9 +13,17 @@ const AddPostStack = () => (
     mode="modal"
     screenOptions={{ headerShown: false, gestureEnabled: false }}
   >
-    <Stack.Screen name="AddPost" component={AddPostScreen}/>
-    <Stack.Screen name="Camera" component={CameraScreen} options={horizontalAnimation}/>
-    <Stack.Screen name="VideoEdit" component={VideoEditScreen} options={horizontalAnimation}/>
+    <Stack.Screen name="AddPost" component={AddPostScreen} />
+    <Stack.Screen
+      name="Camera"
+      component={CameraScreen}
+      options={horizontalAnimation}
+    />
+    <Stack.Screen
+      name="VideoEdit"
+      component={VideoEditScreen}
+      options={horizontalAnimation}
+    />
   </Stack.Navigator>
 );
 

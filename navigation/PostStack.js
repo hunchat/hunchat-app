@@ -1,15 +1,17 @@
 import React from "react";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
 
+import { horizontalAnimation } from "./animations";
 import ListScreen from "../screens/ListScreen";
 import PostScreen from "../screens/PostScreen";
+import ThreadScreen from "../screens/ThreadScreen";
 
 const Stack = createSharedElementStackNavigator();
 
 const PostStack = () => (
   <Stack.Navigator
     screenOptions={{
-      gestureEnabled: false,
+      gestureEnabled: true,
       headerShown: false,
       cardOverlayEnabled: true,
       cardStyle: { backgroundColor: "transparent" },
@@ -23,6 +25,11 @@ const PostStack = () => (
       sharedElements={(route) => {
         return [route.params.post.id];
       }}
+    />
+    <Stack.Screen
+      name="Thread"
+      component={ThreadScreen}
+      options={horizontalAnimation}
     />
   </Stack.Navigator>
 );

@@ -16,7 +16,7 @@ export const horizontalAnimation = {
 };
 
 export const verticalAnimation = {
-  gestureDirection: 'vertical',
+  gestureDirection: "vertical",
   cardStyleInterpolator: ({ current, layouts }) => {
     return {
       cardStyle: {
