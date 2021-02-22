@@ -1,7 +1,7 @@
 import React from "react";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import { View, StyleSheet, Dimensions, Pressable } from "react-native";
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 const { height } = Dimensions.get("window");
 
@@ -19,7 +19,11 @@ const CameraHeader = ({}) => {
       </Pressable>
       <View style={{ flexDirection: "row" }}>
         <Pressable style={styles.timer}>
-          <MaterialCommunityIcons name="timer-outline" size={24} color="white" />
+          <MaterialCommunityIcons
+            name="timer-outline"
+            size={24}
+            color="white"
+          />
         </Pressable>
         <Pressable style={styles.grid}>
           <MaterialCommunityIcons name="grid" size={24} color="white" />
@@ -68,7 +72,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.3)",
     justifyContent: "center",
     alignItems: "center",
-  }
+  },
 });
 
 export default CameraHeader;

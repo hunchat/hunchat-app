@@ -4,9 +4,9 @@ import {
   Pressable,
   StyleSheet,
   TouchableWithoutFeedback,
-  Dimensions
+  Dimensions,
 } from "react-native";
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 import { Colors } from "../../styles";
 
@@ -28,13 +28,10 @@ const CameraBottomBar = ({
         onPressOut={stopRecording}
       >
         <View style={styles.captureButton}>
-          <View style={styles.captureButtonInner}/>
+          <View style={styles.captureButtonInner} />
         </View>
       </TouchableWithoutFeedback>
-      <Pressable
-        onPress={reverseCamera}
-        style={styles.reverse}
-      >
+      <Pressable onPress={reverseCamera} style={styles.reverse}>
         <MaterialIcons name="flip-camera-android" size={24} color="white" />
       </Pressable>
     </View>
@@ -86,7 +83,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.3)",
     justifyContent: "center",
     alignItems: "center",
-  }
+  },
 });
 
 export default CameraBottomBar;

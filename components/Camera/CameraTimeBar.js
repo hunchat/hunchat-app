@@ -14,14 +14,12 @@ const CameraTimeBar = ({ duration }) => {
       duration: 100,
       useNativeDriver: false,
     }).start();
-  },[duration]);
+  }, [duration]);
 
-  const modulo = Animated.modulo(
-    animatedDuration.current,
-    60000,
-    { useNativeDriver: false }
-  ); // seconds in minute
-  let minutes = (duration - (duration % 60000)) / 60000 // minutes passed
+  const modulo = Animated.modulo(animatedDuration.current, 60000, {
+    useNativeDriver: false,
+  }); // seconds in minute
+  let minutes = (duration - (duration % 60000)) / 60000; // minutes passed
 
   const bottom = modulo.interpolate({
     inputRange: [0, 60000],
@@ -32,17 +30,12 @@ const CameraTimeBar = ({ duration }) => {
 
   return (
     <>
-    <Animated.View
-      style={[
-        styles.container,
-        { bottom }
-      ]}
-    />
-    { minutes > 0 && (
-      <View style={styles.duration}>
-        <Text style={{ color: "white" }}>{minutes}</Text>
-      </View>
-    )}
+      <Animated.View style={[styles.container, { bottom }]} />
+      {minutes > 0 && (
+        <View style={styles.duration}>
+          <Text style={{ color: "white" }}>{minutes}</Text>
+        </View>
+      )}
     </>
   );
 };
