@@ -1,27 +1,31 @@
 import React from "react";
 import { connect } from "react-redux";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Dimensions,
-} from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { withNavigation } from "react-navigation";
 import { Camera } from "expo-camera";
+import * as MediaLibrary from 'expo-media-library';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
 import { Icon } from "react-native-elements";
 
-import { CameraHeader, CameraBottomBar, CameraTimeBar } from "../components/Camera";
-import { setVideoUri } from "../ducks/newPostSlice";
+import {
+  CameraHeader,
+  CameraBottomBar,
+  CameraTimeBar,
+} from "../components/Camera";
+import { setOnboardingVideoBio, setPreviewOnboardingVideoBio } from "../ducks/onboardingAddVideoBioSlice";
+import { setEditBioVideo, setEditBioVideoPreview } from "../ducks/editProfileSlice";
 import { Colors } from "../styles";
 
 const { height } = Dimensions.get("window");
 
-class CameraScreen extends React.Component {
+class EditProfileBioVideoCameraScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       hasCameraPermission: null,
       hasCameraRollPermission: null,
+      hasMediaPermission: null,
       ref: null,
       flashMode: Camera.Constants.FlashMode.off,
       type: Camera.Constants.Type.back,
@@ -29,28 +33,35 @@ class CameraScreen extends React.Component {
 
       duration: 0, // recording duration in ms.
       start: 0,
-      isOn: false
+      isOn: false,
     };
 
     this.cameraRef = React.createRef();
 
     this.requestCameraPermission = this.requestCameraPermission.bind(this);
+    this.requestMediaPermission = this.requestMediaPermission.bind(this);
     this.startRecording = this.startRecording.bind(this);
     this.stopRecording = this.stopRecording.bind(this);
     this.reverseCamera = this.reverseCamera.bind(this);
     this.onHandleFlashMode = this.onHandleFlashMode.bind(this);
-    this.startTimer = this.startTimer.bind(this)
-    this.stopTimer = this.stopTimer.bind(this)
-    this.resetTimer = this.resetTimer.bind(this)
+    this.startTimer = this.startTimer.bind(this);
+    this.stopTimer = this.stopTimer.bind(this);
+    this.resetTimer = this.resetTimer.bind(this);
   }
 
   componentDidMount() {
     this.requestCameraPermission();
+    this.requestMediaPermission();
   }
 
   async requestCameraPermission() {
     const { status } = await Camera.requestPermissionsAsync();
     this.setState({ hasCameraPermission: status === "granted" });
+  }
+
+  async requestMediaPermission() {
+    const { status } = await Permissions.askAsync(Permissions.MEDIA_LIBRARY);
+    this.setState({ hasMediaPermission: status === "granted" });
   }
 
   onHandleFlashMode() {
@@ -68,14 +79,42 @@ class CameraScreen extends React.Component {
       quality: "2160p",
       mute: false,
     });
-    this.props.setVideoUri(video.uri);
+
+    const asset = await MediaLibrary.createAssetAsync(video.uri);
+    const extendedAsset = await MediaLibrary.getAssetInfoAsync(asset);
+
+    if (this.props.route.params.action === "editProfile") {
+      this.props.setEditBioVideo({
+        file: {
+          uri: extendedAsset.localUri,
+          name: extendedAsset.filename,
+          type: asset.mediaType
+        },
+        fileUrl: asset.uri,
+        duration: asset.duration,
+        height: asset.height,
+        width: asset.width,
+      });
+    } else if (this.props.route.params.action === "addBioVideo") {
+      this.props.setOnboardingVideoBio({
+        file: {
+          uri: extendedAsset.localUri,
+          name: extendedAsset.filename,
+          type: asset.mediaType
+        },
+        fileUrl: asset.uri,
+        duration: asset.duration,
+        height: asset.height,
+        width: asset.width,
+      });
+    }
   }
 
   async stopRecording() {
     this.cameraRef.current.stopRecording();
-    this.stopTimer()
-    this.props.navigation.navigate("AddPostStack", { screen: "VideoEdit" });
-    this.resetTimer()
+    this.stopTimer();
+    this.props.navigation.goBack();
+    this.resetTimer();
   }
 
   reverseCamera() {
@@ -91,20 +130,24 @@ class CameraScreen extends React.Component {
     this.setState({
       duration: this.state.duration,
       start: Date.now() - this.state.duration,
-      isOn: true
-    })
-    this.timer = setInterval(() => this.setState({
-      duration: Date.now() - this.state.start
-    }), 100);
+      isOn: true,
+    });
+    this.timer = setInterval(
+      () =>
+        this.setState({
+          duration: Date.now() - this.state.start,
+        }),
+      100
+    );
   }
 
   stopTimer() {
-    this.setState({ isOn: false })
-    clearInterval(this.timer)
+    this.setState({ isOn: false });
+    clearInterval(this.timer);
   }
 
   resetTimer() {
-    this.setState({ duration: 0, start: 0 })
+    this.setState({ duration: 0, start: 0 });
   }
 
   render() {
@@ -115,7 +158,6 @@ class CameraScreen extends React.Component {
     if (this.state.hasCameraPermission === false) {
       return <Text>No access to camera</Text>;
     }
-
 
     return (
       <View style={styles.container}>
@@ -155,7 +197,8 @@ const styles = StyleSheet.create({
 });
 
 const mapDispatchToProps = {
-  setVideoUri,
+  setOnboardingVideoBio,
+  setEditBioVideo,
 };
 
-export default withNavigation(connect(null, mapDispatchToProps)(CameraScreen));
+export default withNavigation(connect(null, mapDispatchToProps)(EditProfileBioVideoCameraScreen));
