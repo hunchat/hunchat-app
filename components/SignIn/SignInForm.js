@@ -87,10 +87,10 @@ const SignInForm = ({
           end={{ x: 1, y: 1 }}
           style={styles.gradient}
         >
-        {signInFormSubmittingStatus === "pending"
-          ? <ActivityIndicator size="small" color="white" />
-          : <Text style={styles.submitText}>Sign in</Text>
-        }
+          {signInFormSubmittingStatus === "pending"
+            ? <ActivityIndicator size="small" color="white" />
+            : <Text style={styles.submitText}>Sign in</Text>
+          }
         </LinearGradient>
       </Pressable>
 
@@ -153,6 +153,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     marginLeft: 10,
+    flex: 1,
     color: "white",
   },
   submitButton: {
