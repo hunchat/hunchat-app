@@ -1,8 +1,10 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Icon } from "react-native-elements";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+
+import { Colors } from "../../styles";
 
 function renderIcon({ route, focused }) {
   let icon;
@@ -11,19 +13,19 @@ function renderIcon({ route, focused }) {
     icon = focused ? (
       <Icon name="search" color="orange" size={35} />
     ) : (
-      <Icon name="search" color="white" size={35} />
+      <Icon name="search" color={Colors.greyIcons} size={35} />
     );
   } else if (route.name === "Lists") {
     icon = focused ? (
       <Icon name="list" color="orange" size={35} />
     ) : (
-      <Icon name="list" color="white" size={35} />
+      <Icon name="list" color={Colors.greyIcons} size={35} />
     );
   } else if (route.name === "Notifications") {
     icon = focused ? (
       <Ionicons name="ios-heart-outline" size={32} color="orange" />
     ) : (
-      <Ionicons name="ios-heart-outline" size={32} color="white" />
+      <Ionicons name="ios-heart-outline" size={32} color={Colors.greyIcons} />
     );
   }
 
