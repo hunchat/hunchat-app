@@ -16,6 +16,8 @@
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
+      "bundleIdentifier": "com.hunchat.hunchat",
+      "buildNumber": "0.1.0",
       "supportsTablet": true
     },
     "android": {
