@@ -15,7 +15,8 @@ const width = Dimensions.get("window");
 
 const LIST_TAG_HEIGHT = 30;
 const EXPLORE_LISTS_SELECTOR_PADDING_VERTICAL = 10;
-export const EXPLORE_LISTS_SELECTOR_HEIGHT = LIST_TAG_HEIGHT + 2 * EXPLORE_LISTS_SELECTOR_PADDING_VERTICAL;
+export const EXPLORE_LISTS_SELECTOR_HEIGHT =
+  LIST_TAG_HEIGHT + 2 * EXPLORE_LISTS_SELECTOR_PADDING_VERTICAL;
 
 const lists = [
   {
@@ -53,12 +54,14 @@ const lists = [
 ];
 
 const ListTag = ({ name }) => {
-
   return (
     <Pressable
-      style={[listTagStyles.container, { backgroundColor: name === "All topics" ? "white" : "black" }]}
+      style={[
+        listTagStyles.container,
+        { backgroundColor: name === "All topics" ? "white" : "black" },
+      ]}
     >
-      <Text style={{ color: name === "All topics" ? "black" : "white"}}>
+      <Text style={{ color: name === "All topics" ? "black" : "white" }}>
         {name}
       </Text>
     </Pressable>
@@ -72,22 +75,15 @@ const listTagStyles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 3,
     paddingHorizontal: 7,
-    justifyContent: "center"
-  }
-})
+    justifyContent: "center",
+  },
+});
 
-const ExploreListsSelector = ({
-  selectedList,
-}) => {
-  const renderItem = ({item}) => {
+const ExploreListsSelector = ({ selectedList }) => {
+  const renderItem = ({ item }) => {
     const isSelected = item.name === selectedList;
-    return (
-      <ListTag
-        name={item.name}
-        isSelected={isSelected}
-      />
-    )
-  }
+    return <ListTag name={item.name} isSelected={isSelected} />;
+  };
 
   const keyExtractor = (item) => item.id;
 
@@ -100,7 +96,7 @@ const ExploreListsSelector = ({
       horizontal={true}
       showsHorizontalScrollIndicator={false}
     />
-  )
+  );
 };
 
 const styles = StyleSheet.create({
@@ -112,7 +108,7 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     paddingVertical: EXPLORE_LISTS_SELECTOR_PADDING_VERTICAL,
     paddingHorizontal: 5,
-  }
+  },
 });
 
 export default ExploreListsSelector;

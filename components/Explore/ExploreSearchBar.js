@@ -6,11 +6,11 @@ import {
   TextInput,
   Pressable,
 } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 
 const SEARCH_BAR_PADDING_VERTICAL = 10;
 const ICON_SIZE = 24;
-export const SEARCH_BAR_HEIGHT = 2*SEARCH_BAR_PADDING_VERTICAL + ICON_SIZE
+export const SEARCH_BAR_HEIGHT = 2 * SEARCH_BAR_PADDING_VERTICAL + ICON_SIZE;
 
 const { width } = Dimensions.get("window");
 
@@ -28,18 +28,16 @@ const ExploreSearchBar = () => {
         onPress={handlePress}
         style={({ pressed }) => [
           {
-            backgroundColor: pressed
-              ? "black"
-              : "black"
+            backgroundColor: pressed ? "black" : "black",
           },
-          styles.searchBar
+          styles.searchBar,
         ]}
       >
         <Ionicons name="ios-search-outline" size={ICON_SIZE} color={"grey"} />
         <TextInput
           ref={textInput}
           style={styles.textInput}
-          onChangeText={text => onChangeText(text)}
+          onChangeText={(text) => onChangeText(text)}
           value={value}
           placeholder="Type to explore new topics..."
           placeholderTextColor={"grey"}

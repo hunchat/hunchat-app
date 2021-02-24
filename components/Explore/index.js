@@ -1,4 +1,6 @@
-import ExploreListsSelector, { EXPLORE_LISTS_SELECTOR_HEIGHT } from "./ExploreListsSelector";
+import ExploreListsSelector, {
+  EXPLORE_LISTS_SELECTOR_HEIGHT,
+} from "./ExploreListsSelector";
 import ExploreSearchBar, { SEARCH_BAR_HEIGHT } from "./ExploreSearchBar";
 
 export {
