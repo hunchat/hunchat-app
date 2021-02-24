@@ -1,11 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
-import {
-  View,
-  StyleSheet,
-  Dimensions
-} from "react-native";
+import { View, StyleSheet, Dimensions } from "react-native";
 import { Video } from "expo-av";
 // import { VideoPlayer, Trimmer } from 'react-native-video-processing';
 
@@ -108,7 +104,7 @@ class VideoEditScreen extends React.Component {
     super(props);
     this.state = {
       duration: 0,
-    }
+    };
 
     this.onPressRightArrow = this.onPressRightArrow.bind(this);
     this.onLoad = this.onLoad.bind(this);
