@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Dimensions, Image } from "react-native";
-import * as VideoThumbnails from 'expo-video-thumbnails';
+import * as VideoThumbnails from "expo-video-thumbnails";
 
 const { width } = Dimensions.get("window");
 
@@ -12,18 +12,18 @@ const VideoEditTrimmer = ({ url, duration }) => {
 
   useEffect(() => {
     var i;
-    for (i=0; i<duration; i = i + (duration/NUMBER_OF_THUMBNAILS)) {
-      generateThumbnail(i)
+    for (i = 0; i < duration; i = i + duration / NUMBER_OF_THUMBNAILS) {
+      generateThumbnail(i);
     }
-  },[duration]);
+  }, [duration]);
 
   const generateThumbnail = async (time) => {
     try {
-      const { uri } = await VideoThumbnails.getThumbnailAsync(
-        url,
-        { quality: 1, time: time }
-      );
-      setThumbnails(thumbnails => {
+      const { uri } = await VideoThumbnails.getThumbnailAsync(url, {
+        quality: 1,
+        time: time,
+      });
+      setThumbnails((thumbnails) => {
         const newThumbnails = thumbnails.concat(uri);
         return {
           newThumbnails,
@@ -38,12 +38,15 @@ const VideoEditTrimmer = ({ url, duration }) => {
     <View style={styles.container}>
       {thumbnails.map((thumbnailURI, index) => (
         <Image
-          style={[styles.thumbnail, { left: TRIMMER_WIDTH * index * (1/NUMBER_OF_THUMBNAILS)}]}
+          style={[
+            styles.thumbnail,
+            { left: TRIMMER_WIDTH * index * (1 / NUMBER_OF_THUMBNAILS) },
+          ]}
           source={{ uri: thumbnailURI }}
         />
       ))}
     </View>
-  )
+  );
 };
 
 const styles = StyleSheet.create({
@@ -52,14 +55,14 @@ const styles = StyleSheet.create({
     width: TRIMMER_WIDTH,
     borderRadius: 10,
     flexDirection: "row",
-    backgroundColor: "blue"
+    backgroundColor: "blue",
   },
   thumbnail: {
     position: "absolute",
     height: 60,
     bottom: 0,
-    resizeMode: "contain"
+    resizeMode: "contain",
   },
-})
+});
 
 export default VideoEditTrimmer;

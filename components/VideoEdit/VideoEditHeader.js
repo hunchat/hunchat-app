@@ -1,7 +1,7 @@
 import React from "react";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import { View, StyleSheet, Dimensions, Pressable } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 
 const { height } = Dimensions.get("window");
 

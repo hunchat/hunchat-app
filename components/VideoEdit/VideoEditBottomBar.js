@@ -1,24 +1,20 @@
 import React from "react";
 import { View, Pressable, StyleSheet, Dimensions } from "react-native";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 
 import VideoEditTrimmer from "./VideoEditTrimmer";
 
 const { height } = Dimensions.get("window");
 
 const VideoEditBottomBar = ({ url, duration, handleDone }) => {
-
   return (
     <View style={styles.container}>
-      <VideoEditTrimmer
-        url={url}
-        duration={duration}
-      />
+      <VideoEditTrimmer url={url} duration={duration} />
       <Pressable onPress={handleDone}>
         <Ionicons name="ios-arrow-forward" size={35} color="white" />
       </Pressable>
     </View>
-  )
+  );
 };
 
 const styles = StyleSheet.create({
