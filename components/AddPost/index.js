@@ -1,5 +1,3 @@
 import AddPostButton from "./AddPostButton";
 
-export {
-  AddPostButton
-};
+export { AddPostButton };
