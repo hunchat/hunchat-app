@@ -4,20 +4,27 @@ import { withNavigation } from "react-navigation";
 import { connect } from "react-redux";
 
 import { Header } from "../components/Header";
-import { PostsList } from "../components/Post";
+import { ListPostsPreview } from "../components/Lists";
 
-import { makeGetList } from "../ducks/listsSlice";
+import { makeGetList, getListPostsThunk } from "../ducks/listsSlice";
 
 class ListScreen extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  componentDidMount() {
+    this.props.getListPostsThunk()
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
         <Header title={this.props.name} navigation={this.props.navigation} />
-        <PostsList postsIds={this.props.posts} />
+        <ListPostsPreview
+          id={this.props.route.params.list.id}
+          postsIds={this.props.postsIds}
+        />
       </View>
     );
   }
@@ -29,9 +36,13 @@ const makeMapStateToProps = (state) => {
     let list = getList(state, { listId: ownProps.route.params.list.id });
     return {
       name: list.name,
-      posts: list.posts,
+      postsIds: list.posts,
     };
   };
 };
 
-export default withNavigation(connect(makeMapStateToProps)(ListScreen));
+const mapDispatchToProps = {
+  getListPostsThunk
+};
+
+export default withNavigation(connect(makeMapStateToProps, mapDispatchToProps)(ListScreen));
