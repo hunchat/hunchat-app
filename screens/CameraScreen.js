@@ -15,6 +15,7 @@ import {
 } from "../components/Camera";
 import { setOnboardingVideoBio, setPreviewOnboardingVideoBio } from "../ducks/onboardingAddVideoBioSlice";
 import { setEditBioVideo, setEditBioVideoPreview } from "../ducks/editProfileSlice";
+import { setNewPostVideo } from "../ducks/newPostSlice";
 import { Colors } from "../styles";
 
 const { height } = Dimensions.get("window");
@@ -107,13 +108,32 @@ class EditProfileBioVideoCameraScreen extends React.Component {
         height: asset.height,
         width: asset.width,
       });
+    } else if (this.props.route.params.action === "addPost") {
+      this.props.setNewPostVideo({
+        file: {
+          uri: extendedAsset.localUri,
+          name: extendedAsset.filename,
+          type: asset.mediaType
+        },
+        fileUrl: asset.uri,
+        duration: asset.duration,
+        height: asset.height,
+        width: asset.width,
+      })
     }
   }
 
   async stopRecording() {
     this.cameraRef.current.stopRecording();
     this.stopTimer();
-    this.props.navigation.goBack();
+    if (this.props.route.params.action === "editProfile") {
+      this.props.navigation.goBack();
+    } else if (this.props.route.params.action === "addBioVideo") {
+      this.props.navigation.goBack();
+    } else if (this.props.route.params.action === "addPost") {
+      this.props.navigation.navigate("AddPostStack", { screen: "AddPost" });
+    }
+
     this.resetTimer();
   }
 
@@ -199,6 +219,7 @@ const styles = StyleSheet.create({
 const mapDispatchToProps = {
   setOnboardingVideoBio,
   setEditBioVideo,
+  setNewPostVideo,
 };
 
 export default withNavigation(connect(null, mapDispatchToProps)(EditProfileBioVideoCameraScreen));
