@@ -14,7 +14,7 @@ class ListScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getListPostsThunk()
+    this.props.getListPostsThunk();
   }
 
   render() {
@@ -42,7 +42,9 @@ const makeMapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  getListPostsThunk
+  getListPostsThunk,
 };
 
-export default withNavigation(connect(makeMapStateToProps, mapDispatchToProps)(ListScreen));
+export default withNavigation(
+  connect(makeMapStateToProps, mapDispatchToProps)(ListScreen)
+);

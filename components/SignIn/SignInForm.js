@@ -12,7 +12,11 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Ionicons, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  MaterialIcons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 // import * as AppleAuthentication from 'expo-apple-authentication';
 
 import { tokenObtainThunk } from "../../ducks/authSlice";
@@ -54,7 +58,7 @@ const SignInForm = ({
           placeholderTextColor="lightgrey"
           autoCapitalize="none"
           onSubmitEditing={() => {
-              passwordRef.current.focus();
+            passwordRef.current.focus();
           }}
         />
       </View>
@@ -71,26 +75,24 @@ const SignInForm = ({
           textContentType="password"
           secureTextEntry={true}
           onSubmitEditing={() => {
-              onSubmit();
-              Keyboard.dismiss();
+            onSubmit();
+            Keyboard.dismiss();
           }}
         />
       </View>
 
-      <Pressable
-        style={styles.submitButton}
-        onPress={onSubmit}
-      >
+      <Pressable style={styles.submitButton} onPress={onSubmit}>
         <LinearGradient
           colors={["#FF8400", "#FF9D33"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.gradient}
         >
-          {signInFormSubmittingStatus === "pending"
-            ? <ActivityIndicator size="small" color="white" />
-            : <Text style={styles.submitText}>Sign in</Text>
-          }
+          {signInFormSubmittingStatus === "pending" ? (
+            <ActivityIndicator size="small" color="white" />
+          ) : (
+            <Text style={styles.submitText}>Sign in</Text>
+          )}
         </LinearGradient>
       </Pressable>
 
@@ -101,15 +103,14 @@ const SignInForm = ({
         <Text style={styles.newAccount}>Create new account</Text>
       </Pressable>
 
-      {signInFormSubmittingStatus === "rejected"
-        ? (
-            <View style={styles.error}>
-              <Text style={styles.errorText}>
-                {signInFormError} <MaterialCommunityIcons name="disc" size={14} color="red" />
-              </Text>
-            </View>
-         ) : null
-      }
+      {signInFormSubmittingStatus === "rejected" ? (
+        <View style={styles.error}>
+          <Text style={styles.errorText}>
+            {signInFormError}{" "}
+            <MaterialCommunityIcons name="disc" size={14} color="red" />
+          </Text>
+        </View>
+      ) : null}
 
       {/* Alternative Authentication */}
       {/*<View style={{ marginTop: 40, alignItems: "center" }}>
@@ -190,7 +191,7 @@ const styles = StyleSheet.create({
   errorText: {
     textAlign: "center",
     color: "white",
-  }
+  },
 });
 
 function mapStateToProps(state) {

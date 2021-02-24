@@ -51,7 +51,6 @@ class AuthenticationService {
         return response;
       });
   }
-
 }
 
 module.exports = AuthenticationService;

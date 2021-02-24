@@ -10,7 +10,10 @@ const Stack = createStackNavigator();
 
 const OnboardingStack = () => (
   <Stack.Navigator screenOptions={{ headerShown: false, gestureEnabled: true }}>
-    <Stack.Screen name="OnboardingAddBioVideo" component={OnboardingAddBioVideoScreen} />
+    <Stack.Screen
+      name="OnboardingAddBioVideo"
+      component={OnboardingAddBioVideoScreen}
+    />
     <Stack.Screen name="Onboarding" component={OnboardingScreen} />
     <Stack.Screen
       name="Camera"

@@ -11,7 +11,7 @@ import {
   Pressable,
   ScrollView,
 } from "react-native";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { SignUpForm } from "../components/SignUp";
 import { Colors } from "../styles";

@@ -10,7 +10,7 @@ const ListPosts = ({ id, postsIds, initialScrollIndex }) => {
   const flatListRef = useRef(null);
 
   const scrollToNextIndex = () => {
-    if (viewableIndex !== postsIds.length-1) {
+    if (viewableIndex !== postsIds.length - 1) {
       flatListRef.current.scrollToIndex({ index: viewableIndex + 1 });
     }
   };

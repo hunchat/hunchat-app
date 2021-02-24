@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  View,
-  Pressable,
-  Text,
-  StyleSheet,
-  Image,
-} from "react-native";
+import { View, Pressable, Text, StyleSheet, Image } from "react-native";
 
 import { Colors } from "../../styles";
 

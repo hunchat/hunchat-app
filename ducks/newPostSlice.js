@@ -14,14 +14,14 @@ export function postCreateThunk(data) {
         dispatch(setShowSucessPopUp(true));
 
         // Reset form
-        dispatch(setNewPostVideo(null))
-        dispatch(setNewPostCommentTo(null))
+        dispatch(setNewPostVideo(null));
+        dispatch(setNewPostCommentTo(null));
       })
       .catch((error) => {
         dispatch(setAddPostFormSubmittingStatus("rejected"));
-      })
-  }
-};
+      });
+  };
+}
 
 const newPostSlice = createSlice({
   name: "newPost",
@@ -48,7 +48,7 @@ const newPostSlice = createSlice({
     },
     setShowSucessPopUp: (state, action) => {
       state.showSucessPopUp = action.payload;
-    }
+    },
   },
 });
 

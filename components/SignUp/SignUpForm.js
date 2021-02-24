@@ -11,8 +11,12 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Ionicons, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { CheckBox } from 'react-native-elements'
+import {
+  Ionicons,
+  MaterialIcons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
+import { CheckBox } from "react-native-elements";
 
 import {
   userCreateThunk,
@@ -35,9 +39,9 @@ const SignUpForm = ({
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(null);
-  const [toggleTermsCheckBox, setToggleTermsCheckBox] = useState(false)
+  const [toggleTermsCheckBox, setToggleTermsCheckBox] = useState(false);
   const [termsError, setTermsError] = useState(null);
-  const [toggleSubscribeCheckBox, setToggleSubscribeCheckBox] = useState(false)
+  const [toggleSubscribeCheckBox, setToggleSubscribeCheckBox] = useState(false);
 
   const usernameRef = useRef();
   const passwordRef = useRef();
@@ -45,12 +49,12 @@ const SignUpForm = ({
   const navigation = useNavigation();
 
   useEffect(() => {
-      if (signUpFormSubmittingStatus === "fulfilled") {
-        navigation.navigate("OnboardingStack", { screen: "OnboardingAddBioVideo"});
-      }
-    },
-    [signUpFormSubmittingStatus],
-  );
+    if (signUpFormSubmittingStatus === "fulfilled") {
+      navigation.navigate("OnboardingStack", {
+        screen: "OnboardingAddBioVideo",
+      });
+    }
+  }, [signUpFormSubmittingStatus]);
 
   const passwordValidate = () => {
     if (password.length < 8) {
@@ -83,7 +87,6 @@ const SignUpForm = ({
 
   return (
     <View style={styles.container}>
-
       {/* Start username */}
       <Pressable
         style={styles.textInputContainer}
@@ -104,11 +107,12 @@ const SignUpForm = ({
         />
       </Pressable>
       {signUpFormUsernameAvailableError && (
-            <View style={styles.error}>
-              <Text style={styles.errorText}>
-                {signUpFormUsernameAvailableError} <MaterialCommunityIcons name="disc" size={14} color="red" />
-              </Text>
-            </View>
+        <View style={styles.error}>
+          <Text style={styles.errorText}>
+            {signUpFormUsernameAvailableError}{" "}
+            <MaterialCommunityIcons name="disc" size={14} color="red" />
+          </Text>
+        </View>
       )}
       {/* End username */}
 
@@ -132,14 +136,17 @@ const SignUpForm = ({
           />
         </Pressable>
         {passwordError && (
-              <View style={styles.error}>
-                <Text style={styles.errorText}>
-                  {passwordError} <MaterialCommunityIcons name="disc" size={14} color="red" />
-                </Text>
-              </View>
+          <View style={styles.error}>
+            <Text style={styles.errorText}>
+              {passwordError}{" "}
+              <MaterialCommunityIcons name="disc" size={14} color="red" />
+            </Text>
+          </View>
         )}
         <View style={styles.passwordValidation}>
-          <Text style={styles.passwordValidationText}>Password must include:</Text>
+          <Text style={styles.passwordValidationText}>
+            Password must include:
+          </Text>
           <Text style={styles.passwordValidationText}>8+ characters</Text>
           <Text style={styles.passwordValidationText}>1 number</Text>
           <Text style={styles.passwordValidationText}>1 upper case letter</Text>
@@ -154,17 +161,16 @@ const SignUpForm = ({
           style={{
             flexDirection: "row",
             justifyContent: "space-between",
-            alignItems: "center"
+            alignItems: "center",
           }}
         >
           <Text style={styles.checkBoxText}>
-            I accept the <Text
+            I accept the{" "}
+            <Text
               onPress={onPressTerms}
-              style={[
-                styles.checkBoxText,
-                { textDecorationLine: 'underline' }
-              ]}
-            >terms and conditions
+              style={[styles.checkBoxText, { textDecorationLine: "underline" }]}
+            >
+              terms and conditions
             </Text>
           </Text>
           <CheckBox
@@ -205,35 +211,37 @@ const SignUpForm = ({
       {/* End check boxes */}
 
       {termsError && (
-            <View style={styles.error}>
-              <Text style={styles.errorText}>
-                {termsError} <MaterialCommunityIcons name="disc" size={14} color="red" />
-              </Text>
-            </View>
+        <View style={styles.error}>
+          <Text style={styles.errorText}>
+            {termsError}{" "}
+            <MaterialCommunityIcons name="disc" size={14} color="red" />
+          </Text>
+        </View>
       )}
 
       {/* Start submit button */}
-      <Pressable
-        style={styles.submitButton}
-        onPress={onSubmit}
-      >
+      <Pressable style={styles.submitButton} onPress={onSubmit}>
         <LinearGradient
           colors={["#FF8400", "#FF9D33"]}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.gradient}
         >
-          {signUpFormSubmittingStatus === "pending"
-            ? <ActivityIndicator size="small" color="white" />
-            : <Text style={styles.submitText}>Sign up</Text>
-          }
+          {signUpFormSubmittingStatus === "pending" ? (
+            <ActivityIndicator size="small" color="white" />
+          ) : (
+            <Text style={styles.submitText}>Sign up</Text>
+          )}
         </LinearGradient>
       </Pressable>
       {/* End submit button */}
 
       <View style={{ flexDirection: "row", justifyContent: "center" }}>
         <Text style={{ color: "lightgrey" }}>Already have an account?</Text>
-        <Text style={{ color: Colors.primary }} onPress={handlePressSignIn}> Sign in</Text>
+        <Text style={{ color: Colors.primary }} onPress={handlePressSignIn}>
+          {" "}
+          Sign in
+        </Text>
       </View>
     </View>
   );
@@ -301,15 +309,17 @@ const styles = StyleSheet.create({
   errorText: {
     textAlign: "center",
     color: "white",
-  }
+  },
 });
 
 function mapStateToProps(state) {
   return {
     signUpFormSubmittingStatus: state.auth.signUpFormSubmittingStatus,
     signUpFormError: state.auth.signUpFormError,
-    signUpFormUsernameAvailableStatus: state.auth.signUpFormUsernameAvailableStatus,
-    signUpFormUsernameAvailableError: state.auth.signUpFormUsernameAvailableError,
+    signUpFormUsernameAvailableStatus:
+      state.auth.signUpFormUsernameAvailableStatus,
+    signUpFormUsernameAvailableError:
+      state.auth.signUpFormUsernameAvailableError,
   };
 }
 

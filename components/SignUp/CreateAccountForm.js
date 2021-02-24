@@ -11,7 +11,11 @@ import {
   Keyboard,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { Ionicons, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  MaterialIcons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 
 import {
   setAccountInfo,
@@ -35,7 +39,6 @@ const CreateAccountForm = ({
   const [name, setName] = useState("");
   const [nameError, setNameError] = useState(null);
 
-
   const emailRef = useRef();
   const nameRef = useRef();
 
@@ -56,7 +59,6 @@ const CreateAccountForm = ({
 
   return (
     <View style={styles.container}>
-
       {/* Start email */}
       <Pressable
         style={styles.textInputContainer}
@@ -77,15 +79,14 @@ const CreateAccountForm = ({
           onEndEditing={() => emailAvailableThunk({ email })}
         />
       </Pressable>
-      {createAccountFormEmailAvailableStatus === "rejected"
-        ? (
-            <View style={styles.error}>
-              <Text style={styles.errorText}>
-                {createAccountFormEmailAvailableError} <MaterialCommunityIcons name="disc" size={14} color="red" />
-              </Text>
-            </View>
-         ) : null
-      }
+      {createAccountFormEmailAvailableStatus === "rejected" ? (
+        <View style={styles.error}>
+          <Text style={styles.errorText}>
+            {createAccountFormEmailAvailableError}{" "}
+            <MaterialCommunityIcons name="disc" size={14} color="red" />
+          </Text>
+        </View>
+      ) : null}
       {/* End email */}
 
       {/* Start name */}
@@ -104,18 +105,19 @@ const CreateAccountForm = ({
           autoCapitalize="none"
           textContentType="name"
           onSubmitEditing={() => {
-              onSubmit();
-              Keyboard.dismiss();
+            onSubmit();
+            Keyboard.dismiss();
           }}
           onEndEditing={nameAvailable}
         />
       </Pressable>
       {nameError && (
-            <View style={styles.error}>
-              <Text style={styles.errorText}>
-                {nameError} <MaterialCommunityIcons name="disc" size={14} color="red" />
-              </Text>
-            </View>
+        <View style={styles.error}>
+          <Text style={styles.errorText}>
+            {nameError}{" "}
+            <MaterialCommunityIcons name="disc" size={14} color="red" />
+          </Text>
+        </View>
       )}
       {/* End name */}
 
@@ -131,7 +133,6 @@ const CreateAccountForm = ({
         </LinearGradient>
       </Pressable>
       {/* End submit button */}
-
     </View>
   );
 };
@@ -198,13 +199,15 @@ const styles = StyleSheet.create({
   errorText: {
     textAlign: "center",
     color: "white",
-  }
+  },
 });
 
 function mapStateToProps(state) {
   return {
-    createAccountFormEmailAvailableError: state.auth.createAccountFormEmailAvailableError,
-    createAccountFormEmailAvailableStatus: state.auth.createAccountFormEmailAvailableStatus,
+    createAccountFormEmailAvailableError:
+      state.auth.createAccountFormEmailAvailableError,
+    createAccountFormEmailAvailableStatus:
+      state.auth.createAccountFormEmailAvailableStatus,
   };
 }
 

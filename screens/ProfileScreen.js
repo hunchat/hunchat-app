@@ -6,26 +6,15 @@ import { getStatusBarHeight } from "react-native-status-bar-height";
 
 import Profile, { ProfileHeader } from "../components/Profile";
 import { PostPreview } from "../components/Post";
-import {
-  makeGetUser,
-  retrieveUserThunk,
-} from "../ducks/usersSlice";
+import { makeGetUser, retrieveUserThunk } from "../ducks/usersSlice";
 
 const { height } = Dimensions.get("window");
 export const PROFILE_HEIGHT = height - getStatusBarHeight();
 
-function ProfileScreen({
-  navigation,
-  route,
-  postsIds,
-  retrieveUserThunk,
-}) {
-
+function ProfileScreen({ navigation, route, postsIds, retrieveUserThunk }) {
   useEffect(() => {
-      retrieveUserThunk(route.params.userId);
-    },
-    [route.params.userId],
-  );
+    retrieveUserThunk(route.params.userId);
+  }, [route.params.userId]);
 
   const keyExtractor = (item) => item;
 
@@ -45,9 +34,7 @@ function ProfileScreen({
         columnWrapperStyle={styles.column}
         // onScroll={handleScroll}
         bounces={false}
-        ListHeaderComponent={
-          <Profile userId={route.params.userId}/>
-        }
+        ListHeaderComponent={<Profile userId={route.params.userId} />}
         ListHeaderComponentStyle={{ height: PROFILE_HEIGHT }}
       />
     </Animated.View>

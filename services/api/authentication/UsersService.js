@@ -26,32 +26,29 @@ class UsersService {
 
   bioVideoUpdate(userId, data) {
     var formData = new FormData();
-    formData.append("file", data.bio_video.file)
-    formData.append("duration", data.bio_video.duration)
-    formData.append("height", data.bio_video.height)
-    formData.append("width", data.bio_video.width)
+    formData.append("file", data.bio_video.file);
+    formData.append("duration", data.bio_video.duration);
+    formData.append("height", data.bio_video.height);
+    formData.append("width", data.bio_video.width);
     const url = `/api/users/${userId}/bio_video/`;
-    return axiosInstance
-      .put(url, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+    return axiosInstance.put(url, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
   }
 
   imageUpdate(userId, data) {
     var formData = new FormData();
-    formData.append("file", data.image.file)
+    formData.append("file", data.image.file);
     const url = `/api/users/${userId}/image/`;
-    return axiosInstance
-      .put(url, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+    return axiosInstance.put(url, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
   }
 
   delete(userId) {
     const url = `/api/users/${userId}/`;
     return axiosInstance.delete(url);
   }
-
 }
 
 module.exports = UsersService;

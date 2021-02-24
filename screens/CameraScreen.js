@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { withNavigation } from "react-navigation";
 import { Camera } from "expo-camera";
-import * as MediaLibrary from 'expo-media-library';
-import * as ImagePicker from 'expo-image-picker';
-import * as Permissions from 'expo-permissions';
+import * as MediaLibrary from "expo-media-library";
+import * as ImagePicker from "expo-image-picker";
+import * as Permissions from "expo-permissions";
 import { Icon } from "react-native-elements";
 
 import {
@@ -13,8 +13,14 @@ import {
   CameraBottomBar,
   CameraTimeBar,
 } from "../components/Camera";
-import { setOnboardingVideoBio, setPreviewOnboardingVideoBio } from "../ducks/onboardingAddVideoBioSlice";
-import { setEditBioVideo, setEditBioVideoPreview } from "../ducks/editProfileSlice";
+import {
+  setOnboardingVideoBio,
+  setPreviewOnboardingVideoBio,
+} from "../ducks/onboardingAddVideoBioSlice";
+import {
+  setEditBioVideo,
+  setEditBioVideoPreview,
+} from "../ducks/editProfileSlice";
 import { setNewPostVideo } from "../ducks/newPostSlice";
 import { Colors } from "../styles";
 
@@ -89,7 +95,7 @@ class EditProfileBioVideoCameraScreen extends React.Component {
         file: {
           uri: extendedAsset.localUri,
           name: extendedAsset.filename,
-          type: asset.mediaType
+          type: asset.mediaType,
         },
         fileUrl: asset.uri,
         duration: asset.duration,
@@ -101,7 +107,7 @@ class EditProfileBioVideoCameraScreen extends React.Component {
         file: {
           uri: extendedAsset.localUri,
           name: extendedAsset.filename,
-          type: asset.mediaType
+          type: asset.mediaType,
         },
         fileUrl: asset.uri,
         duration: asset.duration,
@@ -113,13 +119,13 @@ class EditProfileBioVideoCameraScreen extends React.Component {
         file: {
           uri: extendedAsset.localUri,
           name: extendedAsset.filename,
-          type: asset.mediaType
+          type: asset.mediaType,
         },
         fileUrl: asset.uri,
         duration: asset.duration,
         height: asset.height,
         width: asset.width,
-      })
+      });
     }
   }
 
@@ -222,4 +228,6 @@ const mapDispatchToProps = {
   setNewPostVideo,
 };
 
-export default withNavigation(connect(null, mapDispatchToProps)(EditProfileBioVideoCameraScreen));
+export default withNavigation(
+  connect(null, mapDispatchToProps)(EditProfileBioVideoCameraScreen)
+);

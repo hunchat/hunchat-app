@@ -36,7 +36,9 @@ class OnboardingAddBioVideoScreen extends React.Component {
               style={[styles.container, { alignItems: "center" }]}
             >
               <View style={{ marginVertical: 40, width: 0.75 * width }}>
-                <Text style={{ color: "white", fontSize: 23, fontWeight: "600" }}>
+                <Text
+                  style={{ color: "white", fontSize: 23, fontWeight: "600" }}
+                >
                   Last step!
                 </Text>
                 <View style={{ marginTop: 5 }}>

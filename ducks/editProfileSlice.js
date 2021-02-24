@@ -22,7 +22,7 @@ export function updateUserThunk(data) {
       .catch((error) => {
         dispatch(setFormSubmittingStatus("rejected"));
       });
-  }
+  };
 }
 
 export function updateUserBioVideoThunk(data) {
@@ -45,7 +45,7 @@ export function updateUserBioVideoThunk(data) {
       .catch((error) => {
         dispatch(setFormSubmittingStatus("rejected"));
       });
-  }
+  };
 }
 
 export function updateUserImageThunk(data) {
@@ -65,7 +65,7 @@ export function updateUserImageThunk(data) {
       .catch((error) => {
         dispatch(setFormSubmittingStatus("rejected"));
       });
-  }
+  };
 }
 
 const editProfileSlice = createSlice({
@@ -92,7 +92,7 @@ const editProfileSlice = createSlice({
 export const {
   setEditBioVideo,
   setEditBioVideoPreview,
-  setFormSubmittingStatus
+  setFormSubmittingStatus,
 } = editProfileSlice.actions;
 
 export default editProfileSlice.reducer;

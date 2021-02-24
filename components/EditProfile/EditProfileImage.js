@@ -1,6 +1,12 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Pressable, ImageBackground, Text } from "react-native";
-import { MaterialIcons } from '@expo/vector-icons';
+import {
+  View,
+  StyleSheet,
+  Pressable,
+  ImageBackground,
+  Text,
+} from "react-native";
+import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 
 import { getCameraRollPermission } from "../../utils/permissions";

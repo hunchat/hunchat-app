@@ -14,7 +14,7 @@ const AddVideoButton = () => {
   const handlePress = () => {
     navigation.navigate("AddPostStack", {
       screen: "Camera",
-      params: { action: "addPost" }
+      params: { action: "addPost" },
     });
   };
   return (

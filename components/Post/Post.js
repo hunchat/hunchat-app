@@ -54,14 +54,12 @@ const Post = ({
   const navigation = useNavigation();
 
   useEffect(() => {
-      if (isViewable) {
-        videoRef.current.playAsync()
-      } else {
-        videoRef.current.setStatusAsync({ shouldPlay: false, positionMillis: 0 })
-      }
-    },
-    [videoRef, isViewable],
-  );
+    if (isViewable) {
+      videoRef.current.playAsync();
+    } else {
+      videoRef.current.setStatusAsync({ shouldPlay: false, positionMillis: 0 });
+    }
+  }, [videoRef, isViewable]);
 
   const handlelinkPress = () => {
     Linking.openURL(link);
@@ -70,7 +68,7 @@ const Post = ({
   const onPressAddComment = () => {
     navigation.navigate("AddPostStack", {
       screen: "Camera",
-      params: { action: "addPost" }
+      params: { action: "addPost" },
     });
     setNewPostCommentTo(id);
   };
@@ -78,7 +76,7 @@ const Post = ({
   const handlePressSeeThread = () => {
     navigation.push("PostStack", {
       screen: "Thread",
-      params: { postId: id }
+      params: { postId: id },
     });
   };
 
@@ -131,17 +129,12 @@ const Post = ({
           <View style={{ flex: 7, justifyContent: "space-between" }}>
             <View style={{ paddingRight: 5 }}>
               <View style={styles.author}>
-                <Image
-                  source={{ uri: imageUrl }}
-                  style={styles.authorImage}
-                />
+                <Image source={{ uri: imageUrl }} style={styles.authorImage} />
                 <Text style={styles.authorUsername}>
                   @
                   {username.length > authorUsernameMaxCharacters
-                    ? username.substring(
-                        0,
-                        authorUsernameMaxCharacters - 3
-                      ) + "..."
+                    ? username.substring(0, authorUsernameMaxCharacters - 3) +
+                      "..."
                     : username}
                 </Text>
               </View>
@@ -183,8 +176,8 @@ const Post = ({
 
           {/* Start thread */}
           <View style={{ flex: 4, alignItems: "flex-start" }}>
-            {commentTo &&
-                <>
+            {commentTo && (
+              <>
                 <Pressable onPress={handlePressSeeThread}>
                   <Text style={{ color: "white", marginBottom: 5 }}>
                     See thread
@@ -198,16 +191,13 @@ const Post = ({
                     style={styles.answer}
                   />
                 </Pressable>
-                </>
-            }
+              </>
+            )}
           </View>
           {/* End thread */}
         </View>
 
-        <Pressable
-          style={styles.addResponseButton}
-          onPress={onPressAddComment}
-        >
+        <Pressable style={styles.addResponseButton} onPress={onPressAddComment}>
           <LinearGradient
             colors={["#FF8400", "#FF9D33"]}
             start={{ x: 0, y: 0 }}
@@ -220,7 +210,7 @@ const Post = ({
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

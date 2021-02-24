@@ -14,11 +14,7 @@ import ProfileStack from "./ProfileStack";
 
 const Stack = createStackNavigator();
 
-const AppStack = ({
-  authRefreshToken,
-  currentUserId,
-  isFirstLaunch,
-}) => {
+const AppStack = ({ authRefreshToken, currentUserId, isFirstLaunch }) => {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false, gestureEnabled: true }}
@@ -29,7 +25,9 @@ const AppStack = ({
         </>
       ) : (
         <>
-          {isFirstLaunch && <Stack.Screen name="OnboardingStack" component={OnboardingStack} />}
+          {isFirstLaunch && (
+            <Stack.Screen name="OnboardingStack" component={OnboardingStack} />
+          )}
           <Stack.Screen name="BottomTabs" component={BottomTabs} />
           <Stack.Screen
             name="AddPostStack"

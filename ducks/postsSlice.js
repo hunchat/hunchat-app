@@ -11,12 +11,12 @@ export const postCommentTo = new schema.Entity("commentTo");
 
 export const postCommentSchema = new schema.Entity("comments", {
   author: userSchema,
-})
+});
 
 export const postSchema = new schema.Entity("posts", {
   author: userSchema,
   commentTo: postCommentTo,
-  comments: [postCommentSchema]
+  comments: [postCommentSchema],
 });
 
 export const getPosts = (state) => state.posts.byId;
@@ -48,16 +48,13 @@ export const makeGetPostAuthor = () => {
 };
 
 export const makeGetPostCommentToId = () => {
-  return createSelector(
-    [getPosts, getPostId],
-    (posts, id) => {
-      if (posts[id]) {
-        return posts[id].commentTo;
-      }
-      return null;
+  return createSelector([getPosts, getPostId], (posts, id) => {
+    if (posts[id]) {
+      return posts[id].commentTo;
     }
-  )
-}
+    return null;
+  });
+};
 
 export const makeGetPostCommentTo = () => {
   const getPostCommentToId = makeGetPostCommentToId();
@@ -68,24 +65,21 @@ export const makeGetPostCommentTo = () => {
         return {
           id: commentToId,
           video: posts[commentToId].video,
-        }
-      }
-      return null;
-    }
-  )
-}
-
-export const makeGetPostThreadPostsIds = () => {
-  return createSelector(
-    [getPosts, getPostId],
-    (posts, id) => {
-      if (posts[id]) {
-        return posts[id].thread
+        };
       }
       return null;
     }
   );
-}
+};
+
+export const makeGetPostThreadPostsIds = () => {
+  return createSelector([getPosts, getPostId], (posts, id) => {
+    if (posts[id]) {
+      return posts[id].thread;
+    }
+    return null;
+  });
+};
 
 export const makeGetPost = () => {
   const getPostAuthor = makeGetPostAuthor();
@@ -119,13 +113,9 @@ export function likePostThunk(postId) {
 
     postsService
       .like(postId)
-      .then((response) => {
-
-      })
-      .catch((error) => {
-
-      })
-  }
+      .then((response) => {})
+      .catch((error) => {});
+  };
 }
 
 export function threadGetThunk(postId) {
@@ -139,11 +129,13 @@ export function threadGetThunk(postId) {
         batch(() => {
           let thread = [];
           response.data.map((post) => {
-            const camelcasePost = camelcaseKeys(post, { deep: true});
+            const camelcasePost = camelcaseKeys(post, { deep: true });
             const normalizedPost = normalize(camelcasePost, postSchema);
 
             dispatch(addPost({ post: normalizedPost.entities.posts[post.id] }));
-            dispatch(addUser({ user: normalizedPost.entities.users[post.author.id]}));
+            dispatch(
+              addUser({ user: normalizedPost.entities.users[post.author.id] })
+            );
 
             if (normalizedPost.entities.commentTo) {
               dispatch(addPost({ post: normalizedPost.entities.commentTo }));
@@ -162,13 +154,11 @@ export function threadGetThunk(postId) {
             thread.push(post.id);
           });
 
-          dispatch(addPost({ post: { id: postId, thread: thread }}));
+          dispatch(addPost({ post: { id: postId, thread: thread } }));
         });
       })
-      .catch((error) => {
-
-      })
-  }
+      .catch((error) => {});
+  };
 }
 
 const postsSlice = createSlice({

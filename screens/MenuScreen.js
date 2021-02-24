@@ -2,7 +2,11 @@ import React from "react";
 import { withNavigation } from "react-navigation";
 import { connect } from "react-redux";
 import { View, StyleSheet, Text, Pressable } from "react-native";
-import { Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import {
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { Colors } from "../styles";
@@ -13,16 +17,13 @@ const MenuScreen = ({ navigation }) => {
   };
 
   const handlePressEditProfile = () => {
-    navigation.navigate("ProfileStack", { screen: "EditProfile"})
+    navigation.navigate("ProfileStack", { screen: "EditProfile" });
   };
 
-  const handlePressInvite = () => {
-
-  };
+  const handlePressInvite = () => {};
 
   return (
     <View style={styles.container}>
-
       {/* Start header */}
       <View style={styles.header}>
         <Pressable style={styles.goBack} onPress={handlePressGoBack}>
@@ -40,7 +41,7 @@ const MenuScreen = ({ navigation }) => {
         <Pressable style={styles.option} onPress={handlePressEditProfile}>
           <MaterialCommunityIcons name="pencil" size={30} color="white" />
           <View style={{ marginLeft: 10 }}>
-              <Text style={{ color: "white", fontSize: 18 }}>Edit profile</Text>
+            <Text style={{ color: "white", fontSize: 18 }}>Edit profile</Text>
           </View>
         </Pressable>
         <Pressable style={styles.option}>
@@ -58,7 +59,7 @@ const MenuScreen = ({ navigation }) => {
       </View>
       {/* End options */}
 
-      <View style={{ marginTop: 30}}>
+      <View style={{ marginTop: 30 }}>
         <Pressable style={styles.button} onPress={handlePressInvite}>
           <LinearGradient
             colors={["#FF8400", "#FF9D33"]}
@@ -66,12 +67,15 @@ const MenuScreen = ({ navigation }) => {
             end={{ x: 1, y: 1 }}
             style={styles.gradient}
           >
-            <Text style={{ color: "white", fontSize: 20}}>Invite interesting people</Text>
+            <Text style={{ color: "white", fontSize: 20 }}>
+              Invite interesting people
+            </Text>
           </LinearGradient>
         </Pressable>
-        <Text style={{ color: "white", textAlign: "center" }}>You can invite up to 5 people</Text>
+        <Text style={{ color: "white", textAlign: "center" }}>
+          You can invite up to 5 people
+        </Text>
       </View>
-
     </View>
   );
 };
@@ -107,7 +111,7 @@ const styles = StyleSheet.create({
   button: {
     marginBottom: 10,
     shadowColor: "#AE5B02",
-    shadowOpacity: 0.80,
+    shadowOpacity: 0.8,
     shadowRadius: 10,
     elevation: 11,
   },

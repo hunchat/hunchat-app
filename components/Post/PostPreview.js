@@ -1,11 +1,5 @@
 import React, { useState, useMemo } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  Dimensions,
-} from "react-native";
+import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 import { Video } from "expo-av";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { connect } from "react-redux";
@@ -32,31 +26,30 @@ const PostPreview = ({ id, video, author, description }) => {
         shouldPlay={false}
         style={styles.video}
       />
-        <LinearGradient
-          colors={["rgba(0,0,0,0.2)", "transparent"]}
-          start={{ x: 0, y: 1 }}
-          end={{ x: 0, y: 0.65 }}
-          locations={[0.8, 1]}
-          style={styles.gradient}
-        />
-        <View style={{ position: "absolute", bottom: 0, margin: 7 }}>
-          <View style={styles.author}>
-            <Image
-              source={Object({ uri: imageUrl})}
-              style={styles.authorImage}
-            />
-            <Text style={styles.authorUsername}>
-              @
-              {username.length > authorUsernameMaxCharacters
-                ? username.substring(0, authorUsernameMaxCharacters - 3) +
-                  "..."
-                : username}
-            </Text>
-          </View>
-          <Text style={styles.description} numberOfLines={3} ellipsizeMode="tail">
-            {description}
+      <LinearGradient
+        colors={["rgba(0,0,0,0.2)", "transparent"]}
+        start={{ x: 0, y: 1 }}
+        end={{ x: 0, y: 0.65 }}
+        locations={[0.8, 1]}
+        style={styles.gradient}
+      />
+      <View style={{ position: "absolute", bottom: 0, margin: 7 }}>
+        <View style={styles.author}>
+          <Image
+            source={Object({ uri: imageUrl })}
+            style={styles.authorImage}
+          />
+          <Text style={styles.authorUsername}>
+            @
+            {username.length > authorUsernameMaxCharacters
+              ? username.substring(0, authorUsernameMaxCharacters - 3) + "..."
+              : username}
           </Text>
         </View>
+        <Text style={styles.description} numberOfLines={3} ellipsizeMode="tail">
+          {description}
+        </Text>
+      </View>
     </View>
   );
 };

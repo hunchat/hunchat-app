@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 import { Video } from "expo-av";
 import { SharedElement } from "react-navigation-shared-element";
 import { LinearGradient } from "expo-linear-gradient";
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from "@expo/vector-icons";
 
 import { makeGetUser } from "../../ducks/usersSlice";
 import { formatDateJoined } from "../../utils/dates";
@@ -81,13 +81,11 @@ const Profile = ({
 
         {/* Start bio */}
         <View style={{ marginVertical: 10 }}>
-          <Text style={styles.bio}>
-            {bio}
-          </Text>
+          <Text style={styles.bio}>{bio}</Text>
         </View>
         {/* Start bio */}
 
-        <View style={{ width: "100%", alignItems: "flex-start"}}>
+        <View style={{ width: "100%", alignItems: "flex-start" }}>
           <Text
             style={{
               textAlign: "left",
@@ -108,15 +106,19 @@ const Profile = ({
         >
           <View>
             {location && <Text style={styles.location}>{location}</Text>}
-            <Text style={styles.createdAt}>Joined {formatDateJoined(dateJoined)}</Text>
+            <Text style={styles.createdAt}>
+              Joined {formatDateJoined(dateJoined)}
+            </Text>
           </View>
 
-          {link && <Pressable onPress={handlePressLink}>
-            <Text style={styles.link}>{link}</Text>
-          </Pressable>}
+          {link && (
+            <Pressable onPress={handlePressLink}>
+              <Text style={styles.link}>{link}</Text>
+            </Pressable>
+          )}
         </View>
 
-        <View style={{ alignItems: "center"}}>
+        <View style={{ alignItems: "center" }}>
           <MaterialIcons name="keyboard-arrow-down" size={50} color="white" />
         </View>
 
@@ -134,7 +136,6 @@ const Profile = ({
           </LinearGradient>
         </Pressable>*/}
         {/* End follow button */}
-
       </View>
     </View>
   );
@@ -199,8 +200,8 @@ const styles = {
 const makeMapStateToProps = () => {
   const getUser = makeGetUser();
   return function mapStateToProps(state, ownProps) {
-    return {...getUser(state, { userId: ownProps.userId })}
-  }
+    return { ...getUser(state, { userId: ownProps.userId }) };
+  };
 };
 
 export default connect(makeMapStateToProps)(Profile);

@@ -10,7 +10,6 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   async (config) => {
-
     const state = store.getState();
 
     config.headers = {
@@ -36,7 +35,6 @@ axiosInstance.interceptors.response.use(
       error.response.data.code === "token_not_valid" &&
       error.response.status === 401
     ) {
-
       const state = store.getState();
 
       if (state.auth.refreshToken) {

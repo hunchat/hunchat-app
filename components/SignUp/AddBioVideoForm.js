@@ -20,9 +20,7 @@ const { width } = Dimensions.get("window");
 const BIO_VIDEO_PREVIEW_WIDTH = 0.35 * width;
 const BIO_VIDEO_PREVIEW_HEIGHT = 1.77 * BIO_VIDEO_PREVIEW_WIDTH;
 
-const AddBioVideoForm = ({
-  previewUri,
-}) => {
+const AddBioVideoForm = ({ previewUri }) => {
   const [bio, setBio] = useState("");
 
   const bioRef = useRef();
@@ -30,36 +28,32 @@ const AddBioVideoForm = ({
   const navigation = useNavigation();
 
   const onPressStartChatting = () => {
-    navigation.navigate("OnboardingStack", { screen: "Onboarding" })
+    navigation.navigate("OnboardingStack", { screen: "Onboarding" });
   };
 
   const onPressRecordAgain = () => {
-    navigation.push("OnboardingStack",
-      {
-        screen: "Camera",
-        params: { action: "addBioVideo" },
-      }
-    );
+    navigation.push("OnboardingStack", {
+      screen: "Camera",
+      params: { action: "addBioVideo" },
+    });
   };
 
   const onPressRecord = () => {
-    navigation.push("OnboardingStack",
-      {
-        screen: "Camera",
-        params: { action: "addBioVideo" },
-      }
-    );
+    navigation.push("OnboardingStack", {
+      screen: "Camera",
+      params: { action: "addBioVideo" },
+    });
   };
 
   const onPressRecordLatter = () => {
-    navigation.navigate("OnboardingStack", { screen: "Onboarding" })
+    navigation.navigate("OnboardingStack", { screen: "Onboarding" });
   };
 
   return (
     <View style={styles.container}>
-
       <Text style={styles.instructions}>
-        Record a short video bio to let other people know what you like to talk about.
+        Record a short video bio to let other people know what you like to talk
+        about.
       </Text>
 
       <View style={{ marginTop: 10, alignItems: "center" }}>
@@ -78,7 +72,10 @@ const AddBioVideoForm = ({
         </View>
         {previewUri && (
           <Text
-            style={{ color: "rgba(255, 255, 255, 0.35)", textDecorationLine: "underline" }}
+            style={{
+              color: "rgba(255, 255, 255, 0.35)",
+              textDecorationLine: "underline",
+            }}
             onPress={onPressRecordAgain}
           >
             Record again
@@ -87,47 +84,42 @@ const AddBioVideoForm = ({
       </View>
 
       {previewUri ? (
-          <Pressable
-            style={styles.button}
-            onPress={onPressStartChatting}
+        <Pressable style={styles.button} onPress={onPressStartChatting}>
+          <LinearGradient
+            colors={["#FF8400", "#FF9D33"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.gradient}
           >
-            <LinearGradient
-              colors={["#FF8400", "#FF9D33"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.gradient}
-            >
-              <Text style={styles.buttonText}>Start chatting</Text>
-            </LinearGradient>
-          </Pressable>
-        ) : (
-          <Pressable
-            style={styles.button}
-            onPress={onPressRecord}
+            <Text style={styles.buttonText}>Start chatting</Text>
+          </LinearGradient>
+        </Pressable>
+      ) : (
+        <Pressable style={styles.button} onPress={onPressRecord}>
+          <LinearGradient
+            colors={["#FF8400", "#FF9D33"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.gradient}
           >
-            <LinearGradient
-              colors={["#FF8400", "#FF9D33"]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.gradient}
-            >
-              <Text style={styles.buttonText}>Record</Text>
-            </LinearGradient>
-          </Pressable>
-        )
-      }
+            <Text style={styles.buttonText}>Record</Text>
+          </LinearGradient>
+        </Pressable>
+      )}
 
       {!previewUri && (
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <Text
-            style={{ color: "rgba(255, 255, 255, 0.35)", textDecorationLine: "underline" }}
+            style={{
+              color: "rgba(255, 255, 255, 0.35)",
+              textDecorationLine: "underline",
+            }}
             onPress={onPressRecordLatter}
           >
             Record later
           </Text>
         </View>
       )}
-
     </View>
   );
 };
@@ -179,7 +171,7 @@ const styles = StyleSheet.create({
   errorText: {
     textAlign: "center",
     color: "white",
-  }
+  },
 });
 
 function mapStateToProps(state) {

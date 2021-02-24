@@ -1,6 +1,3 @@
 import { AuthenticationService, UsersService } from "./authentication";
 
-export {
-  AuthenticationService,
-  UsersService,
-};
+export { AuthenticationService, UsersService };

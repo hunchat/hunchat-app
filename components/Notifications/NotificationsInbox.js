@@ -8,9 +8,7 @@ const NotificationsInbox = ({ notificationsIds }) => {
 
   const keyExtractor = (item) => item;
 
-  const renderItem = ({ item, index }) => (
-    <Notification id={item}/>
-  );
+  const renderItem = ({ item, index }) => <Notification id={item} />;
 
   return (
     <FlatList

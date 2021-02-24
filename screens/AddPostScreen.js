@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
-import { StackActions } from '@react-navigation/native';
+import { StackActions } from "@react-navigation/native";
 import {
   View,
   StyleSheet,
@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { Video } from "expo-av";
 import { Ionicons } from "@expo/vector-icons";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { LinearGradient } from "expo-linear-gradient";
 
 import { postCreateThunk } from "../ducks/newPostSlice";
@@ -81,7 +81,6 @@ class AddPostScreen extends React.Component {
           extraScrollHeight={70}
           keyboardOpeningTime={80}
         >
-
           {/* Start preview */}
           <View style={{ marginVertical: 20 }}>
             <Text style={styles.previewText}>Preview</Text>
@@ -101,10 +100,8 @@ class AddPostScreen extends React.Component {
           {/* End preview*/}
 
           <View style={{ width: 0.8 * width }}>
-            { /* Start description */}
-            <Pressable
-              style={styles.descriptionContainer}
-            >
+            {/* Start description */}
+            <Pressable style={styles.descriptionContainer}>
               <Text
                 style={{
                   color: "white",
@@ -128,12 +125,12 @@ class AddPostScreen extends React.Component {
                 multiline
               />
             </Pressable>
-            { /* End description */}
+            {/* End description */}
           </View>
         </KeyboardAwareScrollView>
 
         {/* Start submit */}
-        {this.props.status==="pending" ? (
+        {this.props.status === "pending" ? (
           <View style={styles.button}>
             <LinearGradient
               colors={["#FF8400", "#FF9D33"]}
@@ -231,4 +228,6 @@ const mapDispatchToProps = {
   postCreateThunk,
 };
 
-export default withNavigation(connect(mapStateToProps, mapDispatchToProps)(AddPostScreen));
+export default withNavigation(
+  connect(mapStateToProps, mapDispatchToProps)(AddPostScreen)
+);

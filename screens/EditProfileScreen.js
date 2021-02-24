@@ -11,7 +11,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import { withNavigation } from "react-navigation";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import {
   EditProfileHeader,
@@ -19,7 +19,11 @@ import {
   EditProfileImage,
 } from "../components/EditProfile";
 import { makeGetUser, retrieveUserThunk } from "../ducks/usersSlice";
-import { updateUserThunk, updateUserBioVideoThunk, updateUserImageThunk } from "../ducks/editProfileSlice";
+import {
+  updateUserThunk,
+  updateUserBioVideoThunk,
+  updateUserImageThunk,
+} from "../ducks/editProfileSlice";
 import { Colors } from "../styles";
 
 class EditProfileScreen extends React.Component {
@@ -45,7 +49,7 @@ class EditProfileScreen extends React.Component {
     }
 
     // Populate form data
-    this.setState(state => {
+    this.setState((state) => {
       return {
         name: this.props.name,
         username: this.props.username,
@@ -55,7 +59,7 @@ class EditProfileScreen extends React.Component {
         image: this.props.image,
         imageUrl: this.props.imageUrl,
         link: this.props.link,
-      }
+      };
     });
   }
 
@@ -65,10 +69,10 @@ class EditProfileScreen extends React.Component {
     }
     if (this.props.newBioVideo !== prevProps.newBioVideo) {
       if (this.props.newBioVideo) {
-        this.setState({ bioVideo: this.props.newBioVideo })
+        this.setState({ bioVideo: this.props.newBioVideo });
       }
     }
-    if(this.props.status !== prevProps.status) {
+    if (this.props.status !== prevProps.status) {
       if (this.props.status == "fulfilled") {
         this.props.navigation.goBack();
       }
@@ -77,34 +81,34 @@ class EditProfileScreen extends React.Component {
 
   onChangeImage = ({ url, file }) => {
     this.setState({ imageUrl: url, image: file });
-  }
+  };
 
   onChangeName = (text) => {
     this.setState({ name: text });
-  }
+  };
 
   onChangeUsername = (text) => {
     this.setState({ username: text });
-  }
+  };
 
-  onChangeBio= (text) => {
+  onChangeBio = (text) => {
     this.setState({ bio: text });
-  }
+  };
 
   onChangeLocation = (text) => {
     this.setState({ location: text });
-  }
+  };
 
   onChangeLink = (text) => {
     this.setState({ link: text });
-  }
+  };
 
   onSubmit() {
     let newData = {};
 
     if (this.props.newBioVideo) {
       let newBioVideoData = {};
-      newBioVideoData['bio_video'] = {
+      newBioVideoData["bio_video"] = {
         file: this.props.newBioVideo.file,
         duration: this.props.newBioVideo.duration,
         height: this.props.newBioVideo.height,
@@ -116,42 +120,42 @@ class EditProfileScreen extends React.Component {
 
     if (this.state.imageUrl !== this.props.imageUrl) {
       let newImageData = {};
-      newImageData['image'] = {
-        "file": this.state.image,
-      }
+      newImageData["image"] = {
+        file: this.state.image,
+      };
 
       this.props.updateUserImageThunk(newImageData);
     }
 
     if (this.state.name !== this.props.name) {
-      newData['name'] = this.state.name
+      newData["name"] = this.state.name;
     }
 
     if (this.state.username !== this.props.username) {
-      newData['username'] = this.state.username
+      newData["username"] = this.state.username;
     }
 
     if (this.state.bio !== this.props.bio) {
-      newData['bio'] = this.state.bio
+      newData["bio"] = this.state.bio;
     }
 
     if (this.state.location !== this.props.location) {
-      newData['location'] = this.state.location
+      newData["location"] = this.state.location;
     }
 
     if (this.state.link !== this.props.link) {
-      newData['link'] = this.state.link
+      newData["link"] = this.state.link;
     }
 
     if (Object.keys(newData).length !== 0) {
-      this.props.updateUserThunk(newData)
+      this.props.updateUserThunk(newData);
     }
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <EditProfileHeader onSubmit={this.onSubmit}/>
+        <EditProfileHeader onSubmit={this.onSubmit} />
         <KeyboardAwareScrollView
           style={styles.container}
           extraHeight={40}
@@ -161,7 +165,10 @@ class EditProfileScreen extends React.Component {
           <EditProfileBioVideo {...this.state.bioVideo} />
 
           <View style={styles.fieldContainer}>
-            <EditProfileImage url={this.state.imageUrl} onChangeImage={this.onChangeImage}/>
+            <EditProfileImage
+              url={this.state.imageUrl}
+              onChangeImage={this.onChangeImage}
+            />
           </View>
 
           {/* Start edit name */}
@@ -237,12 +244,7 @@ class EditProfileScreen extends React.Component {
 
           {/* Start password */}
           <View style={styles.fieldContainer}>
-            <Text
-              style={[
-                styles.label,
-                {textDecorationLine: "underline"}
-              ]}
-            >
+            <Text style={[styles.label, { textDecorationLine: "underline" }]}>
               Change password
             </Text>
           </View>
@@ -272,7 +274,6 @@ const styles = StyleSheet.create({
     color: "#C1C1C1",
   },
 });
-
 
 const makeMapStateToProps = () => {
   const getUser = makeGetUser();

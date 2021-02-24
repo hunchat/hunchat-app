@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-
 const onboardingAddVideoBioSlice = createSlice({
   name: "onboardingAddVideoBio",
   initialState: {
@@ -17,6 +16,9 @@ const onboardingAddVideoBioSlice = createSlice({
   },
 });
 
-export const { setOnboardingVideoBio, setPreviewOnboardingVideoBio } = onboardingAddVideoBioSlice.actions;
+export const {
+  setOnboardingVideoBio,
+  setPreviewOnboardingVideoBio,
+} = onboardingAddVideoBioSlice.actions;
 
 export default onboardingAddVideoBioSlice.reducer;

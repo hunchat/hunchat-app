@@ -14,7 +14,9 @@ class NotificationsScreen extends React.Component {
     return (
       <View style={styles.container}>
         <Header title={"Notifications"} />
-        <NotificationsInbox notificationsIds={["1", "2", "3", "4", "5", "6", "7", "8", "9"]}/>
+        <NotificationsInbox
+          notificationsIds={["1", "2", "3", "4", "5", "6", "7", "8", "9"]}
+        />
       </View>
     );
   }

@@ -15,23 +15,18 @@ const Page3 = () => {
   return (
     <View style={styles.container}>
       <View style={{ width: 0.7 * width }}>
-        <Text style={styles.title}>
-          You are important.
-        </Text>
+        <Text style={styles.title}>You are important.</Text>
         <View style={{ marginTop: 10 }}>
-          <Text style={{ color: "white" }}>
-            Extremely important.
-          </Text>
+          <Text style={{ color: "white" }}>Extremely important.</Text>
         </View>
         <View style={{ marginTop: 10 }}>
           <Text style={{ color: "white" }}>
-            Whenever you see an error in the app, click on this icon, tell us what happened and we will fix it.
+            Whenever you see an error in the app, click on this icon, tell us
+            what happened and we will fix it.
           </Text>
         </View>
         <View style={{ marginTop: 10 }}>
-          <Text style={{ color: "white" }}>
-            Thank you,{"\n"}Enjoy Hunchat.
-          </Text>
+          <Text style={{ color: "white" }}>Thank you,{"\n"}Enjoy Hunchat.</Text>
         </View>
       </View>
 
@@ -63,7 +58,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
-  }
+  },
 });
 
 export default Page3;

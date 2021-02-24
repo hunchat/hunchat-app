@@ -4,24 +4,18 @@ import { Ionicons } from "@expo/vector-icons";
 
 const { width } = Dimensions.get("window");
 
-const Page1 = ({
-  handlePageChange,
-}) => {
+const Page1 = ({ handlePageChange }) => {
   return (
     <View style={styles.container}>
       <View style={{ marginVertical: 40, width: 0.7 * width }}>
-        <Text style={styles.title}>
-          Welcome to Hunchat
-        </Text>
+        <Text style={styles.title}>Welcome to Hunchat</Text>
         <View style={{ marginTop: 10 }}>
           <Text style={{ color: "white" }}>
             You are now ready to have amazing conversations.
           </Text>
         </View>
         <View style={{ marginTop: 10 }}>
-          <Text style={{ color: "white" }}>
-            Thank you for being here :)
-          </Text>
+          <Text style={{ color: "white" }}>Thank you for being here :)</Text>
         </View>
       </View>
 
@@ -53,7 +47,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
-  }
+  },
 });
 
 export default Page1;

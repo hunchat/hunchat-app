@@ -11,7 +11,7 @@ import {
   Pressable,
   ScrollView,
 } from "react-native";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { CreateAccountForm } from "../components/SignUp";
@@ -25,7 +25,7 @@ class CreateAccountScreen extends React.Component {
   }
 
   onPressGoBack = () => {
-    this.props.navigation.goBack()
+    this.props.navigation.goBack();
   };
 
   render() {
@@ -39,14 +39,13 @@ class CreateAccountScreen extends React.Component {
           onPress={Keyboard.dismiss}
           style={[styles.container, { alignItems: "center" }]}
         >
-
-        {/* Start header */}
-        <View style={styles.header}>
-          <Pressable style={styles.goBack} onPress={this.onPressGoBack}>
-            <Ionicons name="ios-arrow-back" size={24} color="white" />
-          </Pressable>
-        </View>
-        {/* End header */}
+          {/* Start header */}
+          <View style={styles.header}>
+            <Pressable style={styles.goBack} onPress={this.onPressGoBack}>
+              <Ionicons name="ios-arrow-back" size={24} color="white" />
+            </Pressable>
+          </View>
+          {/* End header */}
 
           <View style={{ marginVertical: 40, width: 0.75 * width }}>
             <Text style={{ color: "white", fontSize: 23, fontWeight: "600" }}>
@@ -73,9 +72,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-start",
   },
-  goBack: {
-
-  },
+  goBack: {},
   logo: {
     width: 0.6 * width,
     resizeMode: "contain",

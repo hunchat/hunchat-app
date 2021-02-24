@@ -12,12 +12,10 @@ const EditProfileBioVideo = ({ file, fileUrl, duration, height, width }) => {
   const navigation = useNavigation();
 
   const handlePress = () => {
-    navigation.navigate("ProfileStack",
-      {
-        screen: "Camera",
-        params: { action: "editProfile" },
-      }
-    );
+    navigation.navigate("ProfileStack", {
+      screen: "Camera",
+      params: { action: "editProfile" },
+    });
   };
 
   return (

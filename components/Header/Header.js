@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import { MaterialIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { Colors } from "../../styles";
 
@@ -14,7 +14,7 @@ function Header({ title, currentUserId }) {
       screen: "Profile",
       params: {
         userId: currentUserId,
-      }
+      },
     });
   };
 
@@ -25,9 +25,17 @@ function Header({ title, currentUserId }) {
       </View>
       <View style={styles.navigation}>
         <Pressable onPress={onPressGoToProfile}>
-          <MaterialIcons name="person-outline" size={35} color={Colors.greyIcons} />
+          <MaterialIcons
+            name="person-outline"
+            size={35}
+            color={Colors.greyIcons}
+          />
         </Pressable>
-        <MaterialCommunityIcons name="email-outline" size={35} color={Colors.greyIcons} />
+        <MaterialCommunityIcons
+          name="email-outline"
+          size={35}
+          color={Colors.greyIcons}
+        />
       </View>
     </View>
   );
@@ -62,6 +70,6 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => ({
   currentUserId: state.users.currentUserId,
-})
+});
 
 export default connect(mapStateToProps)(Header);

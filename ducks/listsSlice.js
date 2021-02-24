@@ -54,12 +54,16 @@ export function getListPostsThunk() {
         if (response.data.results.length !== 0) {
           batch(() => {
             response.data.results.map((post) => {
-              const camelcasePost = camelcaseKeys(post, { deep: true});
+              const camelcasePost = camelcaseKeys(post, { deep: true });
               const normalizedPost = normalize(camelcasePost, postSchema);
 
-              dispatch(addPost({ post: normalizedPost.entities.posts[post.id] }));
+              dispatch(
+                addPost({ post: normalizedPost.entities.posts[post.id] })
+              );
               dispatch(addPostToList({ listId: "1", postId: post.id }));
-              dispatch(addUser({ user: normalizedPost.entities.users[post.author.id]}))
+              dispatch(
+                addUser({ user: normalizedPost.entities.users[post.author.id] })
+              );
 
               if (normalizedPost.entities.commentTo) {
                 dispatch(addPost({ post: normalizedPost.entities.commentTo }));
@@ -74,15 +78,11 @@ export function getListPostsThunk() {
                   );
                 });
               }
-
             });
-
           });
         }
       })
-      .catch((error) => {
-
-      });
+      .catch((error) => {});
   };
 }
 
@@ -111,10 +111,12 @@ const listsSlice = createSlice({
     },
     addPostToList: (state, action) => {
       // Populate/Update list posts
-      if (!state.byId[action.payload.listId].posts.includes(action.payload.postId)) {
+      if (
+        !state.byId[action.payload.listId].posts.includes(action.payload.postId)
+      ) {
         state.byId[action.payload.listId].posts.push(action.payload.postId);
       }
-    }
+    },
   },
 });
 

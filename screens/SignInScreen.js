@@ -35,7 +35,10 @@ class SignInScreen extends React.Component {
               onPress={Keyboard.dismiss}
               style={[styles.container, { alignItems: "center" }]}
             >
-              <Image source={require("../assets/logo.png")} style={styles.logo} />
+              <Image
+                source={require("../assets/logo.png")}
+                style={styles.logo}
+              />
               <SignInForm />
             </Pressable>
 
@@ -48,7 +51,6 @@ class SignInScreen extends React.Component {
               <Text style={styles.forgotPassword}>Forgot your password?</Text>
             </Pressable>
             {/* End forgot password */}
-
           </KeyboardAvoidingView>
         </ScrollView>
       </View>
@@ -68,7 +70,7 @@ const styles = StyleSheet.create({
   forgotPassword: {
     textAlign: "center",
     textDecorationLine: "underline",
-    color: "lightgrey"
+    color: "lightgrey",
   },
 });
 

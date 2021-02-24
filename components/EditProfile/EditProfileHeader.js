@@ -1,7 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
-import { View, StyleSheet, Pressable, Text, ActivityIndicator } from "react-native";
+import {
+  View,
+  StyleSheet,
+  Pressable,
+  Text,
+  ActivityIndicator,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 import { Colors } from "../../styles";
@@ -19,14 +25,13 @@ const EditProfileHeader = ({ onSubmit, status }) => {
         <Ionicons name="ios-arrow-back" size={24} color="white" />
       </Pressable>
       <Text style={styles.title}>Edit Profile</Text>
-      {status === "pending"
-        ? <ActivityIndicator size="small" color={Colors.primary} />
-        : (
-          <Pressable onPress={onSubmit}>
-            <Text style={styles.save}>Save</Text>
-          </Pressable>
-        )
-      }
+      {status === "pending" ? (
+        <ActivityIndicator size="small" color={Colors.primary} />
+      ) : (
+        <Pressable onPress={onSubmit}>
+          <Text style={styles.save}>Save</Text>
+        </Pressable>
+      )}
     </View>
   );
 };
@@ -52,7 +57,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   status: state.editProfile.formSubmittingStatus,
 });
 

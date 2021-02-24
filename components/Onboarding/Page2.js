@@ -4,24 +4,18 @@ import { Ionicons } from "@expo/vector-icons";
 
 const { width } = Dimensions.get("window");
 
-const Page2 = ({
-  handlePageChange,
-}) => {
+const Page2 = ({ handlePageChange }) => {
   return (
     <View style={styles.container}>
       <View style={{ marginVertical: 40, width: 0.7 * width }}>
-        <Text style={styles.title}>
-          A great start.
-        </Text>
+        <Text style={styles.title}>A great start.</Text>
         <View style={{ marginTop: 10 }}>
           <Text style={{ color: "white" }}>
             This is the first public version of Hunchat. The "Beta"
           </Text>
         </View>
         <View style={{ marginTop: 10 }}>
-          <Text style={{ color: "white" }}>
-            Why does that matter?
-          </Text>
+          <Text style={{ color: "white" }}>Why does that matter?</Text>
         </View>
         <View style={{ marginTop: 10 }}>
           <Text style={{ color: "white" }}>
@@ -63,7 +57,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     justifyContent: "center",
     alignItems: "center",
-  }
+  },
 });
 
 export default Page2;

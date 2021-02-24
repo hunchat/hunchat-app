@@ -12,12 +12,10 @@ const ProfileHeader = ({}) => {
     navigation.goBack();
   };
 
-  const handlePressShare = () => {
-
-  };
+  const handlePressShare = () => {};
 
   const handlePressExtra = () => {
-    navigation.navigate("ProfileStack", { screen: "Menu" })
+    navigation.navigate("ProfileStack", { screen: "Menu" });
   };
 
   return (

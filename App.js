@@ -8,8 +8,8 @@ import {
   Platform,
   Linking,
 } from "react-native";
-import * as SplashScreen from 'expo-splash-screen';
-import AppLoading from 'expo-app-loading';
+import * as SplashScreen from "expo-splash-screen";
+import AppLoading from "expo-app-loading";
 import Dialog from "react-native-dialog";
 import { decode, encode } from "base-64";
 
@@ -30,9 +30,10 @@ class App extends React.Component {
     this.state = {
       isFirstLaunch: false,
       appIsReady: false,
-      visible: Platform.OS === "ios" && Platform.Version === "14.0" ? true : false,
-    }
-  };
+      visible:
+        Platform.OS === "ios" && Platform.Version === "14.0" ? true : false,
+    };
+  }
 
   /**
    * Method that serves to load resources and make API calls
@@ -78,7 +79,6 @@ class App extends React.Component {
             currentUserId={this.props.currentUserId}
             isFirstLaunch={this.state.isFirstLaunch}
           />
-
         </NavigationContainer>
       </SafeAreaView>
     );
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   authRefreshToken: state.auth.refreshToken,
   currentUserId: state.users.currentUserId,
 });

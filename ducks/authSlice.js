@@ -56,7 +56,7 @@ export function tokenObtainThunk({ username, password }) {
         dispatch(setSignInFormError(error.response.data.detail));
       });
   };
-};
+}
 
 export function emailAvailableThunk({ email }) {
   return function (dispatch, getState) {
@@ -78,10 +78,12 @@ export function emailAvailableThunk({ email }) {
       })
       .catch((error) => {
         dispatch(setCreateAccountFormEmailAvailableStatus("rejected"));
-        dispatch(setCreateAccountFormEmailAvailableError(error.response.data.email));
+        dispatch(
+          setCreateAccountFormEmailAvailableError(error.response.data.email)
+        );
       });
   };
-};
+}
 
 export function usernameAvailableThunk({ username }) {
   return function (dispatch, getState) {
@@ -103,10 +105,12 @@ export function usernameAvailableThunk({ username }) {
       })
       .catch((error) => {
         dispatch(setSignUpFormUsernameAvailableStatus("rejected"));
-        dispatch(setSignUpFormUsernameAvailableError(error.response.data.username));
+        dispatch(
+          setSignUpFormUsernameAvailableError(error.response.data.username)
+        );
       });
   };
-};
+}
 
 export function userCreateThunk({
   username,
@@ -136,7 +140,6 @@ export function userCreateThunk({
       })
       .then((response) => {
         if (response.status === 201) {
-
           let signUpFormError = getState().auth;
           if (signUpFormError) {
             // Reset signup form error message
@@ -182,7 +185,7 @@ export function userCreateThunk({
         }
       });
   };
-};
+}
 
 /**
  * Stores user authentication tokens.

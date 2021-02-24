@@ -35,15 +35,20 @@ const styles = StyleSheet.create({
 
 const makeMapStateToProps = () => {
   const getPostThreadPostsIds = makeGetPostThreadPostsIds();
-  return mapStateToProps = (state, ownProps) => {
+  return (mapStateToProps = (state, ownProps) => {
     return {
-      postsIds: getPostThreadPostsIds(state, { postId: ownProps.route.params.postId }),
-    }
-  }
+      postsIds: getPostThreadPostsIds(state, {
+        postId: ownProps.route.params.postId,
+      }),
+    };
+  });
 };
 
 const mapDispatchToProps = {
   threadGetThunk,
 };
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(withNavigation(ThreadScreen));
+export default connect(
+  makeMapStateToProps,
+  mapDispatchToProps
+)(withNavigation(ThreadScreen));
