@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useEffect, useRef } from "react";
+import { connect } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 import {
   View,
   Text,
@@ -9,73 +10,110 @@ import {
   Dimensions,
   Linking,
   Pressable,
+  StatusBar,
 } from "react-native";
 import { Video } from "expo-av";
-import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { LinearGradient } from "expo-linear-gradient";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { getStatusBarHeight } from "react-native-status-bar-height";
 
 import PostProgressBar from "./PostProgressBar";
+import { makeGetPost } from "../../ducks/postsSlice";
+import { setNewPostCommentTo } from "../../ducks/newPostSlice";
 
 const authorUsernameMaxCharacters = 13;
 
 const { height, width } = Dimensions.get("window");
 
-const ANSWER_POST_WIDTH =  0.3 * width;
+export const POST_HEIGHT = height - getStatusBarHeight();
+const ANSWER_POST_WIDTH = 0.3 * width;
 
-function Post({
+const Post = ({
   id,
-  url,
+  video,
   description,
   author,
-  externalLink,
+  link,
   views,
-  likes,
+  likesCount,
   shares,
-  answer,
-}) {
+  commentsCount,
+  commentTo,
+  isViewable,
+  onDidJustFinish,
+  setNewPostCommentTo,
+  threadGetThunk,
+}) => {
+  const { fileUrl } = video;
+  const { username, imageUrl } = author;
+
   const [duration, setDuration] = useState(0);
   const [position, setPosition] = useState(0);
+  const videoRef = useRef(null);
 
   const navigation = useNavigation();
 
-  const handleExternalLinkPress = () => {
-    Linking.openURL(externalLink);
+  useEffect(() => {
+      if (isViewable) {
+        videoRef.current.playAsync()
+      } else {
+        videoRef.current.setStatusAsync({ shouldPlay: false, positionMillis: 0 })
+      }
+    },
+    [videoRef, isViewable],
+  );
+
+  const handlelinkPress = () => {
+    Linking.openURL(link);
   };
 
-  const handleAddResponsePress = () => {
+  const onPressAddComment = () => {
+    navigation.navigate("AddPostStack", {
+      screen: "Camera",
+      params: { action: "addPost" }
+    });
+    setNewPostCommentTo(id);
+  };
 
-  }
+  const handlePressSeeThread = () => {
+    navigation.push("PostStack", {
+      screen: "Thread",
+      params: { postId: id }
+    });
+  };
 
-  const handleLoad = (playbackStatus) => {
-    setDuration(playbackStatus.durationMillis);
+  const handleLoad = (playbackObject) => {
+    setDuration(playbackObject.durationMillis);
   };
 
   const handlePlaybackStatusUpdate = (playbackObject) => {
-    setPosition(playbackObject.positionMillis)
+    setPosition(playbackObject.positionMillis);
+    if (playbackObject.didJustFinish) {
+      onDidJustFinish();
+    }
   };
 
   return (
     <View style={styles.container}>
-      { duration !== 0 &&
-        <PostProgressBar duration={duration} position={position}/>
-      }
+      {duration !== 0 && (
+        <PostProgressBar duration={duration} position={position} />
+      )}
       <Video
-        // source={{ uri: url }}
-        source={require("../../assets/examples/video.mp4")}
+        ref={videoRef}
+        source={{ uri: fileUrl }}
         rate={1.0}
         volume={1.0}
         isMuted={false}
         resizeMode="cover"
-        shouldPlay
-        isLooping
         onLoad={handleLoad}
+        progressUpdateIntervalMillis={100}
         onPlaybackStatusUpdate={handlePlaybackStatusUpdate}
         style={styles.video}
       />
       <LinearGradient
-        colors={['rgba(0,0,0,0.5)', 'transparent']}
+        colors={["rgba(0,0,0,0.5)", "transparent"]}
         start={{ x: 0, y: 1 }}
-        end={{ x: 0, y: 0.45}}
+        end={{ x: 0, y: 0.45 }}
         locations={[0.8, 1]}
         style={styles.gradient}
       />
@@ -90,75 +128,95 @@ function Post({
         }}
       >
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-
-          <View style={{flex: 7, justifyContent: "space-between" }}>
-            <View>
+          <View style={{ flex: 7, justifyContent: "space-between" }}>
+            <View style={{ paddingRight: 5 }}>
               <View style={styles.author}>
                 <Image
-                  source={Object({ uri: "https://instagram.flis5-1.fna.fbcdn.net/v/t51.2885-19/s150x150/37811221_218343765548379_8242830384702685184_n.jpg?_nc_ht=instagram.flis5-1.fna.fbcdn.net&_nc_ohc=YMlw92AGb6wAX8y3plx&tp=1&oh=2d55648e9563b01e0c3a341863574067&oe=60430B10" })}
+                  source={{ uri: imageUrl }}
                   style={styles.authorImage}
                 />
                 <Text style={styles.authorUsername}>
                   @
-                  {author.username.length > authorUsernameMaxCharacters
-                    ? author.username.substring(0, authorUsernameMaxCharacters - 3) +
-                      "..."
-                    : author.username}
+                  {username.length > authorUsernameMaxCharacters
+                    ? username.substring(
+                        0,
+                        authorUsernameMaxCharacters - 3
+                      ) + "..."
+                    : username}
                 </Text>
               </View>
-              <Text style={styles.description} numberOfLines={3} ellipsizeMode="tail">
+              <Text
+                style={styles.description}
+                numberOfLines={3}
+                ellipsizeMode="tail"
+              >
                 {description}
               </Text>
               <View style={styles.linkedResources}>
-                <Text style={styles.linkedResourcesText}>Visit linked resources</Text>
+                <Text style={styles.linkedResourcesText}>
+                  Visit linked resources
+                </Text>
               </View>
             </View>
 
             {/* Start post reactions */}
             <View style={styles.reactions}>
-              <View style={{ flex: 1 }}>
+              <View style={{ flex: 1, alignItems: "center" }}>
                 <MaterialCommunityIcons name="video" size={30} color="white" />
-                <Text style={styles.reactionsCount}>18k</Text>
+                <Text style={styles.reactionsCount}>{commentsCount}</Text>
               </View>
-              <View style={{ flex: 1 }}>
+              <View style={{ flex: 1, alignItems: "center" }}>
                 <MaterialCommunityIcons name="heart" size={30} color="white" />
-                <Text style={styles.reactionsCount}>37k</Text>
+                <Text style={styles.reactionsCount}>{likesCount}</Text>
               </View>
-              <View style={{ flex: 1 }}>
-                <Ionicons name="ios-share-social-sharp" size={30} color="white" />
+              <View style={{ flex: 1, alignItems: "center" }}>
+                <Ionicons
+                  name="ios-share-social-sharp"
+                  size={30}
+                  color="white"
+                />
                 <Text style={styles.reactionsCount}>982</Text>
               </View>
             </View>
             {/* End post reactions */}
-
           </View>
 
-          {/* Start top answer */}
+          {/* Start thread */}
           <View style={{ flex: 4, alignItems: "flex-start" }}>
-            <Text style={{ color: "white", marginBottom: 5 }}>See thread</Text>
-            <Image
-              style={styles.response}
-              // source={{uri : url}}
-              source={require('../../assets/examples/image-3.png')}
-            />
+            {commentTo &&
+                <>
+                <Pressable onPress={handlePressSeeThread}>
+                  <Text style={{ color: "white", marginBottom: 5 }}>
+                    See thread
+                  </Text>
+                </Pressable>
+                <Pressable onPress={handlePressSeeThread}>
+                  <Video
+                    source={{ uri: commentTo.video.fileUrl }}
+                    resizeMode="cover"
+                    shouldPlay={false}
+                    style={styles.answer}
+                  />
+                </Pressable>
+                </>
+            }
           </View>
-          {/* End top answer */}
-
+          {/* End thread */}
         </View>
 
         <Pressable
           style={styles.addResponseButton}
-          onPress={handleAddResponsePress}
+          onPress={onPressAddComment}
         >
           <LinearGradient
-            colors={['#FF8400', '#FF9D33']}
-            start={{ x: 0, y: 0}}
-            end={{ x: 1, y: 1}}
-            style={styles.addResponseButtonGradient}>
+            colors={["#FF8400", "#FF9D33"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.addResponseButtonGradient}
+          >
             <MaterialCommunityIcons name="video-plus" size={40} color="white" />
           </LinearGradient>
         </Pressable>
-
       </View>
     </View>
   );
@@ -166,7 +224,7 @@ function Post({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    height: POST_HEIGHT,
     backgroundColor: "black",
   },
   video: {
@@ -214,22 +272,19 @@ const styles = StyleSheet.create({
   reactionsCount: {
     color: "white",
   },
-  response: {
+  answer: {
     height: 1.77 * 0.32 * width,
     width: 0.32 * width,
     borderRadius: 10,
     borderWidth: 2,
     borderColor: "white",
   },
-  responseCover: {
-    borderRadius: 10,
-  },
   addResponseButton: {
     marginTop: 10,
     shadowColor: "#AE5B02",
     shadowOffset: {
-    	width: 2,
-    	height: 1,
+      width: 2,
+      height: 1,
     },
     shadowOpacity: 0.63,
     shadowRadius: 5,
@@ -241,7 +296,19 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 25,
     alignItems: "center",
-  }
+  },
 });
 
-export default Post;
+const makeMapStateToProps = (state) => {
+  const getPost = makeGetPost();
+  return function mapStateToProps(state, ownProps) {
+    let post = getPost(state, { postId: ownProps.id });
+    return { ...post };
+  };
+};
+
+const mapDispatchToProps = {
+  setNewPostCommentTo,
+};
+
+export default connect(makeMapStateToProps, mapDispatchToProps)(Post);

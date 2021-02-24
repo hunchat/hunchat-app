@@ -14,13 +14,11 @@ const PostProgressBar = ({ duration, position }) => {
       duration: 100,
       useNativeDriver: false,
     }).start();
-  },[position]);
+  }, [position]);
 
-  const modulo = Animated.modulo(
-    animatedPosition.current,
-    duration,
-    { useNativeDriver: false }
-  ); // seconds in minute
+  const modulo = Animated.modulo(animatedPosition.current, duration, {
+    useNativeDriver: false,
+  }); // seconds in minute
 
   const top = modulo.interpolate({
     inputRange: [0, duration],
@@ -29,14 +27,7 @@ const PostProgressBar = ({ duration, position }) => {
     useNativeDriver: true,
   });
 
-  return (
-    <Animated.View
-      style={[
-        styles.container,
-        { top }
-      ]}
-    />
-  );
+  return <Animated.View style={[styles.container, { top }]} />;
 };
 
 const styles = StyleSheet.create({

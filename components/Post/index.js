@@ -1,7 +1,7 @@
-import Post from "./Post";
+import Post, { POST_HEIGHT } from "./Post";
 import PostPreview from "./PostPreview";
 import PostsList from "./PostsList";
 
-export { PostPreview, PostsList };
+export { POST_HEIGHT, PostPreview, PostsList };
 
 export default Post;

@@ -3,83 +3,61 @@ import {
   View,
   Text,
   StyleSheet,
-  Pressable,
   Image,
-  ImageBackground,
   Dimensions,
 } from "react-native";
+import { Video } from "expo-av";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { connect } from "react-redux";
 import { SharedElement } from "react-navigation-shared-element";
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
 
 import { makeGetPost } from "../../ducks/postsSlice";
 
 export const POST_PREVIEW_MARGIN = 5;
 export const POST_PREVIEW_BORDER_RADIUS = 15;
-export const POST_PREVIEW_WIDTH = (Dimensions.get("window").width - 4 * POST_PREVIEW_MARGIN) / 2;
+export const POST_PREVIEW_WIDTH =
+  (Dimensions.get("window").width - 4 * POST_PREVIEW_MARGIN) / 2;
 
 const authorUsernameMaxCharacters = 13;
 
-const PostPreview = ({
-  id,
-  url,
-  author,
-  description,
-}) => {
-  const navigation = useNavigation();
-  const [opacity, setOpacity] = useState(1);
-
-  useFocusEffect(() => {
-    if (navigation.isFocused()) {
-      setOpacity(1);
-    }
-  });
-
-  const onPress = () => {
-    setOpacity(0);
-    navigation.push("PostStack", {
-      screen: "Post",
-      params: { post: { id: id } },
-    });
-  };
-
+const PostPreview = ({ id, video, author, description }) => {
+  const { username, imageUrl } = author;
+  const { fileUrl } = video;
   return (
-    <Pressable
-      style={({ pressed }) => ({ opacity: pressed ? 0.5 : 1 })}
-      onPress={onPress}
-    >
-      <ImageBackground
-        style={[styles.container, { opacity: opacity }]}
-        imageStyle={styles.cover}
-        // source={{uri : url}}
-        source={require('../../assets/examples/image-1.png')}
-        >
+    <View style={styles.container}>
+      <Video
+        source={{ uri: fileUrl }}
+        resizeMode="cover"
+        shouldPlay={false}
+        style={styles.video}
+      />
         <LinearGradient
-          colors={['rgba(0,0,0,0.5)', 'transparent']}
+          colors={["rgba(0,0,0,0.2)", "transparent"]}
           start={{ x: 0, y: 1 }}
-          end={{ x: 0, y: 0.65}}
+          end={{ x: 0, y: 0.65 }}
           locations={[0.8, 1]}
           style={styles.gradient}
         />
-        <View style={styles.author}>
-          <Image
-            source={Object({ uri: "https://instagram.flis5-1.fna.fbcdn.net/v/t51.2885-19/s150x150/37811221_218343765548379_8242830384702685184_n.jpg?_nc_ht=instagram.flis5-1.fna.fbcdn.net&_nc_ohc=YMlw92AGb6wAX8y3plx&tp=1&oh=2d55648e9563b01e0c3a341863574067&oe=60430B10" })}
-            style={styles.authorImage}
-          />
-          <Text style={styles.authorUsername}>
-            @
-            {author.username.length > authorUsernameMaxCharacters
-              ? author.username.substring(0, authorUsernameMaxCharacters - 3) +
-                "..."
-              : author.username}
+        <View style={{ position: "absolute", bottom: 0, margin: 7 }}>
+          <View style={styles.author}>
+            <Image
+              source={Object({ uri: imageUrl})}
+              style={styles.authorImage}
+            />
+            <Text style={styles.authorUsername}>
+              @
+              {username.length > authorUsernameMaxCharacters
+                ? username.substring(0, authorUsernameMaxCharacters - 3) +
+                  "..."
+                : username}
+            </Text>
+          </View>
+          <Text style={styles.description} numberOfLines={3} ellipsizeMode="tail">
+            {description}
           </Text>
         </View>
-        <Text style={styles.description} numberOfLines={3} ellipsizeMode="tail">
-          {description}
-        </Text>
-      </ImageBackground>
-    </Pressable>
+    </View>
   );
 };
 
@@ -88,17 +66,18 @@ const styles = {
     height: POST_PREVIEW_WIDTH * 1.77,
     width: POST_PREVIEW_WIDTH,
     margin: POST_PREVIEW_MARGIN,
+  },
+  video: {
+    flex: 1,
     borderRadius: POST_PREVIEW_BORDER_RADIUS,
-    padding: 7,
+    backgroundColor: "grey",
     flexDirection: "column",
     justifyContent: "flex-end",
   },
   cover: {
     borderRadius: POST_PREVIEW_BORDER_RADIUS,
   },
-  blur: {
-
-  },
+  blur: {},
   author: {
     flexDirection: "row",
     alignItems: "center",
