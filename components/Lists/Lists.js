@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import ListPreview from "./ListPreview";
 
 import { getAllListsIds } from "../../ducks/listsSlice";
+import { Colors } from "../../styles";
 
 class Lists extends React.Component {
   constructor(props) {
@@ -36,7 +37,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    backgroundColor: "white",
+    backgroundColor: Colors.darkBackground,
   },
   list: {
     justifyContent: "space-around",
