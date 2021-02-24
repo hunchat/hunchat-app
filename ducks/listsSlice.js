@@ -1,6 +1,12 @@
+import { batch } from "react-redux";
 import { createSlice } from "@reduxjs/toolkit";
-
 import { createSelector } from "reselect";
+import _ from "lodash";
+import { normalize } from "normalizr";
+import camelcaseKeys from "camelcase-keys";
+
+import { postSchema, addPost } from "./postsSlice";
+import { addUser } from "./usersSlice";
 
 export const getAllListsIds = (state) => Object.keys(state.lists.byId);
 
@@ -9,24 +15,76 @@ export const getListId = (state, props) => props.listId;
 
 export const makeGetListPostsIds = () => {
   return createSelector([getLists, getListId], (lists, id) => {
-    return lists[id].posts;
+    if (lists[id]) {
+      return lists[id].posts;
+    }
+    return null;
   });
 };
 
 export const makeGetListName = () => {
   return createSelector([getLists, getListId], (lists, id) => {
-    return lists[id].name;
+    if (lists[id]) {
+      return lists[id].name;
+    }
+    return null;
   });
 };
 
 export const makeGetList = () => {
   return createSelector([getLists, getListId], (lists, id) => {
-    return {
-      name: lists[id].name,
-      posts: lists[id].posts,
-    };
+    if (lists[id]) {
+      return {
+        name: lists[id].name,
+        posts: lists[id].posts,
+      };
+    }
+    return null;
   });
 };
+
+export function getListPostsThunk() {
+  return function (dispatch, getState) {
+    const PostsService = require("../services/api/posts/PostsService");
+    const postsService = new PostsService();
+
+    postsService
+      .list()
+      .then((response) => {
+        if (response.data.results.length !== 0) {
+          batch(() => {
+            response.data.results.map((post) => {
+              const camelcasePost = camelcaseKeys(post, { deep: true});
+              const normalizedPost = normalize(camelcasePost, postSchema);
+
+              dispatch(addPost({ post: normalizedPost.entities.posts[post.id] }));
+              dispatch(addPostToList({ listId: "1", postId: post.id }));
+              dispatch(addUser({ user: normalizedPost.entities.users[post.author.id]}))
+
+              if (normalizedPost.entities.commentTo) {
+                dispatch(addPost({ post: normalizedPost.entities.commentTo }));
+              }
+
+              if (normalizedPost.entities.comments) {
+                _.keys(normalizedPost.entities.comments).map((commentId) => {
+                  dispatch(
+                    addPost({
+                      post: normalizedPost.entities.comments[commentId],
+                    })
+                  );
+                });
+              }
+
+            });
+
+          });
+        }
+      })
+      .catch((error) => {
+
+      });
+  };
+}
 
 const listsSlice = createSlice({
   name: "lists",
@@ -34,38 +92,8 @@ const listsSlice = createSlice({
     byId: {
       1: {
         id: "1",
-        name: "Todas as Listas",
-        posts: ["1", "2", "3"],
-      },
-      2: {
-        id: "2",
-        name: "Lista Design",
-        posts: ["2", "3", "4"],
-      },
-      3: {
-        id: "3",
-        name: "Lista Amigos",
-        posts: ["2", "3", "4", "5", "6"],
-      },
-      4: {
-        id: "4",
-        name: "Lista Culinária",
-        posts: ["2", "3", "4", "6"],
-      },
-      5: {
-        id: "5",
-        name: "Lista Gaming",
-        posts: ["2", "5", "7", "8"],
-      },
-      6: {
-        id: "6",
-        name: "Lista Desporto",
-        posts: ["1", "3", "4", "7"],
-      },
-      7: {
-        id: "7",
-        name: "Lista Livros",
-        posts: ["3", "4", "5", "8"],
+        name: "All topics",
+        posts: [],
       },
     },
   },
@@ -81,9 +109,15 @@ const listsSlice = createSlice({
         ...action.payload.list,
       };
     },
+    addPostToList: (state, action) => {
+      // Populate/Update list posts
+      if (!state.byId[action.payload.listId].posts.includes(action.payload.postId)) {
+        state.byId[action.payload.listId].posts.push(action.payload.postId);
+      }
+    }
   },
 });
 
-export const { addList } = listsSlice.actions;
+export const { addList, addPostToList } = listsSlice.actions;
 
 export default listsSlice.reducer;
