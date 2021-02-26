@@ -69,6 +69,7 @@
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
+    "babel-plugin-transform-remove-console": "^6.9.4",
     "prettier": "^2.2.1"
   },
   "private": true
