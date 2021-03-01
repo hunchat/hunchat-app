@@ -22,7 +22,9 @@ class PostsService {
     formData.append("width", data.video.width);
 
     formData.append("description", data.description);
-    formData.append("comment_to", data.commentTo);
+    if (data.commentTo) {
+      formData.append("comment_to", data.commentTo);
+    }
 
     const url = `/api/posts_create/`;
     return axiosInstance.put(url, formData, {
