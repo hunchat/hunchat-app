@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "hunchat",
-    "slug": "hunchat",
-    "version": "0.1.0",
+    "name": "Hunchat",
+    "slug": "Hunchat",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "entryPoint": "./index.js",
@@ -17,13 +17,16 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.hunchat.hunchat",
-      "buildNumber": "0.1.0",
+      "buildNumber": "1.0.0",
       "supportsTablet": true
     },
     "android": {
+      "package": "com.hunchat.hunchat",
+      "versionCode": 1,
+      "icon": "./assets/icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundImage": "./assets/adaptive-icon-background.png"
       }
     },
     "web": {
