@@ -5,17 +5,19 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   Image,
   Dimensions,
   Linking,
   Pressable,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
 import { Video } from "expo-av";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { getStatusBarHeight } from "react-native-status-bar-height";
+import { pure } from "recompose";
+import ReadMore from "react-native-read-more-text";
 
 import PostProgressBar from "./PostProgressBar";
 import { makeGetPost } from "../../ducks/postsSlice";
@@ -26,17 +28,16 @@ const authorUsernameMaxCharacters = 13;
 const { height, width } = Dimensions.get("window");
 
 export const POST_HEIGHT = height - getStatusBarHeight();
-const ANSWER_POST_WIDTH = 0.3 * width;
 
 const Post = ({
   id,
-  video,
-  description,
-  author,
+  video = {},
+  description = "",
+  author = {},
   link,
   views,
   likesCount,
-  shares,
+  sharesCount = 0,
   commentsCount,
   commentTo,
   isViewable,
@@ -44,11 +45,12 @@ const Post = ({
   setNewPostCommentTo,
   threadGetThunk,
 }) => {
-  const { fileUrl } = video;
-  const { username, imageUrl } = author;
+  const { fileUrl = null, posterUrl = null, duration = 0 } = video;
+  const { username = "", imageUrl = null } = author;
 
-  const [duration, setDuration] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState(0);
+  const [durationMillis, setDurationMillis] = useState(0);
   const videoRef = useRef(null);
 
   const navigation = useNavigation();
@@ -80,8 +82,13 @@ const Post = ({
     });
   };
 
-  const handleLoad = (playbackObject) => {
-    setDuration(playbackObject.durationMillis);
+  const onLoadStart = () => {
+    setIsLoading(true);
+  };
+
+  const onLoad = (playbackObject) => {
+    setIsLoading(false);
+    setDurationMillis(playbackObject.durationMillis);
   };
 
   const handlePlaybackStatusUpdate = (playbackObject) => {
@@ -91,30 +98,71 @@ const Post = ({
     }
   };
 
+  const renderTruncatedFooter = (handlePress) => {
+    return (
+      <Text
+        style={{ color: "white", fontWeight: "bold", marginTop: 5 }}
+        onPress={handlePress}
+      >
+        See more
+      </Text>
+    );
+  };
+
+  const renderRevealedFooter = (handlePress) => {
+    return (
+      <Text
+        style={{ color: "white", fontWeight: "bold", marginTop: 5 }}
+        onPress={handlePress}
+      >
+        Show less
+      </Text>
+    );
+  };
+
   return (
     <View style={styles.container}>
-      {duration !== 0 && (
-        <PostProgressBar duration={duration} position={position} />
+      {/* Start progress bar */}
+      {durationMillis !== 0 && (
+        <PostProgressBar duration={durationMillis} position={position} />
       )}
+      {/* End progress bar */}
+
+      {/* Start loading indicator */}
+      {isLoading && (
+        <View
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            elevation: 5,
+            zIndex: 110,
+          }}
+        >
+          <View style={{ top: "-50%", left: "-50%" }}>
+            <ActivityIndicator size="large" color="white" />
+          </View>
+        </View>
+      )}
+      {/* End loading indicator */}
+
       <Video
         ref={videoRef}
         source={{ uri: fileUrl }}
+        posterSource={{ uri: posterUrl }}
         rate={1.0}
         volume={1.0}
         isMuted={false}
         resizeMode="cover"
-        onLoad={handleLoad}
+        usePoster={true}
         progressUpdateIntervalMillis={100}
+        onLoadStart={onLoadStart}
+        onLoad={onLoad}
         onPlaybackStatusUpdate={handlePlaybackStatusUpdate}
         style={styles.video}
+        posterStyle={{ ...StyleSheet.absoluteFill, resizeMode: "cover" }}
       />
-      <LinearGradient
-        colors={["rgba(0,0,0,0.5)", "transparent"]}
-        start={{ x: 0, y: 1 }}
-        end={{ x: 0, y: 0.45 }}
-        locations={[0.8, 1]}
-        style={styles.gradient}
-      />
+
       <View
         style={{
           position: "absolute",
@@ -125,6 +173,13 @@ const Post = ({
           padding: 15,
         }}
       >
+        <LinearGradient
+          colors={["rgba(0,0,0,0.3)", "transparent"]}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 0, y: 0 }}
+          locations={[0.9, 1]}
+          style={styles.gradient}
+        />
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <View style={{ flex: 7, justifyContent: "space-between" }}>
             <View style={{ paddingRight: 5 }}>
@@ -138,13 +193,19 @@ const Post = ({
                     : username}
                 </Text>
               </View>
-              <Text
-                style={styles.description}
+
+              {/* Start description */}
+              <ReadMore
                 numberOfLines={3}
-                ellipsizeMode="tail"
+                renderTruncatedFooter={renderTruncatedFooter}
+                renderRevealedFooter={renderRevealedFooter}
               >
-                {description}
-              </Text>
+                <Text style={styles.description} ellipsizeMode="tail">
+                  {description}
+                </Text>
+              </ReadMore>
+              {/* End description */}
+
               <View style={styles.linkedResources}>
                 <Text style={styles.linkedResourcesText}>
                   Visit linked resources
@@ -168,7 +229,7 @@ const Post = ({
                   size={30}
                   color="white"
                 />
-                <Text style={styles.reactionsCount}>982</Text>
+                <Text style={styles.reactionsCount}>{sharesCount}</Text>
               </View>
             </View>
             {/* End post reactions */}
@@ -197,6 +258,7 @@ const Post = ({
           {/* End thread */}
         </View>
 
+        {/* Start add comment button */}
         <Pressable style={styles.addResponseButton} onPress={onPressAddComment}>
           <LinearGradient
             colors={["#FF8400", "#FF9D33"]}
@@ -207,6 +269,7 @@ const Post = ({
             <MaterialCommunityIcons name="video-plus" size={40} color="white" />
           </LinearGradient>
         </Pressable>
+        {/* End add comment button */}
       </View>
     </View>
   );
@@ -301,4 +364,4 @@ const mapDispatchToProps = {
   setNewPostCommentTo,
 };
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(Post);
+export default pure(connect(makeMapStateToProps, mapDispatchToProps)(Post));
