@@ -5,7 +5,7 @@ import Post, { POST_HEIGHT } from "../Post";
 
 const { width } = Dimensions.get("window");
 
-const ListPosts = ({ id, postsIds, initialScrollIndex }) => {
+const ListPosts = ({ id, postsIds, initialScrollIndex = 0 }) => {
   const [viewableIndex, setViewableIndex] = useState();
   const flatListRef = useRef(null);
 
@@ -25,11 +25,21 @@ const ListPosts = ({ id, postsIds, initialScrollIndex }) => {
     />
   );
 
+  const getItemLayout = (data, index) => ({
+    length: POST_HEIGHT,
+    offset: POST_HEIGHT * index,
+    index,
+  });
+
   const onViewableItemsChanged = useCallback(({ viewableItems, changed }) => {
     if (viewableItems.length !== 0) {
       setViewableIndex(viewableItems[0].index);
     }
   }, []);
+
+  const viewabilityConfig = {
+    itemVisiblePercentThreshold: 100,
+  };
 
   return (
     <FlatList
@@ -37,19 +47,16 @@ const ListPosts = ({ id, postsIds, initialScrollIndex }) => {
       data={postsIds}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
-      getItemLayout={(data, index) => ({
-        length: POST_HEIGHT,
-        offset: POST_HEIGHT * index,
-        index,
-      })}
-      initialNumToRender={1}
+      initialScrollIndex={initialScrollIndex}
+      getItemLayout={getItemLayout}
+      initialNumToRender={2}
+      maxToRenderPerBatch={2}
+      windowSize={7}
       snapToInterval={POST_HEIGHT}
       snapToEnd
       decelerationRate="fast"
       onViewableItemsChanged={onViewableItemsChanged}
-      viewabilityConfig={{
-        itemVisiblePercentThreshold: 70,
-      }}
+      viewabilityConfig={viewabilityConfig}
     />
   );
 };
