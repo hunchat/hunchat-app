@@ -18,7 +18,7 @@ const PostProgressBar = ({ duration, position }) => {
 
   const modulo = Animated.modulo(animatedPosition.current, duration, {
     useNativeDriver: false,
-  }); // seconds in minute
+  });
 
   const top = modulo.interpolate({
     inputRange: [0, duration],
