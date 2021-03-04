@@ -3,15 +3,15 @@ import { createSlice } from "@reduxjs/toolkit";
 const onboardingAddVideoBioSlice = createSlice({
   name: "onboardingAddVideoBio",
   initialState: {
-    uri: null, // URI of camera video
-    previewUri: null, // URI of preview video
+    video: null,
+    previewVideo: null, // URI of preview video
   },
   reducers: {
     setOnboardingVideoBio: (state, action) => {
-      state.uri = action.payload;
+      state.video = action.payload;
     },
     setPreviewOnboardingVideoBio: (state, action) => {
-      state.previewUri = action.payload;
+      state.previewVideo = action.payload;
     },
   },
 });
