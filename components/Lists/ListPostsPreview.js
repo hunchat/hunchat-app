@@ -2,19 +2,22 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { View, StyleSheet, Animated, Pressable } from "react-native";
 
-import { PostPreview } from "../Post";
+import { PostPreview, POST_PREVIEW_HEIGHT, POST_PREVIEW_WIDTH } from "../Post";
+
+const NUM_COLUMNS = 2;
 
 function ListPostsPreview({ id, postsIds, handleScroll, marginTop }) {
   const navigation = useNavigation();
 
   const keyExtractor = (item) => item;
 
-  const renderItem = ({ item }) => {
+  const renderItem = ({ item, index }) => {
     const handlePress = () => {
       navigation.push("ListStack", {
         screen: "ListPosts",
         params: {
           list: { id: id },
+          initialScrollIndex: index,
         },
       });
     };
@@ -25,17 +28,28 @@ function ListPostsPreview({ id, postsIds, handleScroll, marginTop }) {
     );
   };
 
+  const getItemLayout = (data, index) => ({
+    length: POST_PREVIEW_HEIGHT,
+    offset: POST_PREVIEW_WIDTH * Math.floor(index / NUM_COLUMNS),
+    index,
+  });
+
   return (
     <Animated.FlatList
       scrollEventThrottle={1}
       data={postsIds}
       renderItem={renderItem}
       keyExtractor={keyExtractor}
+      getItemLayout={getItemLayout}
+      initialNumToRender={4}
+      maxToRenderPerBatch={4}
+      windowSize={21}
+      numColumns={NUM_COLUMNS}
+      onScroll={handleScroll}
+      bounces={false}
       style={styles.container}
       contentContainerStyle={[styles.list, { marginTop }]}
-      numColumns={2}
       columnWrapperStyle={styles.column}
-      onScroll={handleScroll}
     />
   );
 }
