@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { Video } from "expo-av";
 import { LinearGradient } from "expo-linear-gradient";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 import { pure } from "recompose";
 import ReadMore from "react-native-read-more-text";
@@ -181,8 +181,8 @@ const Post = ({
           style={styles.gradient}
         />
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <View style={{ flex: 7, justifyContent: "space-between" }}>
-            <View style={{ paddingRight: 5 }}>
+          <View style={{ flex: 7, justifyContent: "space-between", paddingRight: 5 }}>
+            <View>
               <View style={styles.author}>
                 <Image source={{ uri: imageUrl }} style={styles.authorImage} />
                 <Text style={styles.authorUsername}>
@@ -215,28 +215,20 @@ const Post = ({
 
             {/* Start post reactions */}
             <View style={styles.reactions}>
-              <View style={{ flex: 1, alignItems: "center" }}>
-                <MaterialCommunityIcons name="video" size={30} color="white" />
+              <View style={{ alignItems: "center", marginRight: 30 }}>
+                <MaterialCommunityIcons name="video" size={35} color="white" />
                 <Text style={styles.reactionsCount}>{commentsCount}</Text>
               </View>
-              <View style={{ flex: 1, alignItems: "center" }}>
-                <MaterialCommunityIcons name="heart" size={30} color="white" />
+              <View style={{ alignItems: "center" }}>
+                <MaterialCommunityIcons name="heart" size={35} color="white" />
                 <Text style={styles.reactionsCount}>{likesCount}</Text>
-              </View>
-              <View style={{ flex: 1, alignItems: "center" }}>
-                <Ionicons
-                  name="ios-share-social-sharp"
-                  size={30}
-                  color="white"
-                />
-                <Text style={styles.reactionsCount}>{sharesCount}</Text>
               </View>
             </View>
             {/* End post reactions */}
           </View>
 
           {/* Start thread */}
-          <View style={{ flex: 4, alignItems: "flex-start" }}>
+          <View style={{ flex: 4, justifyContent: "flex-end", alignItems: "flex-start" }}>
             {commentTo && (
               <>
                 <Pressable onPress={handlePressSeeThread}>
