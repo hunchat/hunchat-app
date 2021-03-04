@@ -8,23 +8,30 @@ import { LinearGradient } from "expo-linear-gradient";
 
 import { makeGetPost } from "../../ducks/postsSlice";
 
+const { width } = Dimensions.get("window");
+
 export const POST_PREVIEW_MARGIN = 5;
 export const POST_PREVIEW_BORDER_RADIUS = 15;
-export const POST_PREVIEW_WIDTH =
-  (Dimensions.get("window").width - 4 * POST_PREVIEW_MARGIN) / 2;
+export const POST_PREVIEW_WIDTH = (width - 4 * POST_PREVIEW_MARGIN) / 2;
+export const POST_PREVIEW_HEIGHT = 1.77 * POST_PREVIEW_WIDTH;
 
 const authorUsernameMaxCharacters = 13;
+const descriptionMaxCharacters = 70;
 
-const PostPreview = ({ id, video, author, description }) => {
-  const { username, imageUrl } = author;
-  const { fileUrl } = video;
+const PostPreview = ({ id, video = {}, author = {}, description = "" }) => {
+  const { fileUrl = null, posterUrl = null } = video;
+  const { username = "", imageUrl = null } = author;
+
   return (
     <View style={styles.container}>
       <Video
         source={{ uri: fileUrl }}
+        posterSource={{ uri: posterUrl }}
         resizeMode="cover"
+        usePoster={true}
         shouldPlay={false}
         style={styles.video}
+        posterStyle={{ ...StyleSheet.absoluteFill, resizeMode: "cover" }}
       />
       <LinearGradient
         colors={["rgba(0,0,0,0.2)", "transparent"]}
@@ -47,7 +54,9 @@ const PostPreview = ({ id, video, author, description }) => {
           </Text>
         </View>
         <Text style={styles.description} numberOfLines={3} ellipsizeMode="tail">
-          {description}
+          {description.length > descriptionMaxCharacters
+            ? description.substring(0, descriptionMaxCharacters - 3) + "..."
+            : description}
         </Text>
       </View>
     </View>
@@ -56,7 +65,7 @@ const PostPreview = ({ id, video, author, description }) => {
 
 const styles = {
   container: {
-    height: POST_PREVIEW_WIDTH * 1.77,
+    height: POST_PREVIEW_HEIGHT,
     width: POST_PREVIEW_WIDTH,
     margin: POST_PREVIEW_MARGIN,
   },
