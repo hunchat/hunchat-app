@@ -33,31 +33,37 @@ const PostPreview = ({ id, video = {}, author = {}, description = "" }) => {
         style={styles.video}
         posterStyle={{ ...StyleSheet.absoluteFill, resizeMode: "cover" }}
       />
-      <LinearGradient
-        colors={["rgba(0,0,0,0.2)", "transparent"]}
-        start={{ x: 0, y: 1 }}
-        end={{ x: 0, y: 0.65 }}
-        locations={[0.8, 1]}
-        style={styles.gradient}
-      />
-      <View style={{ position: "absolute", bottom: 0, margin: 7 }}>
-        <View style={styles.author}>
-          <Image
-            source={Object({ uri: imageUrl })}
-            style={styles.authorImage}
-          />
-          <Text style={styles.authorUsername}>
-            @
-            {username.length > authorUsernameMaxCharacters
-              ? username.substring(0, authorUsernameMaxCharacters - 3) + "..."
-              : username}
+      <View style={{ position: "absolute", bottom: 0, width: "100%" }}>
+        <LinearGradient
+          colors={["rgba(0,0,0,0.3)", "transparent"]}
+          start={{ x: 0, y: 1 }}
+          end={{ x: 0, y: 0 }}
+          locations={[0.9, 1]}
+          style={styles.gradient}
+        />
+        <View style={{ padding: 10 }}>
+          <View style={styles.author}>
+            <Image
+              source={Object({ uri: imageUrl })}
+              style={styles.authorImage}
+            />
+            <Text style={styles.authorUsername}>
+              @
+              {username.length > authorUsernameMaxCharacters
+                ? username.substring(0, authorUsernameMaxCharacters - 3) + "..."
+                : username}
+            </Text>
+          </View>
+          <Text
+            style={styles.description}
+            numberOfLines={3}
+            ellipsizeMode="tail"
+          >
+            {description.length > descriptionMaxCharacters
+              ? description.substring(0, descriptionMaxCharacters - 3) + "..."
+              : description}
           </Text>
         </View>
-        <Text style={styles.description} numberOfLines={3} ellipsizeMode="tail">
-          {description.length > descriptionMaxCharacters
-            ? description.substring(0, descriptionMaxCharacters - 3) + "..."
-            : description}
-        </Text>
       </View>
     </View>
   );
