@@ -17,7 +17,7 @@ const MenuScreen = ({ navigation }) => {
   };
 
   const handlePressEditProfile = () => {
-    navigation.navigate("ProfileStack", { screen: "EditProfile" });
+    navigation.navigate("EditProfile");
   };
 
   const handlePressInvite = () => {};

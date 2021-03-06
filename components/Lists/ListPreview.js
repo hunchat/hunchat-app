@@ -20,10 +20,7 @@ class ListPreview extends React.Component {
   }
 
   onPress = () => {
-    this.props.navigation.push("PostStack", {
-      screen: "List",
-      params: { list: { id: this.props.id } },
-    });
+    this.props.navigation.push("List", { listId: this.props.id });
   };
 
   render() {

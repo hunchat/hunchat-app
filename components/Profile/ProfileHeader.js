@@ -15,7 +15,7 @@ const ProfileHeader = ({}) => {
   const handlePressShare = () => {};
 
   const handlePressExtra = () => {
-    navigation.navigate("ProfileStack", { screen: "Menu" });
+    navigation.navigate("Menu");
   };
 
   return (

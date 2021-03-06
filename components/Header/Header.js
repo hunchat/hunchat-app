@@ -10,12 +10,7 @@ function Header({ title, currentUserId }) {
   const navigation = useNavigation();
 
   const onPressGoToProfile = () => {
-    navigation.push("ProfileStack", {
-      screen: "Profile",
-      params: {
-        userId: currentUserId,
-      },
-    });
+    navigation.push("Profile", { userId: currentUserId });
   };
 
   return (

@@ -7,13 +7,21 @@ import { getStatusBarHeight } from "react-native-status-bar-height";
 import Profile, { ProfileHeader } from "../components/Profile";
 import { PostPreview } from "../components/Post";
 import { makeGetUser, retrieveUserThunk } from "../ducks/usersSlice";
+import { makeGetList, getListPostsThunk } from "../ducks/listsSlice";
 
 const { height } = Dimensions.get("window");
 export const PROFILE_HEIGHT = height - getStatusBarHeight();
 
-function ProfileScreen({ navigation, route, postsIds, retrieveUserThunk }) {
+function ProfileScreen({
+  navigation,
+  route,
+  postsIds,
+  retrieveUserThunk,
+  getListPostsThunk,
+}) {
   useEffect(() => {
     retrieveUserThunk(route.params.userId);
+    getListPostsThunk();
   }, [route.params.userId]);
 
   const keyExtractor = (item) => item;
@@ -57,17 +65,19 @@ const styles = StyleSheet.create({
   },
 });
 
-const makeMapStateToProps = () => {
-  const mapStateToProps = (state) => {
+const makeMapStateToProps = (state) => {
+  const getList = makeGetList();
+  return function mapStateToProps(state, ownProps) {
+    let list = getList(state, { listId: "1" });
     return {
-      postsIds: ["1", "2", "3", "4", "5"],
+      postsIds: list.posts,
     };
   };
-  return mapStateToProps;
 };
 
 const mapDispatchToProps = {
   retrieveUserThunk,
+  getListPostsThunk,
 };
 
 export default withNavigation(

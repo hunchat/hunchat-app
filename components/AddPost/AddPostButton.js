@@ -12,11 +12,9 @@ const AddVideoButton = () => {
   const navigation = useNavigation();
 
   const handlePress = () => {
-    navigation.navigate("AddPostStack", {
-      screen: "Camera",
-      params: { action: "addPost" },
-    });
+    navigation.navigate("Camera", { action: "addPost" });
   };
+  
   return (
     <Pressable style={styles.container} onPress={handlePress}>
       <LinearGradient

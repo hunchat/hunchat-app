@@ -1,17 +1,26 @@
 import React from "react";
-import { View, StatusBar } from "react-native";
+import { View } from "react-native";
 import { withNavigation } from "react-navigation";
 import { connect } from "react-redux";
 
 import { ListPosts, ListPostsHeader } from "../components/Lists";
 import { makeGetList } from "../ducks/listsSlice";
 
-function ListPostsScreen({ id, navigation, name, postsIds }) {
+function ListPostsScreen({
+  id,
+  navigation,
+  name,
+  postsIds,
+  initialScrollIndex,
+}) {
   return (
     <View style={{ flex: 1, backgroundColor: "black" }}>
-      <StatusBar barStyle="dark-content" />
       <ListPostsHeader name={name} />
-      <ListPosts id={id} postsIds={postsIds} />
+      <ListPosts
+        id={id}
+        postsIds={postsIds}
+        initialScrollIndex={initialScrollIndex}
+      />
     </View>
   );
 }
@@ -24,6 +33,7 @@ const makeMapStateToProps = (state) => {
       id: ownProps.route.params.list.id,
       name: list.name,
       postsIds: list.posts,
+      initialScrollIndex: ownProps.route.params.initialScrollIndex,
     };
   };
 };

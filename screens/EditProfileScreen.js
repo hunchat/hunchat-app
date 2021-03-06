@@ -210,6 +210,7 @@ class EditProfileScreen extends React.Component {
               placeholderTextColor="lightgrey"
               autoCapitalize="none"
               multiline
+              maxLength={160}
             />
           </View>
           {/* End bio */}

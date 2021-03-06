@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { connect } from "react-redux";
 import {
@@ -47,14 +47,6 @@ const SignUpForm = ({
   const passwordRef = useRef();
 
   const navigation = useNavigation();
-
-  useEffect(() => {
-    if (signUpFormSubmittingStatus === "fulfilled") {
-      navigation.navigate("OnboardingStack", {
-        screen: "OnboardingAddBioVideo",
-      });
-    }
-  }, [signUpFormSubmittingStatus]);
 
   const passwordValidate = () => {
     if (password.length < 8) {

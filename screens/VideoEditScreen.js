@@ -21,7 +21,7 @@ const { height, width } = Dimensions.get("window");
 //   }
 //
 //   onPressRightArrow() {
-//     this.props.navigation.navigate("AddVideoStack", { screen: "AddVideo" });
+//     this.props.navigation.navigate("AddVideo");
 //   }
 //
 //   trimVideo() {
@@ -111,7 +111,7 @@ class VideoEditScreen extends React.Component {
   }
 
   onPressRightArrow() {
-    this.props.navigation.navigate("AddVideoStack", { screen: "AddVideo" });
+    this.props.navigation.navigate("AddVideo");
   }
 
   onLoad(data) {

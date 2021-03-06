@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
-import { StackActions } from "@react-navigation/native";
 import {
   View,
   StyleSheet,
@@ -39,9 +38,7 @@ class AddPostScreen extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.status !== prevProps.status) {
       if (this.props.status === "fulfilled") {
-        // const popAction = StackActions.pop(2);
-        // this.props.navigation.pop(popAction); // Go back twice
-        this.props.navigation.goBack();
+        this.props.navigation.pop(2); // Go back twice
       }
     }
   }

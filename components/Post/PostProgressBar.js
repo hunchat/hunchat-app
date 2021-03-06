@@ -5,7 +5,7 @@ import { Colors } from "../../styles";
 
 const { height } = Dimensions.get("window");
 
-const PostProgressBar = ({ duration, position }) => {
+const PostProgressBar = ({ duration = 1, position = 0 }) => {
   let animatedPosition = useRef(new Animated.Value(0));
 
   useEffect(() => {

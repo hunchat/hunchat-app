@@ -16,7 +16,6 @@ import { Video } from "expo-av";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { getStatusBarHeight } from "react-native-status-bar-height";
-import { pure } from "recompose";
 import ReadMore from "react-native-read-more-text";
 
 import PostProgressBar from "./PostProgressBar";
@@ -50,7 +49,6 @@ const Post = ({
 
   const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState(0);
-  const [durationMillis, setDurationMillis] = useState(0);
   const videoRef = useRef(null);
 
   const navigation = useNavigation();
@@ -68,18 +66,14 @@ const Post = ({
   };
 
   const onPressAddComment = () => {
-    navigation.navigate("AddPostStack", {
-      screen: "Camera",
-      params: { action: "addPost" },
+    navigation.navigate("Camera", {
+      action: "addPost",
     });
     setNewPostCommentTo(id);
   };
 
   const handlePressSeeThread = () => {
-    navigation.push("PostStack", {
-      screen: "Thread",
-      params: { postId: id },
-    });
+    navigation.push("Thread", { postId: id });
   };
 
   const onLoadStart = () => {
@@ -88,10 +82,9 @@ const Post = ({
 
   const onLoad = (playbackObject) => {
     setIsLoading(false);
-    setDurationMillis(playbackObject.durationMillis);
   };
 
-  const handlePlaybackStatusUpdate = (playbackObject) => {
+  const onPlaybackStatusUpdate = (playbackObject) => {
     setPosition(playbackObject.positionMillis);
     if (playbackObject.didJustFinish) {
       onDidJustFinish();
@@ -123,8 +116,8 @@ const Post = ({
   return (
     <View style={styles.container}>
       {/* Start progress bar */}
-      {durationMillis !== 0 && (
-        <PostProgressBar duration={durationMillis} position={position} />
+      {duration !== 0 && (
+        <PostProgressBar duration={1000 * duration} position={position} />
       )}
       {/* End progress bar */}
 
@@ -146,6 +139,7 @@ const Post = ({
       )}
       {/* End loading indicator */}
 
+      {/* Start video */}
       <Video
         ref={videoRef}
         source={{ uri: fileUrl }}
@@ -155,13 +149,14 @@ const Post = ({
         isMuted={false}
         resizeMode="cover"
         usePoster={true}
-        progressUpdateIntervalMillis={100}
+        progressUpdateIntervalMillis={25}
         onLoadStart={onLoadStart}
         onLoad={onLoad}
-        onPlaybackStatusUpdate={handlePlaybackStatusUpdate}
+        onPlaybackStatusUpdate={onPlaybackStatusUpdate}
         style={styles.video}
         posterStyle={{ ...StyleSheet.absoluteFill, resizeMode: "cover" }}
       />
+      {/* End video */}
 
       <View
         style={{
@@ -181,7 +176,13 @@ const Post = ({
           style={styles.gradient}
         />
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-          <View style={{ flex: 7, justifyContent: "space-between", paddingRight: 5 }}>
+          <View
+            style={{
+              flex: 7,
+              justifyContent: "space-between",
+              paddingRight: 5,
+            }}
+          >
             <View>
               <View style={styles.author}>
                 <Image source={{ uri: imageUrl }} style={styles.authorImage} />
@@ -228,7 +229,13 @@ const Post = ({
           </View>
 
           {/* Start thread */}
-          <View style={{ flex: 4, justifyContent: "flex-end", alignItems: "flex-start" }}>
+          <View
+            style={{
+              flex: 4,
+              justifyContent: "flex-end",
+              alignItems: "flex-start",
+            }}
+          >
             {commentTo && (
               <>
                 <Pressable onPress={handlePressSeeThread}>
@@ -237,11 +244,10 @@ const Post = ({
                   </Text>
                 </Pressable>
                 <Pressable onPress={handlePressSeeThread}>
-                  <Video
-                    source={{ uri: commentTo.video.fileUrl }}
+                  <Image
+                    source={{ uri: commentTo.video.posterUrl }}
                     resizeMode="cover"
-                    shouldPlay={false}
-                    style={styles.answer}
+                    style={styles.commentTo}
                   />
                 </Pressable>
               </>
@@ -317,12 +323,13 @@ const styles = StyleSheet.create({
   reactionsCount: {
     color: "white",
   },
-  answer: {
+  commentTo: {
     height: 1.77 * 0.32 * width,
     width: 0.32 * width,
     borderRadius: 10,
     borderWidth: 2,
     borderColor: "white",
+    backgroundColor: "black",
   },
   addResponseButton: {
     marginTop: 10,
@@ -356,4 +363,4 @@ const mapDispatchToProps = {
   setNewPostCommentTo,
 };
 
-export default pure(connect(makeMapStateToProps, mapDispatchToProps)(Post));
+export default connect(makeMapStateToProps, mapDispatchToProps)(Post);

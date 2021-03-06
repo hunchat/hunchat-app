@@ -1,16 +1,21 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import AddPostStack from "./AddPostStack";
 import { horizontalAnimation, verticalAnimation } from "./animations";
 import AuthStack from "./AuthStack";
 import BottomTabs from "./BottomTabs";
-import ExploreStack from "./ExploreStack";
-import HeaderStack from "./HeaderStack";
-import ListStack from "./ListStack";
 import OnboardingStack from "./OnboardingStack";
-import PostStack from "./PostStack";
-import ProfileStack from "./ProfileStack";
+import AddPostScreen from "../screens/AddPostScreen";
+import CameraScreen from "../screens/CameraScreen";
+import ChatInboxScreen from "../screens/ChatInboxScreen";
+import EditProfileScreen from "../screens/EditProfileScreen";
+import ListPostsScreen from "../screens/ListPostsScreen";
+import ListScreen from "../screens/ListScreen";
+import MenuScreen from "../screens/MenuScreen";
+import PostScreen from "../screens/PostScreen";
+import ProfileScreen from "../screens/ProfileScreen";
+import ThreadScreen from "../screens/ThreadScreen";
+import VideoEditScreen from "../screens/VideoEditScreen";
 
 const Stack = createStackNavigator();
 
@@ -29,15 +34,17 @@ const AppStack = ({ authRefreshToken, currentUserId, isFirstLaunch }) => {
             <Stack.Screen name="OnboardingStack" component={OnboardingStack} />
           )}
           <Stack.Screen name="BottomTabs" component={BottomTabs} />
-          <Stack.Screen
-            name="AddPostStack"
-            component={AddPostStack}
-            options={verticalAnimation}
-          />
-          <Stack.Screen name="ExploreStack" component={ExploreStack} />
-          <Stack.Screen name="ListStack" component={ListStack} />
-          <Stack.Screen name="PostStack" component={PostStack} />
-          <Stack.Screen name="ProfileStack" component={ProfileStack} />
+          <Stack.Screen name="AddPost" component={AddPostScreen} />
+          <Stack.Screen name="Camera" component={CameraScreen} />
+          <Stack.Screen name="ChatInbox" component={ChatInboxScreen} />
+          <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+          <Stack.Screen name="ListPosts" component={ListPostsScreen} />
+          <Stack.Screen name="List" component={ListScreen} />
+          <Stack.Screen name="Menu" component={MenuScreen} />
+          <Stack.Screen name="Post" component={PostScreen} />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
+          <Stack.Screen name="Thread" component={ThreadScreen} />
+          <Stack.Screen name="VideoEdit" component={VideoEditScreen} />
         </>
       )}
     </Stack.Navigator>

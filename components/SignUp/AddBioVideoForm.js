@@ -13,6 +13,7 @@ import {
 import { Video } from "expo-av";
 import { LinearGradient } from "expo-linear-gradient";
 
+import { updateUserBioVideoThunk } from "../../ducks/editProfileSlice";
 import { Colors } from "../../styles";
 
 const { width } = Dimensions.get("window");
@@ -20,7 +21,14 @@ const { width } = Dimensions.get("window");
 const BIO_VIDEO_PREVIEW_WIDTH = 0.35 * width;
 const BIO_VIDEO_PREVIEW_HEIGHT = 1.77 * BIO_VIDEO_PREVIEW_WIDTH;
 
-const AddBioVideoForm = ({ previewUri }) => {
+const AddBioVideoForm = ({
+  file = null,
+  fileUrl = null,
+  duration,
+  height,
+  width,
+  updateUserBioVideoThunk,
+}) => {
   const [bio, setBio] = useState("");
 
   const bioRef = useRef();
@@ -28,6 +36,17 @@ const AddBioVideoForm = ({ previewUri }) => {
   const navigation = useNavigation();
 
   const onPressStartChatting = () => {
+    if (file) {
+      const newBioVideoData = {};
+      newBioVideoData["bio_video"] = {
+        file: file,
+        duration: duration,
+        height: height,
+        width: width,
+      };
+      updateUserBioVideoThunk(newBioVideoData);
+    }
+
     navigation.navigate("OnboardingStack", { screen: "Onboarding" });
   };
 
@@ -60,7 +79,7 @@ const AddBioVideoForm = ({ previewUri }) => {
         <Text style={{ color: "white" }}>Preview</Text>
         <View style={styles.preview}>
           <Video
-            source={{ uri: previewUri }}
+            source={{ uri: fileUrl }}
             rate={1.0}
             volume={1.0}
             isMuted={false}
@@ -70,7 +89,7 @@ const AddBioVideoForm = ({ previewUri }) => {
             style={styles.video}
           />
         </View>
-        {previewUri && (
+        {fileUrl && (
           <Text
             style={{
               color: "rgba(255, 255, 255, 0.35)",
@@ -83,7 +102,7 @@ const AddBioVideoForm = ({ previewUri }) => {
         )}
       </View>
 
-      {previewUri ? (
+      {fileUrl ? (
         <Pressable style={styles.button} onPress={onPressStartChatting}>
           <LinearGradient
             colors={["#FF8400", "#FF9D33"]}
@@ -107,7 +126,7 @@ const AddBioVideoForm = ({ previewUri }) => {
         </Pressable>
       )}
 
-      {!previewUri && (
+      {!fileUrl && (
         <View style={{ flexDirection: "row", justifyContent: "center" }}>
           <Text
             style={{
@@ -175,9 +194,20 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-  return {
-    previewUri: state.onboardingAddVideoBio.previewUri,
-  };
+  if (state.onboardingAddVideoBio.video) {
+    return {
+      file: state.onboardingAddVideoBio.video.file,
+      fileUrl: state.onboardingAddVideoBio.video.fileUrl,
+      duration: state.onboardingAddVideoBio.video.duration,
+      height: state.onboardingAddVideoBio.video.height,
+      width: state.onboardingAddVideoBio.video.width,
+    };
+  }
+  return {};
 }
 
-export default connect(mapStateToProps)(AddBioVideoForm);
+const mapDispatchToProps = {
+  updateUserBioVideoThunk,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddBioVideoForm);

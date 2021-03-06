@@ -13,7 +13,7 @@ const BottomTabNavigator = createBottomTabNavigator();
 function BottomTabs() {
   return (
     <BottomTabNavigator.Navigator
-      initialRouteName="Explore"
+      initialRouteName="Lists"
       tabBarOptions={{ showLabel: false }}
       tabBar={(props) => <BottomTabBar {...props} />}
     >

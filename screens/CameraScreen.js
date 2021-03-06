@@ -137,7 +137,7 @@ class EditProfileBioVideoCameraScreen extends React.Component {
     } else if (this.props.route.params.action === "addBioVideo") {
       this.props.navigation.goBack();
     } else if (this.props.route.params.action === "addPost") {
-      this.props.navigation.navigate("AddPostStack", { screen: "AddPost" });
+      this.props.navigation.navigate("AddPost");
     }
 
     this.resetTimer();

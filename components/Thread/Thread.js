@@ -11,10 +11,7 @@ const Thread = ({ postsIds }) => {
 
   const renderItem = ({ item }) => {
     const onPress = () => {
-      navigation.navigate("PostStack", {
-        screen: "Post",
-        params: { postId: item },
-      });
+      navigation.navigate("Post", { postId: item });
     };
 
     return (

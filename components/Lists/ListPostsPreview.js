@@ -13,12 +13,9 @@ function ListPostsPreview({ id, postsIds, handleScroll, marginTop }) {
 
   const renderItem = ({ item, index }) => {
     const handlePress = () => {
-      navigation.push("ListStack", {
-        screen: "ListPosts",
-        params: {
-          list: { id: id },
-          initialScrollIndex: index,
-        },
+      navigation.push("ListPosts", {
+        list: { id: id },
+        initialScrollIndex: index,
       });
     };
     return (
