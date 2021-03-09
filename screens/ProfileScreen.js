@@ -1,16 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { View, StyleSheet, Animated, Dimensions } from "react-native";
 import { connect } from "react-redux";
 import { withNavigation } from "react-navigation";
 import { getStatusBarHeight } from "react-native-status-bar-height";
 
 import Profile, { ProfileHeader } from "../components/Profile";
-import { PostPreview } from "../components/Post";
+import { PostPreview, POST_PREVIEW_HEIGHT, POST_PREVIEW_WIDTH } from "../components/Post";
 import { makeGetUser, retrieveUserThunk } from "../ducks/usersSlice";
 import { makeGetList, getListPostsThunk } from "../ducks/listsSlice";
 
 const { height } = Dimensions.get("window");
 export const PROFILE_HEIGHT = height - getStatusBarHeight();
+const NUM_COLUMNS = 2;
+
+const snapToOffsets = [0, PROFILE_HEIGHT];
 
 function ProfileScreen({
   navigation,
@@ -19,6 +22,8 @@ function ProfileScreen({
   retrieveUserThunk,
   getListPostsThunk,
 }) {
+  const flatListRef = useRef(null);
+
   useEffect(() => {
     retrieveUserThunk(route.params.userId);
     getListPostsThunk();
@@ -28,22 +33,39 @@ function ProfileScreen({
 
   const renderItem = ({ item }) => <PostPreview id={item} />;
 
+  const getItemLayout = (data, index) => ({
+    length: POST_PREVIEW_HEIGHT,
+    offset: POST_PREVIEW_WIDTH * Math.floor(index / NUM_COLUMNS),
+    index,
+  });
+
+  const scrollToList = () => {
+    flatListRef.current.scrollToOffset({ offset: PROFILE_HEIGHT });
+  };
+
   return (
     <Animated.View style={styles.container}>
       <ProfileHeader />
       <Animated.FlatList
+        ref={flatListRef}
         scrollEventThrottle={1}
         data={postsIds}
         renderItem={renderItem}
         keyExtractor={keyExtractor}
+        getItemLayout={getItemLayout}
+        initialNumToRender={4}
+        maxToRenderPerBatch={4}
+        windowSize={21}
+        numColumns={NUM_COLUMNS}
+        bounces={false}
+        decelerationRate="fast"
+        snapToOffsets={snapToOffsets}
+        snapToEnd={false}
+        ListHeaderComponent={<Profile userId={route.params.userId} onPressArrowDown={scrollToList}/>}
         style={styles.flatList}
         contentContainerStyle={styles.list}
-        numColumns={2}
-        columnWrapperStyle={styles.column}
-        // onScroll={handleScroll}
-        bounces={false}
-        ListHeaderComponent={<Profile userId={route.params.userId} />}
         ListHeaderComponentStyle={{ height: PROFILE_HEIGHT }}
+        columnWrapperStyle={styles.column}
       />
     </Animated.View>
   );

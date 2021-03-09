@@ -34,6 +34,7 @@ const Profile = ({
   location,
   dateJoined,
   link,
+  onPressArrowDown
 }) => {
   const { fileUrl = null, posterUrl = null, duration = 0 } = bioVideo;
 
@@ -172,7 +173,7 @@ const Profile = ({
         </View>
 
         <View style={{ alignItems: "center", width: "100%" }}>
-          <MaterialIcons name="keyboard-arrow-down" size={50} color="white" />
+          <MaterialIcons name="keyboard-arrow-down" size={50} color="white" onPress={onPressArrowDown} />
         </View>
 
         {/* Start follow button */}
