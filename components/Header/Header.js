@@ -26,11 +26,11 @@ function Header({ title, currentUserId }) {
             color={Colors.greyIcons}
           />
         </Pressable>
-        <MaterialCommunityIcons
+        {/*<MaterialCommunityIcons
           name="email-outline"
           size={35}
           color={Colors.greyIcons}
-        />
+        />*/}
       </View>
     </View>
   );
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   navigation: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
     alignItems: "flex-end",
   },
 });
