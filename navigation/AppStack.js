@@ -19,12 +19,12 @@ import VideoEditScreen from "../screens/VideoEditScreen";
 
 const Stack = createStackNavigator();
 
-const AppStack = ({ authRefreshToken, currentUserId, isFirstLaunch }) => {
+const AppStack = ({ authRefreshToken, isFirstLaunch }) => {
   return (
     <Stack.Navigator
       screenOptions={{ headerShown: false, gestureEnabled: true }}
     >
-      {authRefreshToken === null || currentUserId === null ? (
+      {authRefreshToken === null ? (
         <>
           <Stack.Screen name="AuthStack" component={AuthStack} />
         </>

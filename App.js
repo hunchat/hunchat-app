@@ -35,6 +35,14 @@ class App extends React.Component {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.authRefreshToken !== prevProps.authRefreshToken) {
+      setTimeout(function () {
+        SplashScreen.hideAsync()
+      }, 500); // 500 ms delay to allow AppStack.Navigator to mount screens
+    }
+  }
+
   /**
    * Method that serves to load resources and make API calls
    */
@@ -42,6 +50,7 @@ class App extends React.Component {
     const authData = await loadAuthData();
     const isFirstLaunch = await checkIfFirstLaunch();
     this.setState({ isFirstLaunch });
+    return Promise.all([authData, isFirstLaunch])
   };
 
   onPressUpdate = () => {
@@ -55,7 +64,7 @@ class App extends React.Component {
           startAsync={this.prepareResources}
           onFinish={() => this.setState({ appIsReady: true })}
           onError={console.warn}
-          autoHideSplash={true}
+          autoHideSplash={false}
         />
       );
     }
@@ -74,9 +83,10 @@ class App extends React.Component {
             <Dialog.Button label="Update" onPress={this.onPressUpdate} />
           </Dialog.Container>
 
+          <StatusBar barStyle="light-content" />
+
           <AppStack
             authRefreshToken={this.props.authRefreshToken}
-            currentUserId={this.props.currentUserId}
             isFirstLaunch={this.state.isFirstLaunch}
           />
         </NavigationContainer>
@@ -89,12 +99,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: StatusBar.currentHeight,
+    backgroundColor: "black",
   },
 });
 
 const mapStateToProps = (state) => ({
   authRefreshToken: state.auth.refreshToken,
-  currentUserId: state.users.currentUserId,
 });
 
 export default connect(mapStateToProps)(App);
