@@ -17,6 +17,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { LinearGradient } from "expo-linear-gradient";
 
 import { postCreateThunk } from "../ducks/newPostSlice";
+import { STATUS_BAR_HEIGHT } from "../constants";
 import { Colors } from "../styles";
 
 const { width } = Dimensions.get("window");
@@ -167,6 +168,7 @@ class AddPostScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: STATUS_BAR_HEIGHT,
     backgroundColor: Colors.darkBackground,
   },
   header: {

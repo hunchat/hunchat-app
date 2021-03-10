@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useRef } from "react";
-import { View, FlatList, StyleSheet, Dimensions } from "react-native";
+import { View, FlatList, StyleSheet, Dimensions, StatusBar } from "react-native";
 
 import Post, { POST_HEIGHT } from "../Post";
 

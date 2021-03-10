@@ -9,6 +9,8 @@ import {
   Text,
 } from "react-native";
 
+import { Colors } from "../../styles";
+
 const width = Dimensions.get("window");
 
 const LIST_TAG_HEIGHT = 30;
@@ -56,7 +58,7 @@ const ListTag = ({ name }) => {
     <Pressable
       style={[
         listTagStyles.container,
-        { backgroundColor: name === "All Lists" ? "white" : "black" },
+        { backgroundColor: name === "All Lists" ? "white" : Colors.darkBackground },
       ]}
     >
       <Text style={{ color: name === "All Lists" ? "black" : "white" }}>
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     right: 0,
-    backgroundColor: "black",
+    backgroundColor: Colors.darkBackground,
     paddingVertical: LISTS_SELECTOR_PADDING_VERTICAL,
     paddingHorizontal: 5,
   },

@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
+import { Colors } from "../../styles";
+
 const SEARCH_BAR_PADDING_VERTICAL = 10;
 const ICON_SIZE = 24;
 export const SEARCH_BAR_HEIGHT = 2 * SEARCH_BAR_PADDING_VERTICAL + ICON_SIZE;
@@ -28,7 +30,7 @@ const ExploreSearchBar = () => {
         onPress={handlePress}
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? "black" : "black",
+            backgroundColor: pressed ? "black" : Colors.darkBackground,
           },
           styles.searchBar,
         ]}
@@ -53,7 +55,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    backgroundColor: "black",
+    backgroundColor: Colors.darkBackground,
     paddingHorizontal: 5,
     justifyContent: "center",
   },

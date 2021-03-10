@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignContent: "center",
     alignItems: "center",
-    backgroundColor: "black",
+    backgroundColor: Colors.darkBackground,
     height: hp("10%"),
   },
   tab: {

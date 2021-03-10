@@ -15,6 +15,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { CreateAccountForm } from "../components/SignUp";
+import { STATUS_BAR_HEIGHT } from "../constants";
 import { Colors } from "../styles";
 
 const { width } = Dimensions.get("window");
@@ -64,6 +65,7 @@ class CreateAccountScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: STATUS_BAR_HEIGHT,
     backgroundColor: Colors.darkBackground,
   },
   header: {

@@ -10,6 +10,7 @@ import {
 } from "react-native";
 
 import { SEARCH_BAR_HEIGHT } from "./ExploreSearchBar";
+import { Colors } from "../../styles";
 
 const width = Dimensions.get("window");
 
@@ -58,7 +59,7 @@ const ListTag = ({ name }) => {
     <Pressable
       style={[
         listTagStyles.container,
-        { backgroundColor: name === "All topics" ? "white" : "black" },
+        { backgroundColor: name === "All topics" ? "white" : Colors.darkBackground },
       ]}
     >
       <Text style={{ color: name === "All topics" ? "black" : "white" }}>
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
     top: SEARCH_BAR_HEIGHT,
     left: 0,
     right: 0,
-    backgroundColor: "black",
+    backgroundColor: Colors.darkBackground,
     paddingVertical: EXPLORE_LISTS_SELECTOR_PADDING_VERTICAL,
     paddingHorizontal: 5,
   },

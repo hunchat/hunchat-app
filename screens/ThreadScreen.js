@@ -9,20 +9,31 @@ import { makeGetPostThreadPostsIds, threadGetThunk } from "../ducks/postsSlice";
 class ThreadScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      currentIndex: 0,
+    }
   }
 
   componentDidMount() {
     this.props.threadGetThunk(this.props.route.params.postId);
   }
 
+  setCurrentIndex = (currentIndex) => {
+    this.setState({ currentIndex })
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <ThreadHeader currentIndex={1} threadLength={8} />
-        <Thread postsIds={this.props.postsIds} />
+        <ThreadHeader currentIndex={this.state.currentIndex} threadLength={this.props.postsIds.length} />
+        <Thread postsIds={this.props.postsIds} onChangeCurrentIndex={this.setCurrentIndex}/>
       </View>
     );
   }
+}
+
+ThreadScreen.defaultProps = {
+  postsIds: [],
 }
 
 const styles = StyleSheet.create({

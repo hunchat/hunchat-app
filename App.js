@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import {
   StyleSheet,
-  SafeAreaView,
   StatusBar,
   Platform,
   Linking,
@@ -33,6 +32,14 @@ class App extends React.Component {
       visible:
         Platform.OS === "ios" && Platform.Version === "14.0" ? true : false,
     };
+  }
+
+  componentDidMount() {
+    StatusBar.setBarStyle("light-content");
+    if (Platform.OS === "android") {
+      StatusBar.setBackgroundColor("rgba(0,0,0,0)");
+      StatusBar.setTranslucent(true);
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -70,38 +77,26 @@ class App extends React.Component {
     }
 
     return (
-      <SafeAreaView style={styles.container}>
-        <NavigationContainer ref={navigationRef}>
-          {/* Alert of problem with iOS 14.0 */}
-          {/* iOS 14.0 causes a break on expo-av.Video. See https://github.com/expo/expo/issues/10249 */}
-          <Dialog.Container visible={this.state.visible}>
-            <Dialog.Title>Please update your software</Dialog.Title>
-            <Dialog.Description>
-              You are using iOS 14.0. Hunchat doesn't like this version. Make
-              Hunchat happy and update.
-            </Dialog.Description>
-            <Dialog.Button label="Update" onPress={this.onPressUpdate} />
-          </Dialog.Container>
+      <NavigationContainer ref={navigationRef}>
+        {/* Alert of problem with iOS 14.0 */}
+        {/* iOS 14.0 causes a break on expo-av.Video. See https://github.com/expo/expo/issues/10249 */}
+        <Dialog.Container visible={this.state.visible}>
+          <Dialog.Title>Please update your software</Dialog.Title>
+          <Dialog.Description>
+            You are using iOS 14.0. Hunchat doesn't like this version. Make
+            Hunchat happy and update.
+          </Dialog.Description>
+          <Dialog.Button label="Update" onPress={this.onPressUpdate} />
+        </Dialog.Container>
 
-          <StatusBar barStyle="light-content" />
-
-          <AppStack
-            authRefreshToken={this.props.authRefreshToken}
-            isFirstLaunch={this.state.isFirstLaunch}
-          />
-        </NavigationContainer>
-      </SafeAreaView>
+        <AppStack
+          authRefreshToken={this.props.authRefreshToken}
+          isFirstLaunch={this.state.isFirstLaunch}
+        />
+      </NavigationContainer>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: StatusBar.currentHeight,
-    backgroundColor: "black",
-  },
-});
 
 const mapStateToProps = (state) => ({
   authRefreshToken: state.auth.refreshToken,

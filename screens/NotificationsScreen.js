@@ -4,6 +4,8 @@ import { View, StyleSheet } from "react-native";
 
 import { NotificationsInbox } from "../components/Notifications";
 import { Header } from "../components/Header";
+import { STATUS_BAR_HEIGHT } from "../constants";
+import { Colors } from "../styles";
 
 class NotificationsScreen extends React.Component {
   constructor(props) {
@@ -25,7 +27,8 @@ class NotificationsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    paddingTop: STATUS_BAR_HEIGHT,
+    backgroundColor: Colors.darkBackground,
   },
 });
 

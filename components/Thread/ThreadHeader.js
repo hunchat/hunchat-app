@@ -3,6 +3,8 @@ import { useNavigation } from "@react-navigation/native";
 import { View, StyleSheet, Dimensions, Pressable, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
+import { STATUS_BAR_HEIGHT } from "../../constants";
+
 const { height } = Dimensions.get("window");
 
 const ThreadHeader = ({ currentIndex, threadLength }) => {
@@ -30,7 +32,7 @@ const ThreadHeader = ({ currentIndex, threadLength }) => {
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    top: 20,
+    top: STATUS_BAR_HEIGHT,
     left: 0,
     right: 0,
     elevation: 4,

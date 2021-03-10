@@ -11,6 +11,7 @@ import {
   LISTS_SELECTOR_HEIGHT,
 } from "../components/Lists";
 import { makeGetList, getListPostsThunk } from "../ducks/listsSlice";
+import { STATUS_BAR_HEIGHT } from "../constants";
 import { Colors } from "../styles";
 
 function ListsScreen({ navigation, postsIds, getListPostsThunk }) {
@@ -75,6 +76,7 @@ function ListsScreen({ navigation, postsIds, getListPostsThunk }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: STATUS_BAR_HEIGHT,
     backgroundColor: Colors.darkBackground,
   },
 });

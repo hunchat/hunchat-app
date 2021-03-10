@@ -1,11 +1,12 @@
 import React from "react";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { withNavigation } from "react-navigation";
 import { connect } from "react-redux";
 
 import { Header } from "../components/Header";
 import { ListPostsPreview } from "../components/Lists";
 import { makeGetList, getListPostsThunk } from "../ducks/listsSlice";
+import { Colors } from "../styles";
 
 class ListScreen extends React.Component {
   constructor(props) {
@@ -18,7 +19,7 @@ class ListScreen extends React.Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.container}>
         <Header title={this.props.name} navigation={this.props.navigation} />
         <ListPostsPreview
           id={this.props.route.params.listId}
@@ -28,6 +29,13 @@ class ListScreen extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.darkBackground,
+  }
+})
 
 const makeMapStateToProps = (state) => {
   const getList = makeGetList();

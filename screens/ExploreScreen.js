@@ -11,6 +11,8 @@ import {
   SEARCH_BAR_HEIGHT,
 } from "../components/Explore";
 import { PostsList } from "../components/Post";
+import { STATUS_BAR_HEIGHT } from "../constants";
+import { Colors } from "../styles";
 
 function ExploreScreen({ navigation }) {
   const scrollY = new Animated.Value(0);
@@ -73,7 +75,8 @@ function ExploreScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    paddingTop: STATUS_BAR_HEIGHT,
+    backgroundColor: Colors.darkBackground,
   },
 });
 

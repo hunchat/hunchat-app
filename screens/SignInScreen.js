@@ -14,6 +14,7 @@ import {
 } from "react-native";
 
 import { SignInForm } from "../components/SignIn";
+import { STATUS_BAR_HEIGHT } from "../constants";
 import { Colors } from "../styles";
 
 const { width } = Dimensions.get("window");
@@ -61,6 +62,7 @@ class SignInScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: STATUS_BAR_HEIGHT,
     backgroundColor: Colors.darkBackground,
   },
   logo: {

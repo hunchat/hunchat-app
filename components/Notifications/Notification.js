@@ -36,7 +36,7 @@ const Notification = ({ id }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "black",
+    backgroundColor: Colors.darkBackground,
     paddingVertical: 5,
     paddingHorizontal: 10,
     flexDirection: "row",

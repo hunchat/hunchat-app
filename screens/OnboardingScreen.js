@@ -4,6 +4,7 @@ import { withNavigation } from "react-navigation";
 import ViewPager from "@react-native-community/viewpager";
 
 import { Page1, Page2, Page3 } from "../components/Onboarding";
+import { STATUS_BAR_HEIGHT } from "../constants";
 import { Colors } from "../styles";
 
 const OnboardingScreen = (navigation) => {
@@ -33,6 +34,7 @@ const OnboardingScreen = (navigation) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: STATUS_BAR_HEIGHT,
     backgroundColor: Colors.darkBackground,
   },
 });

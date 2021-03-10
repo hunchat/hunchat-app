@@ -1,10 +1,11 @@
 import React from "react";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { withNavigation } from "react-navigation";
 import { connect } from "react-redux";
 
 import { ListPosts, ListPostsHeader } from "../components/Lists";
 import { makeGetList } from "../ducks/listsSlice";
+import { STATUS_BAR_HEIGHT } from "../constants";
 
 function ListPostsScreen({
   id,
@@ -24,6 +25,12 @@ function ListPostsScreen({
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: STATUS_BAR_HEIGHT,
+  }
+});
 
 const makeMapStateToProps = (state) => {
   const getList = makeGetList();

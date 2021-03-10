@@ -14,6 +14,7 @@ import {
 } from "react-native";
 
 import { AddBioVideoForm } from "../components/SignUp";
+import { STATUS_BAR_HEIGHT } from "../constants";
 import { Colors } from "../styles";
 
 const { width } = Dimensions.get("window");
@@ -59,6 +60,7 @@ class OnboardingAddBioVideoScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: STATUS_BAR_HEIGHT,
     backgroundColor: Colors.darkBackground,
   },
 });

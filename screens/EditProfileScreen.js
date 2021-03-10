@@ -24,6 +24,7 @@ import {
   updateUserBioVideoThunk,
   updateUserImageThunk,
 } from "../ducks/editProfileSlice";
+import { STATUS_BAR_HEIGHT } from "../constants";
 import { Colors } from "../styles";
 
 class EditProfileScreen extends React.Component {
@@ -261,6 +262,7 @@ class EditProfileScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingTop: STATUS_BAR_HEIGHT,
     backgroundColor: Colors.darkBackground,
   },
   fieldContainer: {

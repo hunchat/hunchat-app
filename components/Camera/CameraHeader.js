@@ -2,6 +2,9 @@ import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { View, StyleSheet, Dimensions, Pressable } from "react-native";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
+
+import { STATUS_BAR_HEIGHT } from "../../constants";
 
 const { height } = Dimensions.get("window");
 
@@ -13,30 +16,36 @@ const CameraHeader = ({}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Pressable style={styles.goBack} onPress={handlePressGoBack}>
-        <Ionicons name="ios-arrow-back" size={24} color="white" />
-      </Pressable>
-      <View style={{ flexDirection: "row" }}>
-        <Pressable style={styles.timer}>
-          <MaterialCommunityIcons
-            name="timer-outline"
-            size={24}
-            color="white"
-          />
+    <>
+      <LinearGradient
+        colors={["rgba(0,0,0,0.3)", "transparent"]}
+        style={styles.gradient}
+      />
+      <View style={styles.container}>
+        <Pressable style={styles.goBack} onPress={handlePressGoBack}>
+          <Ionicons name="ios-arrow-back" size={24} color="white" />
         </Pressable>
-        <Pressable style={styles.grid}>
-          <MaterialCommunityIcons name="grid" size={24} color="white" />
-        </Pressable>
+        <View style={{ flexDirection: "row" }}>
+          <Pressable style={styles.timer}>
+            <MaterialCommunityIcons
+              name="timer-outline"
+              size={24}
+              color="white"
+            />
+          </Pressable>
+          <Pressable style={styles.grid}>
+            <MaterialCommunityIcons name="grid" size={24} color="white" />
+          </Pressable>
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     position: "absolute",
-    top: 0,
+    top: STATUS_BAR_HEIGHT,
     left: 0,
     right: 0,
     elevation: 4,
@@ -47,6 +56,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  gradient: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    elevation: 4,
+    zIndex: 100,
+    height: STATUS_BAR_HEIGHT + 10,
   },
   goBack: {
     height: 36,
