@@ -10,7 +10,7 @@ import {
   ExploreSearchBar,
   SEARCH_BAR_HEIGHT,
 } from "../components/Explore";
-import { PostsList } from "../components/Post";
+import { PostsPreview } from "../components/Post";
 import { STATUS_BAR_HEIGHT } from "../constants";
 import { Colors } from "../styles";
 
@@ -45,7 +45,7 @@ function ExploreScreen({ navigation }) {
         <ExploreListsSelector selectedList="All topics" />
       </Animated.View>
       <Animated.View style={{ flex: 20000 }}>
-        <PostsList
+        <PostsPreview
           postsIds={[]}
           handleScroll={Animated.event(
             [
