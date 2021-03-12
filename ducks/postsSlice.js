@@ -81,6 +81,18 @@ export const makeGetPostThreadPostsIds = () => {
   });
 };
 
+export const makeGetPostCommentsIds = () => {
+  return createSelector(
+    [getPosts, getPostId],
+    (posts, id) => {
+      if (posts[id]) {
+        return posts[id].comments;
+      }
+      return [];
+    }
+  );
+};
+
 export const makeGetPost = () => {
   const getPostAuthor = makeGetPostAuthor();
   const getPostCommentTo = makeGetPostCommentTo();
@@ -116,6 +128,48 @@ export function likePostThunk(postId) {
       .then((response) => {})
       .catch((error) => {});
   };
+}
+
+export function getPostCommentsThunk(postId) {
+  return function (dispatch) {
+    const PostsService = require("../services/api/posts/PostsService");
+    const postsService = new PostsService();
+
+    postsService
+      .getComments(postId)
+      .then((response) => {
+        if (response.data.results.length !== 0) {
+          batch(() => {
+            response.data.results.map((post) => {
+              const camelcasePost = camelcaseKeys(post, { deep: true });
+              const normalizedPost = normalize(camelcasePost, postSchema);
+
+              dispatch(
+                addPost({ post: normalizedPost.entities.posts[post.id] })
+              );
+              dispatch(
+                addUser({ user: normalizedPost.entities.users[post.author.id] })
+              );
+
+              if (normalizedPost.entities.commentTo) {
+                dispatch(addPost({ post: normalizedPost.entities.commentTo }));
+              }
+
+              if (normalizedPost.entities.comments) {
+                _.keys(normalizedPost.entities.comments).map((commentId) => {
+                  dispatch(
+                    addPost({
+                      post: normalizedPost.entities.comments[commentId],
+                    })
+                  );
+                });
+              }
+            });
+          });
+        }
+      })
+      .catch((error) => {});
+  }
 }
 
 export function threadGetThunk(postId) {
