@@ -12,6 +12,7 @@ import EditProfileScreen from "../screens/EditProfileScreen";
 import ListPostsScreen from "../screens/ListPostsScreen";
 import ListScreen from "../screens/ListScreen";
 import MenuScreen from "../screens/MenuScreen";
+import PostCommentsScreen from "../screens/PostCommentsScreen";
 import PostScreen from "../screens/PostScreen";
 import ProfileScreen from "../screens/ProfileScreen";
 import ThreadScreen from "../screens/ThreadScreen";
@@ -41,6 +42,7 @@ const AppStack = ({ authRefreshToken, isFirstLaunch }) => {
           <Stack.Screen name="ListPosts" component={ListPostsScreen} />
           <Stack.Screen name="List" component={ListScreen} />
           <Stack.Screen name="Menu" component={MenuScreen} />
+          <Stack.Screen name="PostComments" component={PostCommentsScreen} />
           <Stack.Screen name="Post" component={PostScreen} />
           <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="Thread" component={ThreadScreen} />
